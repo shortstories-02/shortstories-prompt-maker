@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ShortStories Prompt Maker V2 - generator prompt desain poster kelas SD.">
+<title>ShortStories Prompt Maker — V2</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">S</div>
+      <div><strong>ShortStories</strong><small>Prompt Maker V2</small></div>
+    </div>
+    <nav>
+      <button class="nav-item active" data-view="builder">✨ Prompt Builder</button>
+      <button class="nav-item" data-view="templates">📚 Template Poster</button>
+      <button class="nav-item" data-view="favorites">⭐ Favorit</button>
+      <button class="nav-item" data-view="history">🕘 Riwayat</button>
+    </nav>
+    <div class="sidebar-note">
+      <b>🎨 Versi Gratis</b>
+      <p>Prompt dibuat langsung di browser. Tidak membutuhkan API.</p>
+    </div>
+    <button class="dark-btn" id="darkModeBtn">🌙 Mode Gelap</button>
+  </aside>
+
+  <main class="main">
+    <header class="mobile-head">
+      <button id="menuBtn">☰</button><b>ShortStories Prompt Maker</b>
+    </header>
+
+    <section id="builderView" class="view active-view">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">SHORTSTORIES • V2</span>
+          <h1>Prompt Builder <span>Poster Kelas</span></h1>
+          <p>Bangun prompt desain poster SD dengan template, tema, layout, karakter, warna, dan tipografi.</p>
+        </div>
+        <button class="outline-btn" id="resetBtn">↻ Reset</button>
+      </div>
+
+      <div class="builder-grid">
+        <section class="card form-card">
+          <div class="card-title"><div><span>01</span><h2>Konten Poster</h2></div></div>
+
+          <label>Template</label>
+          <select id="templateSelect"></select>
+
+          <div class="grid2">
+            <div><label>Jenjang / Kelas</label><select id="classLevel">
+              <option>Kelas 1 SD</option><option>Kelas 2 SD</option><option>Kelas 3 SD</option>
+              <option>Kelas 4 SD</option><option>Kelas 5 SD</option><option>Kelas 6 SD</option><option>Semua Kelas SD</option>
+            </select></div>
+            <div><label>Semester</label><select id="semester">
+              <option>Semester 1</option><option>Semester 2</option><option>Tidak dicantumkan</option>
+            </select></div>
+          </div>
+
+          <label>Judul Poster</label>
+          <input id="title" value="JADWAL PELAJARAN" placeholder="Contoh: JADWAL PELAJARAN">
+
+          <label>Isi Poster</label>
+          <textarea id="content" rows="8" placeholder="Masukkan teks persis yang ingin ditampilkan..."></textarea>
+          <div class="tip">💡 Teks ini akan dipertahankan apa adanya di dalam prompt.</div>
+
+          <label>Permintaan Tambahan <em>opsional</em></label>
+          <textarea id="extra" rows="3" placeholder="Contoh: tambahkan karakter anak SD dan area kosong untuk tabel."></textarea>
+
+          <div class="card-title second"><div><span>02</span><h2>Gaya Visual</h2></div></div>
+
+          <label>Tema</label>
+          <div class="theme-grid" id="themeGrid"></div>
+
+          <div class="grid2">
+            <div><label>Gaya Ilustrasi</label><select id="style">
+              <option>3D Cartoon Premium</option><option>2D Cartoon Premium</option><option>Cute Cartoon</option>
+              <option>Kawaii</option><option>Clay 3D</option><option>Premium Educational</option><option>Colorful Kids</option>
+            </select></div>
+            <div><label>Layout</label><select id="layout">
+              <option>Poster vertikal terstruktur</option><option>Poster horizontal terstruktur</option>
+              <option>Grid kartu informasi</option><option>Papan kayu dekoratif</option>
+              <option>Ilustrasi penuh dengan panel informasi</option><option>Minimal modern</option>
+            </select></div>
+          </div>
+
+          <div class="grid2">
+            <div><label>Karakter</label><select id="character">
+              <option>Anak SD ceria</option><option>Anak SD laki-laki dan perempuan</option>
+              <option>Hewan maskot lucu</option><option>Karakter sesuai tema</option><option>Tidak ada karakter</option>
+            </select></div>
+            <div><label>Tipografi</label><select id="fontStyle">
+              <option>Bold, bulat, ramah anak</option><option>Playful dan colorful</option>
+              <option>Clean dan modern</option><option>Handwritten yang mudah dibaca</option>
+            </select></div>
+          </div>
+
+          <div class="grid2">
+            <div><label>Ukuran</label><select id="size">
+              <option>A4 Portrait — 21 × 29,7 cm</option><option>A4 Landscape — 29,7 × 21 cm</option>
+              <option>A3 Portrait — 29,7 × 42 cm</option><option>A3 Landscape — 42 × 29,7 cm</option>
+              <option>57 × 37 cm Portrait</option><option>Custom Size</option>
+            </select></div>
+            <div><label>Resolusi</label><select id="resolution">
+              <option>300 DPI — siap cetak</option><option>150 DPI</option><option>96 DPI — digital</option>
+            </select></div>
+          </div>
+
+          <div class="grid2">
+            <div><label>Warna</label><select id="color">
+              <option>Cerah, ceria, dan penuh warna</option><option>Pastel lembut</option>
+              <option>Natural dan hangat</option><option>Kontras cerah</option><option>Custom</option>
+            </select></div>
+            <div><label>Border</label><select id="border">
+              <option>Tipis dan elegan</option><option>Tanpa border</option><option>Dekoratif sesuai tema</option>
+            </select></div>
+          </div>
+
+          <button class="generate" id="generateBtn">✨ GENERATE PROMPT</button>
+        </section>
+
+        <section class="right-column">
+          <div class="card prompt-card">
+            <div class="card-title">
+              <div><span>03</span><h2>Prompt Final</h2></div>
+              <span id="status" class="pill">Siap</span>
+            </div>
+            <pre id="promptOutput">Pilih template dan isi data, lalu klik Generate Prompt.</pre>
+            <div class="actions">
+              <button class="copy" id="copyBtn">📋 COPY PROMPT</button>
+              <button class="save" id="favoriteBtn">☆ FAVORIT</button>
+              <button class="save" id="downloadBtn">⬇ TXT</button>
+            </div>
+          </div>
+
+          <div class="card preview-card">
+            <div class="card-title"><div><span>04</span><h2>Preview Konsep</h2></div></div>
+            <div id="preview" class="poster-preview">
+              <div class="preview-decor decor-a">✦</div><div class="preview-decor decor-b">✿</div>
+              <div class="preview-theme" id="previewTheme">🌊</div>
+              <div class="preview-label" id="previewClass">KELAS 2 SD</div>
+              <h3 id="previewTitle">JADWAL PELAJARAN</h3>
+              <div class="preview-content" id="previewContent">Isi poster akan tampil di sini.</div>
+              <div class="preview-style" id="previewStyle">3D Cartoon Premium</div>
+            </div>
+          </div>
+
+          <div class="card quality">
+            <b>🛡️ Quality Guard</b>
+            <p>Prompt otomatis meminta teks tetap jelas, tidak terpotong, tidak acak, tidak typo, komposisi rapi, elemen tidak keluar kanvas, dan hasil siap cetak.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="templatesView" class="view">
+      <div class="page-head"><div><span class="eyebrow">LIBRARY</span><h1>Template Poster</h1><p>Pilih template untuk mengisi Prompt Builder secara otomatis.</p></div></div>
+      <div class="template-toolbar">
+        <input id="templateSearch" placeholder="🔎 Cari template...">
+        <select id="templateCategory"><option>Semua Kategori</option><option>Manajemen Kelas</option><option>Karakter & Budaya</option><option>Edukasi</option><option>Motivasi</option></select>
+      </div>
+      <div id="templateGrid" class="template-grid"></div>
+    </section>
+
+    <section id="favoritesView" class="view">
+      <div class="page-head"><div><span class="eyebrow">SAVED</span><h1>Favorit</h1><p>Prompt yang Anda tandai sebagai favorit tersimpan di browser.</p></div></div>
+      <div id="favoritesList" class="saved-list"></div>
+    </section>
+
+    <section id="historyView" class="view">
+      <div class="page-head"><div><span class="eyebrow">RECENT</span><h1>Riwayat Prompt</h1><p>Prompt terakhir yang pernah dibuat.</p></div><button class="outline-btn" id="clearHistory">Hapus Riwayat</button></div>
+      <div id="historyList" class="saved-list"></div>
+    </section>
+  </main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
