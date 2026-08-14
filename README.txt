@@ -1,16 +1,18 @@
-SHORTSTORIES PROMPT MAKER V3.7 — MENU FIX
+SHORTSTORIES PROMPT MAKER V2
 
-Perbaikan:
-- Semua menu sidebar sekarang dapat diklik.
-- Prompt Builder -> builder
-- 50+ Tema -> Theme Library
-- Template Poster -> Template Library
-- Favorit -> daftar prompt favorit
-- Riwayat -> daftar riwayat prompt
-- Menu aktif mengikuti halaman yang sedang dibuka.
-- Theme Library dan Template Library dirender ulang saat dibuka.
-- Cache-busting JavaScript v3.7.
+Perubahan UI:
+- Tampilan modern terinspirasi bahasa visual aplikasi video pendek: hitam/putih dengan aksen cyan + pink.
+- Sidebar dan kartu lebih premium.
+- Tombol Generate/Copy lebih menonjol.
+- Input lebih rounded dan memiliki focus ring.
+- Active menu lebih jelas.
+- Mobile mendapatkan bottom navigation.
+- Dark mode mengikuti identitas cyan/pink.
+- Semua fungsi Prompt Builder, template, favorit, riwayat, referensi foto, copy, dan download tetap dipertahankan.
 
 Update GitHub:
 Ganti index.html, style.css, script.js lalu Commit changes.
-Setelah online, tekan Ctrl+Shift+R.
+Setelah online tekan Ctrl+Shift+R.
+
+
+V4.8: Prompt Final output diubah dari gelap menjadi putih agar konsisten dengan textarea Isi Poster.

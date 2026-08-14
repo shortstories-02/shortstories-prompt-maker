@@ -61,3 +61,319 @@ label{display:block;font-size:12px;font-weight:900;margin:14px 0 7px}label em{co
  .reference-head{align-items:flex-start;flex-direction:column}
  .upload-reference{flex-direction:column;align-items:flex-start}
 }
+
+
+/* =========================================================
+   SHORTSTORIES V4.7 — CREATIVE SHORT-VIDEO INSPIRED UI
+   TikTok-inspired visual language: black/white, cyan/pink
+   accents, bold rounded controls. No external assets.
+   ========================================================= */
+
+:root{
+  --ss-black:#0b0b0f;
+  --ss-black-2:#14141a;
+  --ss-white:#ffffff;
+  --ss-bg:#f6f6f8;
+  --ss-line:#e6e6eb;
+  --ss-muted:#777782;
+  --ss-cyan:#25f4ee;
+  --ss-pink:#fe2c55;
+  --ss-blue:#4f46e5;
+  --ss-shadow:0 16px 40px rgba(11,11,15,.08);
+  --ss-radius:20px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 90% 0%, rgba(37,244,238,.10), transparent 24%),
+    radial-gradient(circle at 12% 4%, rgba(254,44,85,.08), transparent 22%),
+    var(--ss-bg);
+  color:#17171d;
+}
+button,select,input,textarea{font-family:inherit}
+button{transition:transform .16s ease, box-shadow .16s ease, background .16s ease}
+button:active{transform:scale(.98)}
+
+.app{min-height:100vh}
+.sidebar{
+  background:rgba(255,255,255,.94);
+  border-right:1px solid var(--ss-line);
+  box-shadow:8px 0 30px rgba(0,0,0,.04);
+  backdrop-filter:blur(18px);
+}
+.brand{padding-top:24px}
+.logo{
+  background:linear-gradient(135deg,var(--ss-black) 15%, #34343e 70%);
+  border:2px solid var(--ss-cyan);
+  box-shadow:4px 4px 0 var(--ss-pink), 0 10px 28px rgba(37,244,238,.18);
+  font-weight:900;
+}
+.brand strong{letter-spacing:-.03em}
+.brand small{color:var(--ss-muted)}
+
+.nav-item{
+  border-radius:14px;
+  font-weight:800;
+  color:#303039;
+}
+.nav-item:hover{
+  background:#f0f0f3;
+  color:var(--ss-black);
+}
+.nav-item.active{
+  background:var(--ss-black);
+  color:white;
+  box-shadow:4px 4px 0 var(--ss-pink), 0 8px 20px rgba(11,11,15,.14);
+}
+.sidebar-note{
+  border:1px solid #e9e9ee;
+  background:linear-gradient(135deg,#fff,#fafafa);
+  border-radius:18px;
+  box-shadow:var(--ss-shadow);
+}
+.sidebar-note b{color:var(--ss-black)}
+.dark-btn{
+  border-radius:14px!important;
+  background:var(--ss-black)!important;
+  color:#fff!important;
+  border:0!important;
+  font-weight:800!important;
+}
+
+.mobile-head{
+  background:rgba(255,255,255,.88);
+  border-bottom:1px solid var(--ss-line);
+  backdrop-filter:blur(16px);
+}
+.mobile-head button{
+  background:var(--ss-black);
+  color:#fff;
+  border-radius:12px;
+}
+
+.page-head h1{
+  font-weight:950;
+  letter-spacing:-.055em;
+  color:var(--ss-black);
+}
+.page-head h1 span{
+  color:var(--ss-pink);
+  text-shadow:2px 2px 0 var(--ss-cyan);
+}
+.eyebrow{
+  color:var(--ss-pink)!important;
+  font-weight:900!important;
+  letter-spacing:.14em!important;
+}
+.page-head p{color:#696972}
+.outline-btn{
+  border:1px solid #dddde4!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  font-weight:800!important;
+}
+.outline-btn:hover{box-shadow:4px 4px 0 var(--ss-cyan)}
+
+.card{
+  border:1px solid rgba(0,0,0,.07)!important;
+  border-radius:var(--ss-radius)!important;
+  box-shadow:var(--ss-shadow)!important;
+  background:rgba(255,255,255,.96)!important;
+}
+.card-title h2{
+  font-weight:900!important;
+  letter-spacing:-.025em;
+}
+.card-title > div > span{
+  background:var(--ss-black)!important;
+  color:var(--ss-cyan)!important;
+  border-radius:8px!important;
+  font-weight:900!important;
+}
+
+label{font-weight:800!important;color:#23232b}
+label em{color:#9a9aa4;font-weight:600}
+select,input,textarea{
+  border:1px solid #dedee6!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  color:#17171d!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+}
+select:focus,input:focus,textarea:focus{
+  outline:none!important;
+  border-color:var(--ss-cyan)!important;
+  box-shadow:0 0 0 3px rgba(37,244,238,.14), 3px 3px 0 rgba(254,44,85,.13)!important;
+}
+
+.theme-grid{gap:10px!important}
+.theme-chip,.theme-card,.theme-option{
+  border-radius:14px!important;
+  border:1px solid #e1e1e7!important;
+}
+.theme-chip.active,.theme-card.active,.theme-option.active{
+  border-color:var(--ss-pink)!important;
+  box-shadow:3px 3px 0 var(--ss-cyan)!important;
+}
+
+.reference-box{
+  border:1px dashed #cfcfd8!important;
+  border-radius:18px!important;
+  background:linear-gradient(135deg,#fff,#fafafd)!important;
+}
+.reference-badge{
+  background:var(--ss-black)!important;
+  color:#fff!important;
+  border-radius:999px!important;
+}
+.upload-reference{
+  border-radius:14px!important;
+  border:1px solid #dedee6!important;
+  background:#fff!important;
+}
+.upload-reference:hover{
+  border-color:var(--ss-cyan)!important;
+  box-shadow:3px 3px 0 var(--ss-pink);
+}
+
+.generate{
+  border:0!important;
+  border-radius:15px!important;
+  background:var(--ss-black)!important;
+  color:#fff!important;
+  font-weight:950!important;
+  letter-spacing:.02em;
+  box-shadow:5px 5px 0 var(--ss-pink), 0 12px 24px rgba(11,11,15,.16)!important;
+}
+.generate:hover{
+  transform:translateY(-2px);
+  box-shadow:7px 7px 0 var(--ss-cyan), 0 16px 28px rgba(11,11,15,.18)!important;
+}
+
+.prompt-card pre{
+  border-radius:16px!important;
+  border:1px solid #292931!important;
+  background:#101015!important;
+  color:#f7f7fa!important;
+}
+.pill{
+  background:#eaffff!important;
+  color:#087b79!important;
+  border:1px solid #b9f7f4;
+  font-weight:900!important;
+}
+.copy{
+  background:var(--ss-black)!important;
+  border-radius:13px!important;
+  color:#fff!important;
+  font-weight:900!important;
+  box-shadow:4px 4px 0 var(--ss-cyan);
+}
+.save{
+  border-radius:13px!important;
+  font-weight:800!important;
+}
+.save:hover{box-shadow:3px 3px 0 var(--ss-pink)}
+
+.preview-card .poster-preview{
+  border-radius:18px!important;
+  overflow:hidden;
+}
+
+/* Small "creator" accent bar */
+.form-card::before{
+  content:"";
+  display:block;
+  height:4px;
+  width:88px;
+  margin:-8px 0 18px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--ss-cyan) 0 48%,var(--ss-pink) 48% 100%);
+}
+
+/* Mobile: compact bottom navigation like a short-video app */
+@media (max-width: 800px){
+  .sidebar{
+    position:fixed!important;
+    z-index:50!important;
+  }
+  .main{padding-bottom:78px!important}
+  .sidebar nav{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:100;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+    padding:7px;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:18px;
+    background:rgba(255,255,255,.94);
+    box-shadow:0 16px 35px rgba(0,0,0,.18);
+    backdrop-filter:blur(18px);
+  }
+  .sidebar nav .nav-item{
+    justify-content:center;
+    padding:10px 4px!important;
+    font-size:11px!important;
+    min-height:48px;
+  }
+  .sidebar .brand,.sidebar .sidebar-note,.sidebar .dark-btn{display:none!important}
+  .mobile-head{
+    position:sticky;
+    top:0;
+    z-index:40;
+  }
+}
+
+/* Dark mode keeps the same black/cyan/pink identity */
+body.dark{
+  background:#09090c!important;
+  color:#f7f7fa!important;
+}
+body.dark .sidebar,
+body.dark .mobile-head,
+body.dark .card{
+  background:#121218!important;
+  border-color:#292931!important;
+}
+body.dark .page-head h1,
+body.dark label{color:#fff!important}
+body.dark select,
+body.dark input,
+body.dark textarea{
+  background:#18181f!important;
+  color:#fff!important;
+  border-color:#34343d!important;
+}
+body.dark .outline-btn,
+body.dark .save,
+body.dark .upload-reference{
+  background:#18181f!important;
+  color:#fff!important;
+  border-color:#34343d!important;
+}
+body.dark .sidebar-note{background:#15151b!important;border-color:#292931}
+body.dark .sidebar nav .nav-item{color:#eee}
+body.dark .sidebar nav .nav-item:hover{background:#202027}
+body.dark .sidebar nav .nav-item.active{background:#fff;color:#111}
+
+/* V4.8 — Prompt Final output: clean white, like the input textarea */
+.prompt-card pre{
+  background:#fff !important;
+  color:#17171d !important;
+  border:1px solid #dedee6 !important;
+  border-radius:14px !important;
+  box-shadow:none !important;
+  font-family:inherit !important;
+  font-size:14px;
+  line-height:1.65;
+}
+body.dark .prompt-card pre{
+  background:#fff !important;
+  color:#17171d !important;
+  border-color:#dedee6 !important;
+}

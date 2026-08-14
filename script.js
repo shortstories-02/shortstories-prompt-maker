@@ -1,6 +1,7 @@
 
 const THEMES=[["Laut & Bawah Laut","🌊","Laut"],["Sunflower Garden","🌻","Taman"],["Hewan Safari","🦁","Hewan"],["Hewan Hutan","🐯","Hewan"],["Hewan Laut","🐳","Hewan"],["Hewan Peternakan","🐮","Hewan"],["Dinosaurus","🦖","Fantasi"],["Luar Angkasa","🚀","Fantasi"],["Galaksi Pastel","🪐","Fantasi"],["Pelangi","🌈","Fantasi"],["Unicorn","🦄","Fantasi"],["Putri & Kerajaan","👑","Fantasi"],["Taman Bunga","🌷","Alam"],["Hutan Tropis","🌴","Alam"],["Pegunungan","🏔️","Alam"],["Air Terjun","💦","Alam"],["Kebun Buah","🍎","Alam"],["Kebun Sayur","🥕","Alam"],["Taman Sekolah","🏫","Sekolah"],["Kelas Ceria","🎒","Sekolah"],["Perpustakaan","📚","Sekolah"],["Laboratorium Sains","🔬","Sekolah"],["Matematika","🔢","Edukasi"],["Bahasa Indonesia","✏️","Edukasi"],["IPAS","🌱","Edukasi"],["Seni Rupa","🎨","Edukasi"],["PJOK","⚽","Edukasi"],["Musik","🎵","Edukasi"],["Membaca","📖","Literasi"],["Menulis","🖊️","Literasi"],["Islami Ceria","☪️","Religi"],["Masjid & Ramadhan","🌙","Religi"],["Hewan Nusantara","🦧","Indonesia"],["Budaya Indonesia","🇮🇩","Indonesia"],["Gorontalo","🏠","Indonesia"],["Pahlawan Indonesia","🇮🇩","Indonesia"],["Kemerdekaan","🎈","Indonesia"],["Lingkungan Hijau","🌿","Lingkungan"],["Kebersihan","🧹","Lingkungan"],["Hemat Energi","💡","Lingkungan"],["Air Bersih","💧","Lingkungan"],["Keselamatan","🦺","Kehidupan"],["Kesehatan","❤️","Kehidupan"],["Emosi Positif","😊","Kehidupan"],["Persahabatan","🤝","Kehidupan"],["Robot & Teknologi","🤖","Teknologi"],["Coding Anak","💻","Teknologi"],["Transportasi","🚌","Kehidupan"],["Kota Mini","🏙️","Kehidupan"],["Kampung Ceria","🏡","Kehidupan"]];
-const TEMPLATES=[["Jadwal Pelajaran","📚","Manajemen Kelas"],["Jadwal Piket Kelas","🧹","Manajemen Kelas"],["Struktur Organisasi Kelas","👥","Manajemen Kelas"],["Kesepakatan Kelas","🤝","Budaya & Karakter"],["Tata Tertib Kelas","📌","Budaya & Karakter"],["5 Kata Ajaib","💬","Budaya & Karakter"],["Budaya 7S","😊","Budaya & Karakter"],["Poster Kebersihan","🧼","Budaya & Karakter"],["Poster Disiplin","⏰","Budaya & Karakter"],["Poster Sopan Santun","🙇","Budaya & Karakter"],["Absensi Bulanan","🗓️","Administrasi"],["Daftar Piket","📋","Administrasi"],["Data Siswa","👧","Administrasi"],["Kalender Kelas","📅","Administrasi"],["Tata Surya","🪐","Edukasi"],["Bagian Tumbuhan","🌱","Edukasi"],["Siklus Air","💧","Edukasi"],["Perubahan Wujud Benda","🧊","Edukasi"],["Sistem Pernapasan","🫁","Edukasi"],["Panca Indera","👀","Edukasi"],["Energi dan Perubahannya","⚡","Edukasi"],["Gaya dan Gerak","🏃","Edukasi"],["Daur Hidup Hewan","🦋","Edukasi"],["Siklus Hidup Tumbuhan","🌻","Edukasi"],["Angka 1–20","🔢","Edukasi"],["Huruf A–Z","🔤","Edukasi"],["Kata Benda","📝","Edukasi"],["Kata Kerja","🏃","Edukasi"],["Motivasi Belajar","⭐","Motivasi"],["Aku Suka Membaca","📖","Motivasi"],["Berani Bertanya","🙋","Motivasi"],["Rajin Menabung","🐷","Motivasi"],["Aku Anak Hebat","🌟","Motivasi"],["Rukun Islam","☪️","Edukasi"],["Rukun Iman","📖","Edukasi"],["Doa Sehari-hari","🤲","Edukasi"],["Pakaian Adat Indonesia","👘","Edukasi"],["Rumah Adat Indonesia","🏠","Edukasi"],["Peta Indonesia","🇮🇩","Edukasi"],["Hewan dan Habitat","🐾","Edukasi"],["Makanan Sehat","🍎","Edukasi"],["5 Indera + Kesehatan","❤️","Edukasi"],["Poster Anti Bullying","🛡️","Budaya & Karakter"],["Kata Motivasi Harian","💡","Motivasi"],["Sudut Baca","📚","Literasi"]];
+const TEMPLATES=[
+["Jadwal Pelajaran","📚","Manajemen Kelas"],["Jadwal Piket Kelas","🧹","Manajemen Kelas"],["Struktur Organisasi Kelas","👥","Manajemen Kelas"],["Kesepakatan Kelas","🤝","Budaya & Karakter"],["Tata Tertib Kelas","📌","Budaya & Karakter"],["5 Kata Ajaib","💬","Budaya & Karakter"],["Budaya 7S","😊","Budaya & Karakter"],["Poster Kebersihan","🧼","Budaya & Karakter"],["Poster Disiplin","⏰","Budaya & Karakter"],["Poster Sopan Santun","🙇","Budaya & Karakter"],["Absensi Bulanan","🗓️","Administrasi"],["Daftar Piket","📋","Administrasi"],["Data Siswa","👧","Administrasi"],["Kalender Kelas","📅","Administrasi"],["Tata Surya","🪐","Edukasi"],["Bagian Tumbuhan","🌱","Edukasi"],["Siklus Air","💧","Edukasi"],["Perubahan Wujud Benda","🧊","Edukasi"],["Sistem Pernapasan","🫁","Edukasi"],["Panca Indera","👀","Edukasi"],["Energi dan Perubahannya","⚡","Edukasi"],["Gaya dan Gerak","🏃","Edukasi"],["Daur Hidup Hewan","🦋","Edukasi"],["Siklus Hidup Tumbuhan","🌻","Edukasi"],["Angka 1–20","🔢","Edukasi"],["Huruf A–Z","🔤","Edukasi"],["Kata Benda","📝","Edukasi"],["Kata Kerja","🏃","Edukasi"],["Motivasi Belajar","⭐","Motivasi"],["Aku Suka Membaca","📖","Motivasi"],["Berani Bertanya","🙋","Motivasi"],["Rajin Menabung","🐷","Motivasi"],["Aku Anak Hebat","🌟","Motivasi"],["Rukun Islam","☪️","Edukasi"],["Rukun Iman","📖","Edukasi"],["Doa Sehari-hari","🤲","Edukasi"],["Pakaian Adat Indonesia","👘","Edukasi"],["Rumah Adat Indonesia","🏠","Edukasi"],["Peta Indonesia","🇮🇩","Edukasi"],["Hewan dan Habitat","🐾","Edukasi"],["Makanan Sehat","🍎","Edukasi"],["5 Indera + Kesehatan","❤️","Edukasi"],["Poster Anti Bullying","🛡️","Budaya & Karakter"],["Kata Motivasi Harian","💡","Motivasi"],["Sudut Baca","📚","Literasi"],["Cover Portofolio Siswa","🐠","Portofolio"],["Selamat Datang di Kelas","🌊","Hiasan Kelas"]];
 let selectedTheme=THEMES[0], lastPrompt="", favorites=JSON.parse(localStorage.getItem("ss_v3_fav")||"[]"), history=JSON.parse(localStorage.getItem("ss_v3_hist")||"[]");
 const $=id=>document.getElementById(id);
 const esc=s=>(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -16,11 +17,29 @@ function populateTemplateSelect(){
     if(!t)return;
     $("title").value=t[0].toUpperCase();
     $("content").value=templateStarter(t[0]);
+    applySpecialTemplateSettings(t[0]);
     updatePreviewV3();
     toast("Template: "+t[0]);
   };
 }
 function templateStarter(name){
+
+
+  if(name==="Cover Portofolio Siswa"){
+    return `PORTOFOLIO SISWA
+KELAS: __________
+
+Nama: ______________________________
+NIS: _______________________________
+Sekolah: ____________________________
+Tahun Ajaran: ______________________`;
+  }
+  if(name==="Selamat Datang di Kelas"){
+    return `SELAMAT DATANG
+DI KELAS
+KELAS: __________`;
+  }
+
   const starters={
     "Jadwal Pelajaran":"SENIN\n- Mata Pelajaran 1\n- Mata Pelajaran 2\n- Mata Pelajaran 3\n\nSELASA\n- Mata Pelajaran 1\n- Mata Pelajaran 2\n- Mata Pelajaran 3",
     "Jadwal Piket Kelas":"SENIN\n- Nama 1\n- Nama 2\n- Nama 3\n\nSELASA\n- Nama 1\n- Nama 2\n- Nama 3",
@@ -99,6 +118,29 @@ function renderThemeLibrary(){
 }
 function useThemeV3(i){selectTheme(i);showView("builder");}
 
+
+function applySpecialTemplateSettings(name){
+  if(name==="Cover Portofolio Siswa" || name==="Selamat Datang di Kelas"){
+    const oceanIndex=THEMES.findIndex(t=>t[0]==="Laut & Bawah Laut");
+    if(oceanIndex>=0) selectTheme(oceanIndex);
+    const set=(id,val)=>{const el=$(id); if(el) el.value=val;};
+    set("style","3D Cartoon Premium");
+    set("character", name==="Cover Portofolio Siswa" ? "Hewan maskot lucu" : "Anak SD laki-laki dan perempuan");
+    set("fontStyle","Bold, bulat, ramah anak");
+    set("color","Cerah, ceria, dan penuh warna");
+    set("layout","Ilustrasi penuh dengan panel informasi");
+    set("border","Dekoratif sesuai tema");
+    set("size","A4 Portrait — 21 × 29,7 cm");
+    set("resolution","300 DPI — siap cetak");
+    set("v3Orientation","Portrait");
+    set("v3Focus","Seimbang: teks + ilustrasi");
+    set("v3Detail","Premium & sangat detail");
+    set("v3Output","Siap cetak profesional");
+    // Permintaan Tambahan sengaja dikosongkan untuk kedua template referensi.
+
+  }
+}
+
 function populateTemplateSelectV34(){
   const sel=document.getElementById("templateSelect");
   if(!sel) return;
@@ -122,6 +164,7 @@ function populateTemplateSelectV34(){
       content.value=templateStarter(t[0]);
       content.dataset.v35Auto="1";
     }
+    applySpecialTemplateSettings(t[0]);
     if(typeof updatePreviewV3==="function") updatePreviewV3();
     if(typeof toast==="function") toast("Template dipilih: "+t[0]);
   };
@@ -144,7 +187,7 @@ function renderTemplateLibraryV3(){
   const items=TEMPLATES.map((t,i)=>({t,i})).filter(({t})=>(!q||(t[0]+" "+t[2]).toLowerCase().includes(q))&&(cat==="Semua Kategori"||t[2]===cat||cat==="Karakter & Budaya"&&t[2]==="Budaya & Karakter"));
   s.innerHTML=items.length?items.map(({t,i})=>`<article class="template-item"><div class="template-icon">${t[1]}</div><h3>${t[0]}</h3><p>Preset ${t[2]} untuk kebutuhan kelas SD.</p><div class="template-meta"><span class="category">${t[2]}</span><button class="use-template" onclick="useTemplateV3(${i})">Gunakan →</button></div></article>`).join(""):`<div class="empty">Template tidak ditemukan.</div>`;
 }
-function useTemplateV3(i){const t=TEMPLATES[i];if(!t)return;populateTemplateSelect();$("templateSelect").value=String(i);$("title").value=t[0].toUpperCase();$("title").dataset.v35Auto="1";$("content").value=templateStarter(t[0]);$("content").dataset.v35Auto="1";showView("builder");updatePreviewV3();toast("Template dipilih: "+t[0]);}
+function useTemplateV3(i){const t=TEMPLATES[i];if(!t)return;populateTemplateSelect();$("templateSelect").value=String(i);$("title").value=t[0].toUpperCase();$("title").dataset.v35Auto="1";$("content").value=templateStarter(t[0]);$("content").dataset.v35Auto="1";applySpecialTemplateSettings(t[0]);showView("builder");updatePreviewV3();toast("Template dipilih: "+t[0]);}
 function bindNav(){
   document.querySelectorAll(".nav-item, .nav").forEach(b=>{
     b.onclick=()=>{
