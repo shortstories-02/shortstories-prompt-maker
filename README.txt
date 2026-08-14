@@ -1,36 +1,16 @@
-SHORTSTORIES PROMPT MAKER V2
-=============================
+SHORTSTORIES PROMPT MAKER V3.7 — MENU FIX
 
-Fitur:
-- Dashboard modern
-- Prompt Builder
-- 25 template poster bawaan
-- Pencarian dan kategori template
-- Tema Laut, Sunflower Garden, Hewan & Safari, Luar Angkasa
-- Gaya ilustrasi
-- Layout
-- Karakter
-- Tipografi
-- Ukuran dan resolusi
-- Warna dan border
-- Generate Prompt
-- Copy Prompt
-- Simpan Favorit menggunakan localStorage
-- Riwayat prompt menggunakan localStorage
-- Export TXT
-- Dark Mode
-- Responsive desktop/mobile
-- Tidak membutuhkan API AI atau server
+Perbaikan:
+- Semua menu sidebar sekarang dapat diklik.
+- Prompt Builder -> builder
+- 50+ Tema -> Theme Library
+- Template Poster -> Template Library
+- Favorit -> daftar prompt favorit
+- Riwayat -> daftar riwayat prompt
+- Menu aktif mengikuti halaman yang sedang dibuka.
+- Theme Library dan Template Library dirender ulang saat dibuka.
+- Cache-busting JavaScript v3.7.
 
-CARA MENJALANKAN:
-1. Ekstrak ZIP.
-2. Buka index.html di browser.
-3. Pilih template atau isi Prompt Builder.
-4. Klik Generate Prompt.
-5. Copy prompt dan gunakan di ChatGPT/generator gambar.
-
-HOSTING GRATIS:
-Bisa diunggah sebagai website statis ke GitHub Pages atau layanan hosting statis lainnya.
-
-CATATAN:
-Versi 2 masih menggunakan generator berbasis JavaScript, sehingga tidak memerlukan API berbayar.
+Update GitHub:
+Ganti index.html, style.css, script.js lalu Commit changes.
+Setelah online, tekan Ctrl+Shift+R.
