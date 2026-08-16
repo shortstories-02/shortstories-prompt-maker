@@ -8,13 +8,54 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
+<div id="authScreen" class="auth-screen">
+  <div class="auth-bg-orb orb-cyan"></div>
+  <div class="auth-bg-orb orb-pink"></div>
+  <div class="auth-shell">
+    <div class="auth-hero">
+      <div class="auth-logo-wrap" aria-hidden="true">
+        <div class="auth-logo-glow glow-cyan"></div>
+        <div class="auth-logo-glow glow-pink"></div>
+        <div class="auth-logo">S</div>
+      </div>
+      <div class="auth-brand-name">ShortStories</div>
+      <div class="auth-brand-sub">PROMPT MAKER • CREATIVE STUDIO</div>
+      <div class="auth-sparkles" aria-hidden="true"><span>✦</span><span>•</span><span>✧</span></div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-topline"><span class="auth-badge">SHORTSTORIES</span><span class="auth-live"><i></i> AMAN</span></div>
+      <h1 id="authTitle">Masuk ke ShortStories</h1>
+      <p id="authSubtitle">Gunakan akun Anda untuk membuka Prompt Maker.</p>
+      <form id="authForm">
+        <label>Email</label>
+        <div class="auth-input-wrap"><span>✉</span><input id="authEmail" type="email" autocomplete="email" placeholder="nama@email.com" required></div>
+        <label>Password</label>
+        <div class="password-wrap auth-input-wrap"><span>●</span><input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter" required><button type="button" id="togglePassword" aria-label="Tampilkan password">👁</button></div>
+        <button class="auth-primary" id="authSubmit" type="submit"><span>MASUK</span><b>→</b></button>
+      </form>
+      <button class="auth-link" id="forgotPassword" type="button">Lupa password?</button>
+      <div id="authMessage" class="auth-message" aria-live="polite"></div>
+      <div class="auth-divider"><span>atau</span></div>
+      <div class="auth-switch admin-only-note"><span>🔐 Akun diberikan oleh administrator ShortStories.</span></div>
+      <div class="auth-perks"><span>⚡ Cepat</span><span>🎨 Kreatif</span><span>🔒 Aman</span></div>
+    </div>
+    <p class="auth-foot">Dengan masuk, Anda menggunakan ShortStories Prompt Maker untuk membuat prompt desain poster SD.</p>
+  </div>
+</div>
+<div class="app" id="appShell" hidden>
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="logo">S</div>
       <div><strong>ShortStories</strong><small>Prompt Maker • Creative Studio</small></div>
     </div>
+    <div class="account-box" id="accountBox">
+      <div class="account-avatar" id="accountAvatar">S</div>
+      <div class="account-info"><strong id="accountEmail">Akun</strong><small id="accountStatus">Tersambung</small></div>
+      <button id="logoutBtn" class="logout-btn" title="Keluar">↪</button>
+    </div>
     <nav>
+      <button class="nav-item admin-nav" data-view="admin" hidden>🛠️ Admin Panel</button>
       <button class="nav-item active" data-view="builder">✨ Prompt Builder</button>
       <button class="nav-item" data-view="templates">📚 Template Poster</button>
       <button class="nav-item" data-view="favorites">⭐ Favorit</button>
@@ -31,6 +72,41 @@
     <header class="mobile-head">
       <button id="menuBtn">☰</button><b>ShortStories Prompt Maker</b>
     </header>
+
+    <section id="adminView" class="view">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRATOR</span><h1>Admin <span>Panel</span></h1><p>Buat akun pelanggan tanpa membuka pendaftaran publik.</p></div><span class="pill">🔒 ADMIN</span></div>
+      <div class="admin-grid">
+        <section class="card">
+          <div class="card-title"><div><span>01</span><h2>Buat Akun Pelanggan</h2></div><span class="pill">Aman</span></div>
+          <p class="admin-help">Akun dibuat melalui backend Supabase. Secret/service-role key tidak pernah dikirim ke browser.</p>
+          <form id="customerForm">
+            <label>Nama pelanggan</label><input id="customerName" placeholder="Contoh: Budi Santoso" required>
+            <label>Email pelanggan</label><input id="customerEmail" type="email" placeholder="pelanggan@email.com" required>
+            <label>Password awal</label><input id="customerPassword" type="text" minlength="6" placeholder="Minimal 6 karakter" required>
+			<div class="field">
+			
+  <label for="customerDuration">Masa Aktif Akun</label>
+
+  <select id="customerDuration">
+    <option value="7">7 Hari</option>
+    <option value="30" selected>30 Hari</option>
+    <option value="90">90 Hari</option>
+    <option value="365">1 Tahun</option>
+    <option value="forever">Selamanya</option>
+  </select>
+</div>
+
+            <button class="generate" type="submit" id="createCustomerBtn">＋ BUAT AKUN PELANGGAN</button>
+          </form>
+          <div id="adminMessage" class="admin-message" aria-live="polite"></div>
+        </section>
+        <section class="card">
+          <div class="card-title"><div><span>02</span><h2>Data Akun Baru</h2></div></div>
+          <div id="createdAccount" class="created-account empty">Belum ada akun yang dibuat pada sesi ini.</div>
+          <div class="admin-warning">⚠️ Password awal hanya ditampilkan di panel ini. Simpan dan kirimkan kepada pembeli melalui cara yang aman.</div>
+        </section>
+      </div>
+    </section>
 
     <section id="builderView" class="view active-view">
       <div class="page-head">
@@ -197,6 +273,9 @@
   </main>
 </div>
 <div id="toast" class="toast"></div>
-<script src="script.js?v=4.6"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js?v=4.8"></script>
+<script src="auth.js?v=1.1"></script>
+<script src="admin.js?v=1.0"></script>
 </body>
 </html>

@@ -199,7 +199,7 @@ function bindNav(){
 }
 function showView(v){
   document.querySelectorAll(".view").forEach(x=>x.classList.remove("active-view"));
-  const map={builder:"builderView",themes:"themesView",templates:"templatesView",favorites:"favoritesView",history:"historyView"};
+  const map={builder:"builderView",themes:"themesView",templates:"templatesView",favorites:"favoritesView",history:"historyView",admin:"adminView"};
   const el=$(map[v]||v+"View");
   if(el) el.classList.add("active-view");
   document.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view===v));
@@ -352,4 +352,5 @@ function renderSavedV3(){
 function loadV3(id){const x=[...favorites,...history].find(a=>a.id===id);if(!x)return;lastPrompt=x.prompt;$("promptOutput").textContent=x.prompt;$("status").textContent="Dimuat";showView("builder");toast("Prompt dimuat")}
 function delV3(id,t){if(t==="fav"){favorites=favorites.filter(x=>x.id!==id);localStorage.setItem("ss_v3_fav",JSON.stringify(favorites))}else{history=history.filter(x=>x.id!==id);localStorage.setItem("ss_v3_hist",JSON.stringify(history))}renderSavedV3()}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2200)}
-initV3();
+window.ssShowView = showView;
+window.startShortStoriesApp = initV3;
