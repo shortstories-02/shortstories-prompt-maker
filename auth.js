@@ -1,546 +1,441 @@
 /* ShortStories Prompt Maker — Supabase Authentication */
 (function(){
   'use strict';
-  const CONFIG_KEY='shortstories_supabase_config_v1';
-  const $=id=>document.getElementById(id);
-  let mode='login';
-  let client=null;
-  let configured=false;
+
+  // Public frontend configuration.
+  // NEVER put the Supabase service_role/secret key here.
+  const SUPABASE_URL = 'https://ppxckqbpuetulzmvusvg.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_SwFAWF-QDsohAaB3jkjWqw_xgNnT_Km';
+  const PASSWORD_RESET_REDIRECT = 'https://shortstories-02.github.io/shortstories-prompt-maker/';
+
+  const $ = id => document.getElementById(id);
+  let mode = 'login';
+  let client = null;
+  let recoveryShown = false;
 
   function getConfig(){
-    try{
-      const saved=JSON.parse(localStorage.getItem(CONFIG_KEY)||'null');
-      if(saved?.url && saved?.key) return saved;
-    }catch(e){}
-    return null;
+    return { url: SUPABASE_URL, key: SUPABASE_PUBLISHABLE_KEY };
   }
-  function setMessage(msg,type='info'){
-    const el=$('authMessage'); if(!el)return;
-    el.textContent=msg; el.className='auth-message '+type;
+
+  function setMessage(msg, type='info'){
+    const el = $('authMessage');
+    if(!el) return;
+    el.textContent = msg;
+    el.className = 'auth-message ' + type;
   }
+
+  function clearAuthFields(){
+    if($('authEmail')) $('authEmail').value = '';
+    if($('authPassword')) $('authPassword').value = '';
+  }
+
   function setMode(next){
-    mode=next;
-    $('authTitle').textContent=mode==='login'?'Masuk ke ShortStories':'Buat Akun ShortStories';
-    $('authSubtitle').textContent=mode==='login'?'Gunakan akun Anda untuk membuka Prompt Maker.':'Buat akun dengan email dan password untuk mulai menggunakan Prompt Maker.';
-    $('authSubmit').textContent=mode==='login'?'MASUK':'DAFTAR';
-    $('authPassword').autocomplete=mode==='login'?'current-password':'new-password';
-    const sw=$('authSwitch'); if(sw) sw.hidden=true; const swt=$('authSwitchText'); if(swt) swt.textContent='';
-    $('forgotPassword').hidden=mode!=='login';
+    mode = next;
+    if(!$('authTitle')) return;
+
+    $('authTitle').textContent =
+      mode === 'login' ? 'Masuk ke ShortStories' : 'Buat Akun ShortStories';
+    $('authSubtitle').textContent =
+      mode === 'login'
+        ? 'Gunakan akun Anda untuk membuka Prompt Maker.'
+        : 'Buat akun dengan email dan password untuk mulai menggunakan Prompt Maker.';
+    if($('authSubmit')) $('authSubmit').textContent = mode === 'login' ? 'MASUK' : 'DAFTAR';
+    if($('authPassword')) $('authPassword').autocomplete =
+      mode === 'login' ? 'current-password' : 'new-password';
+
+    if($('forgotPassword')) $('forgotPassword').hidden = mode !== 'login';
     setMessage('');
   }
-  function clearAuthFields(){
-    const email=$('authEmail');
-    const password=$('authPassword');
-    if(email) email.value='';
-    if(password) password.value='';
-    const resetEmail=$('resetEmail');
-    const newPassword=$('newPassword');
-    const confirmPassword=$('confirmPassword');
-    if(resetEmail) resetEmail.value='';
-    if(newPassword) newPassword.value='';
-    if(confirmPassword) confirmPassword.value='';
+
+  function restoreLoginForm(){
+    const form = $('authForm');
+    if(!form) return;
+    form.innerHTML = `
+      <label>Email</label>
+      <div class="auth-input-wrap">
+        <span>✉</span>
+        <input id="authEmail" type="email" autocomplete="email"
+               placeholder="nama@email.com" required>
+      </div>
+      <label>Password</label>
+      <div class="password-wrap auth-input-wrap">
+        <span>●</span>
+        <input id="authPassword" type="password" autocomplete="current-password"
+               placeholder="Minimal 6 karakter" required>
+        <button type="button" id="togglePassword" aria-label="Tampilkan password">👁</button>
+      </div>
+      <button class="auth-primary" id="authSubmit" type="submit">
+        <span>MASUK</span><b>→</b>
+      </button>`;
+    $('togglePassword')?.addEventListener('click', () => {
+      const p = $('authPassword');
+      if(p) p.type = p.type === 'password' ? 'text' : 'password';
+    });
   }
 
-  function showAuth(message='', type='success'){
-    const auth=$('authScreen'), app=$('appShell');
-    if(auth) auth.hidden=false;
-    if(app) app.hidden=true;
+  function showAuth(message=''){
+    const auth = $('authScreen'), app = $('appShell');
+    if(auth) auth.hidden = false;
+    if(app) app.hidden = true;
+    if(recoveryShown || !$('authEmail')){
+      restoreLoginForm();
+    }
+    recoveryShown = false;
     setMode('login');
     clearAuthFields();
-    if(message) setMessage(message,type);
-  }
- async function showApp(user){
-  const auth=$('authScreen'), app=$('appShell');
-
-  if(!user){
-    showAuth();
-    return;
+    if($('authEmail')) $('authEmail').autocomplete = 'email';
+    if($('authPassword')) $('authPassword').type = 'password';
+    if($('togglePassword')) $('togglePassword').hidden = false;
+    if(message) setMessage(message, 'success');
   }
 
-  const c=client||getClient();
+  function showRecovery(){
+    const auth = $('authScreen'), app = $('appShell');
+    if(auth) auth.hidden = false;
+    if(app) app.hidden = true;
 
-  // Cek status akun SEBELUM menampilkan beranda
-  const access = c ? await getProfileAccess(c,user) : {
-    allowed:false,
-    reason:'check_failed'
-  };
+    mode = 'recovery';
+    recoveryShown = true;
 
-  // Akun tidak boleh masuk
-  if(!access.allowed){
+    $('authTitle').textContent = 'Buat Password Baru';
+    $('authSubtitle').textContent = 'Masukkan password baru untuk akun ShortStories Anda.';
 
-    // Hapus session agar akun expired/inactive tidak tetap login
-    if(c){
-      try{
-        suppressSignedOutHandler=true;
-        await c.auth.signOut({scope:'local'});
-      }catch(e){
-        console.warn('Auto sign-out failed:',e);
-      }finally{
-        suppressSignedOutHandler=false;
+    const form = $('authForm');
+    if(form){
+      form.innerHTML = `
+        <label>Password Baru</label>
+        <div class="password-wrap auth-input-wrap">
+          <span>●</span>
+          <input id="recoveryPassword" type="password" autocomplete="new-password"
+                 placeholder="Minimal 6 karakter" minlength="6" required>
+          <button type="button" id="toggleRecoveryPassword" aria-label="Tampilkan password">👁</button>
+        </div>
+        <label>Konfirmasi Password</label>
+        <div class="password-wrap auth-input-wrap">
+          <span>●</span>
+          <input id="recoveryPasswordConfirm" type="password" autocomplete="new-password"
+                 placeholder="Ulangi password baru" minlength="6" required>
+        </div>
+        <button class="auth-primary" id="authSubmit" type="submit">
+          <span>SIMPAN PASSWORD</span><b>→</b>
+        </button>`;
+    }
+
+    if($('forgotPassword')) $('forgotPassword').hidden = true;
+    if($('togglePassword')) $('togglePassword').hidden = true;
+    setMessage('');
+    $('toggleRecoveryPassword')?.addEventListener('click', () => {
+      const p = $('recoveryPassword');
+      if(p) p.type = p.type === 'password' ? 'text' : 'password';
+    });
+  }
+
+  async function showApp(user){
+    const auth = $('authScreen'), app = $('appShell');
+    const c = client || getClient();
+    if(!c || !user){
+      showAuth();
+      return;
+    }
+
+    // IMPORTANT: check license before revealing the app.
+    // This also protects refresh/session-restoration after expiry.
+    const access = await getProfileAccess(c, user);
+    if(!access.allowed){
+      await c.auth.signOut({scope:'local'}).catch(()=>{});
+      client = null;
+
+      if(access.reason === 'expired'){
+        showAuth('Masa aktif akun Anda telah berakhir. Silakan hubungi administrator ShortStories.');
+      } else if(access.reason === 'inactive'){
+        showAuth('Akun Anda sedang dinonaktifkan. Silakan hubungi administrator ShortStories.');
+      } else {
+        showAuth('Akun tidak dapat digunakan saat ini. Silakan hubungi administrator.');
       }
-    }
-
-    if(access.reason === 'expired'){
-      showAuth(
-        'Masa aktif akun Anda telah berakhir. Silakan hubungi administrator ShortStories.',
-        'error'
-      );
       return;
     }
 
-    if(access.reason === 'inactive'){
-      showAuth(
-        'Akun Anda sedang dinonaktifkan. Silakan hubungi administrator ShortStories.',
-        'error'
-      );
-      return;
+    if(auth) auth.hidden = true;
+    if(app) app.hidden = false;
+
+    const email = user?.email || 'Pengguna';
+    $('accountEmail').textContent = email;
+    $('accountAvatar').textContent = (email[0] || 'S').toUpperCase();
+    $('accountStatus').textContent = 'Akun aktif';
+
+    const role = access.role || 'customer';
+    const adminNav = $('adminNav') || document.querySelector('.admin-nav');
+    if(adminNav) adminNav.hidden = role !== 'admin';
+    document.body.dataset.role = role;
+
+    if(role !== 'admin' && document.getElementById('adminView')?.classList.contains('active-view')){
+      if(typeof window.showShortStoriesView === 'function') window.showShortStoriesView('builder');
     }
 
-    showAuth(
-      'Akun tidak dapat digunakan saat ini. Silakan hubungi administrator ShortStories.',
-      'error'
-    );
-    return;
-  }
-
-  // ==================================================
-  // HANYA AKUN YANG SUDAH LOLOS PEMERIKSAAN
-  // YANG BOLEH MELIHAT BERANDA
-  // ==================================================
-
-  if(auth) auth.hidden=true;
-  if(app) app.hidden=false;
-
-  const email=user?.email||'Pengguna';
-
-  if($('accountEmail')){
-    $('accountEmail').textContent=email;
-  }
-
-  if($('accountAvatar')){
-    $('accountAvatar').textContent=(email[0]||'S').toUpperCase();
-  }
-
-  if($('accountStatus')){
-    $('accountStatus').textContent='Akun aktif';
-  }
-
-  const role=access.role||'customer';
-
-  const adminNav=$('adminNav')||document.querySelector('.admin-nav');
-
-  if(adminNav){
-    adminNav.hidden=role!=='admin';
-  }
-
-  document.body.dataset.role=role;
-
-  if(
-    role!=='admin' &&
-    document.getElementById('adminView')?.classList.contains('active-view')
-  ){
-    if(typeof window.showShortStoriesView==='function'){
-      window.showShortStoriesView('builder');
+    if(typeof window.startShortStoriesApp === 'function' && !window.__ssAppStarted){
+      window.__ssAppStarted = true;
+      window.startShortStoriesApp();
     }
   }
 
-  if(
-    typeof window.startShortStoriesApp==='function' &&
-    !window.__ssAppStarted
-  ){
-    window.__ssAppStarted=true;
-    window.startShortStoriesApp();
-  }
-}
   function humanError(error){
-    const m=(error?.message||'').toLowerCase();
+    const m = (error?.message || '').toLowerCase();
     if(m.includes('invalid login credentials')) return 'Email atau password salah.';
     if(m.includes('email not confirmed')) return 'Email belum dikonfirmasi. Silakan buka email verifikasi dari Supabase terlebih dahulu.';
     if(m.includes('password should be at least')) return 'Password harus minimal 6 karakter.';
     if(m.includes('rate limit')) return 'Terlalu banyak percobaan. Tunggu beberapa saat lalu coba lagi.';
     if(m.includes('user already registered')) return 'Email tersebut sudah terdaftar. Silakan masuk.';
-    return error?.message||'Terjadi kesalahan. Coba lagi.';
+    if(m.includes('same password')) return 'Password baru harus berbeda dari password lama.';
+    return error?.message || 'Terjadi kesalahan. Coba lagi.';
   }
+
   function getClient(){
-    const cfg=getConfig();
-    if(!cfg){
-      setMessage('Konfigurasi Supabase belum dipasang. Buka bagian “Pengaturan Supabase” di bawah.', 'error');
-      $('setupBox').hidden=false;
-      return null;
-    }
+    const cfg = getConfig();
     if(!window.supabase?.createClient){
       setMessage('Library Supabase belum termuat. Pastikan internet aktif saat membuka website.', 'error');
       return null;
     }
-    if(!client) client=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    configured=true;
+    if(!client){
+      client = window.supabase.createClient(cfg.url, cfg.key, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      });
+    }
     return client;
   }
-  async function getProfileRole(c,user){
+
+  async function getProfileAccess(c, user){
     try{
-      const {data,error}=await c.from('profiles').select('role').eq('id',user.id).maybeSingle();
+      const {data, error} = await c
+        .from('profiles')
+        .select('role,status,expires_at')
+        .eq('id', user.id)
+        .maybeSingle();
+
       if(error) throw error;
-      return data?.role||'customer';
-    }catch(e){
-      console.warn('Profile role check failed:',e);
-      return 'customer';
-    }
-  }
-  
-  async function getProfileAccess(c,user){
-  try{
-    const {data,error}=await c
-      .from('profiles')
-      .select('role,status,expires_at')
-      .eq('id',user.id)
-      .maybeSingle();
 
-    if(error) throw error;
+      if(data?.role === 'admin'){
+        return {allowed:true, role:'admin', reason:'admin'};
+      }
 
-    // Admin selalu boleh masuk
-    if(data?.role === 'admin'){
-      return {
-        allowed:true,
-        role:'admin',
-        reason:'admin'
-      };
-    }
+      if(data?.status !== 'active'){
+        return {allowed:false, reason:'inactive'};
+      }
 
-    // Customer harus aktif
-    if(data?.status !== 'active'){
-      return {
-        allowed:false,
-        reason:'inactive'
-      };
-    }
+      if(!data?.expires_at){
+        return {allowed:true, role:'customer', reason:'forever'};
+      }
 
-    // Customer tanpa tanggal kadaluarsa = selamanya
-    if(!data?.expires_at){
+      const expiresAt = new Date(data.expires_at);
+      if(Number.isNaN(expiresAt.getTime())){
+        return {allowed:false, reason:'check_failed'};
+      }
+
+      if(expiresAt <= new Date()){
+        return {allowed:false, reason:'expired', expiresAt:data.expires_at};
+      }
+
       return {
         allowed:true,
         role:'customer',
-        reason:'forever'
-      };
-    }
-
-    // Cek tanggal kadaluarsa
-    const expiresAt = new Date(data.expires_at);
-
-    if(expiresAt <= new Date()){
-      return {
-        allowed:false,
-        reason:'expired',
+        reason:'active',
         expiresAt:data.expires_at
       };
-    }
-
-    return {
-      allowed:true,
-      role:'customer',
-      reason:'active',
-      expiresAt:data.expires_at
-    };
-
-  }catch(e){
-    console.error('License check failed:',e);
-
-    return {
-      allowed:false,
-      reason:'check_failed'
-    };
-  }
-}
-  
-  let suppressSignedOutHandler=false;
-  let authTransitionInProgress=false;
-
-  async function init(){
-    buildSetupBox();
-    setMode('login');
-    const c=getClient();
-    if(!c){showAuth();return;}
-
-    // Link recovery Supabase biasanya membawa #type=recovery.
-    // Tandai sebelum getSession agar halaman utama tidak sempat tampil.
-    let recoveryMode = /(?:^|[&#])type=recovery(?:&|$)/.test(window.location.hash);
-
-    c.auth.onAuthStateChange(async (event,session)=>{
-      if(event==='PASSWORD_RECOVERY'){
-        recoveryMode=true;
-        showResetPasswordPanel();
-        return;
-      }
-
-      if(event==='SIGNED_OUT'){
-        clearAuthFields();
-
-        if(suppressSignedOutHandler) return;
-
-        if(recoveryMode){
-          return;
-        }
-
-        showAuth();
-        return;
-      }
-
-      if(event==='SIGNED_IN' && session?.user){
-        if(recoveryMode){
-          showResetPasswordPanel();
-          return;
-        }
-
-        if(authTransitionInProgress) return;
-        authTransitionInProgress=true;
-        try{
-          await showApp(session.user);
-        }finally{
-          authTransitionInProgress=false;
-        }
-      }
-    });
-
-    const {data}=await c.auth.getSession();
-
-    if(recoveryMode){
-      showResetPasswordPanel();
-    }else if(data?.session?.user){
-      await showApp(data.session.user);
-    }else{
-      showAuth();
+    }catch(e){
+      console.error('License check failed:', e);
+      return {allowed:false, reason:'check_failed'};
     }
   }
-  function buildSetupBox(){
-    if($('setupBox'))return;
-    const box=document.createElement('div'); box.id='setupBox'; box.className='setup-box'; box.hidden=true;
-    box.innerHTML=`<details><summary>⚙️ Pengaturan Supabase</summary><p>Masukkan <b>Project URL</b> dan <b>Publishable key</b>. Jangan masukkan Secret key/service_role.</p><label>Project URL</label><input id="supabaseUrlInput" placeholder="https://xxxxxxxx.supabase.co"><label>Publishable key</label><input id="supabaseKeyInput" placeholder="sb_publishable_..."><button id="saveSupabaseConfig" type="button">SIMPAN & HUBUNGKAN</button></details>`;
-    $('authScreen').querySelector('.auth-card').appendChild(box);
-    $('saveSupabaseConfig').onclick=async()=>{
-      const url=$('supabaseUrlInput').value.trim().replace(/\/$/,'');
-      const key=$('supabaseKeyInput').value.trim();
-      if(!/^https:\/\/[^\s]+\.supabase\.co$/.test(url)){setMessage('Project URL tidak valid. Gunakan URL seperti https://xxxxx.supabase.co','error');return;}
-      if(!key.startsWith('sb_publishable_')){setMessage('Gunakan Publishable key yang dimulai dengan sb_publishable_.','error');return;}
-      localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));
-      client=null; configured=false;
-      setMessage('Konfigurasi tersimpan. Menghubungkan...','success');
-      setTimeout(init,250);
-    };
-    const cfg=getConfig();
-    if(cfg){
-      box.querySelector('#supabaseUrlInput').value=cfg.url;
-      box.querySelector('#supabaseKeyInput').value=cfg.key;
-    }
-  }
+
   async function submit(e){
     e.preventDefault();
-    const c=getClient(); if(!c)return;
-    const email=$('authEmail').value.trim(), password=$('authPassword').value;
-    $('authSubmit').disabled=true; setMessage(mode==='login'?'Memeriksa akun...':'Membuat akun...','info');
+
+    if(mode === 'recovery'){
+      await updatePassword();
+      return;
+    }
+
+    const c = getClient();
+    if(!c) return;
+
+    const email = $('authEmail').value.trim();
+    const password = $('authPassword').value;
+
+    $('authSubmit').disabled = true;
+    setMessage('Memeriksa akun...', 'info');
+
     try{
-    if(mode==='login'){
-      // Prevent the SIGNED_IN auth listener from running the same
-      // transition a second time while this form submission is active.
-      authTransitionInProgress=true;
+      const {data, error} = await c.auth.signInWithPassword({email, password});
+      if(error) throw error;
 
-      try{
-        const {data,error}=await c.auth.signInWithPassword({
-          email,
-          password
-        });
-
-        if(error) throw error;
-
-        if(data?.user){
-          // Verify access before showing the application.
-          await showApp(data.user);
+      if(data?.user){
+        await showApp(data.user);
+        if(!recoveryShown && !$('authScreen').hidden){
+          // showApp will display the exact expiry/inactive message when needed.
+          return;
         }
-      }finally{
-        authTransitionInProgress=false;
       }
-    }else{
-        setMode('login');
-        throw new Error('Pendaftaran mandiri dinonaktifkan. Akun diberikan oleh administrator ShortStories.');
-      }
-    }catch(err){setMessage(humanError(err),'error');}
-    finally{$('authSubmit').disabled=false;}
-  }
-  function showLoginPanel(){
-    const form=$('authForm');
-    const request=$('resetRequestPanel');
-    const reset=$('resetPasswordPanel');
-    const forgotBtn=$('forgotPassword');
-    if(form) form.hidden=false;
-    if(request) request.hidden=true;
-    if(reset) reset.hidden=true;
-    if(forgotBtn) forgotBtn.hidden=false;
-    setMode('login');
-  }
-
-  function showResetRequestPanel(){
-    const form=$('authForm');
-    const request=$('resetRequestPanel');
-    const reset=$('resetPasswordPanel');
-    const forgotBtn=$('forgotPassword');
-    if(form) form.hidden=true;
-    if(request) request.hidden=false;
-    if(reset) reset.hidden=true;
-    if(forgotBtn) forgotBtn.hidden=true;
-    const currentEmail=$('authEmail')?.value.trim()||'';
-    if($('resetEmail')) $('resetEmail').value=currentEmail;
-    setMessage('');
-  }
-
-  function showResetPasswordPanel(){
-    const auth=$('authScreen'), app=$('appShell');
-    if(auth) auth.hidden=false;
-    if(app) app.hidden=true;
-
-    const form=$('authForm');
-    const request=$('resetRequestPanel');
-    const reset=$('resetPasswordPanel');
-    const forgotBtn=$('forgotPassword');
-
-    if(form) form.hidden=true;
-    if(request) request.hidden=true;
-    if(reset) reset.hidden=false;
-    if(forgotBtn) forgotBtn.hidden=true;
-
-    if($('authTitle')) $('authTitle').textContent='Buat Password Baru';
-    if($('authSubtitle')) $('authSubtitle').textContent='Atur password baru untuk akun ShortStories Anda.';
-    setMessage('');
+    }catch(err){
+      setMessage(humanError(err), 'error');
+    }finally{
+      if($('authSubmit')) $('authSubmit').disabled = false;
+    }
   }
 
   async function forgot(){
-    const c=getClient(); if(!c)return;
-    const email=($('resetEmail')?.value || $('authEmail')?.value || '').trim();
+    const c = getClient();
+    if(!c) return;
 
+    const email = $('authEmail').value.trim();
     if(!email){
-      setMessage('Masukkan email terlebih dahulu.','error');
+      setMessage('Masukkan email terlebih dahulu, lalu klik Lupa password.', 'error');
+      $('authEmail')?.focus();
       return;
     }
 
-    const btn=$('sendResetBtn');
-    if(btn) btn.disabled=true;
-    setMessage('Mengirim email reset password...','info');
+    const btn = $('forgotPassword');
+    if(btn) btn.disabled = true;
+    setMessage('Mengirim email reset password...', 'info');
 
     try{
-      const redirectTo = window.location.origin + window.location.pathname;
-
-      const {error}=await c.auth.resetPasswordForEmail(email,{
-        redirectTo
+      const {error} = await c.auth.resetPasswordForEmail(email, {
+        redirectTo: PASSWORD_RESET_REDIRECT
       });
-
       if(error) throw error;
 
-      // Sengaja gunakan pesan generik agar email akun tidak dapat ditebak.
       setMessage(
-        'Jika email tersebut terdaftar, link reset password telah dikirim. Silakan periksa inbox atau folder spam.',
+        'Link reset password telah dikirim. Periksa inbox dan folder spam Anda.',
         'success'
       );
-    }catch(err){
-      console.error('Password reset request failed:',err);
-      setMessage('Tidak dapat mengirim link reset password. Silakan coba lagi.','error');
+    }catch(error){
+      setMessage(humanError(error), 'error');
     }finally{
-      if(btn) btn.disabled=false;
+      if(btn) btn.disabled = false;
     }
   }
 
-  async function saveNewPassword(){
-    const c=getClient(); if(!c)return;
+  async function updatePassword(){
+    const c = getClient();
+    if(!c) return;
 
-    const password=$('newPassword')?.value || '';
-    const confirm=$('confirmPassword')?.value || '';
+    const password = $('recoveryPassword')?.value || '';
+    const confirm = $('recoveryPasswordConfirm')?.value || '';
 
     if(password.length < 6){
-      setMessage('Password baru harus minimal 6 karakter.','error');
+      setMessage('Password minimal 6 karakter.', 'error');
       return;
     }
-
     if(password !== confirm){
-      setMessage('Konfirmasi password tidak sama.','error');
+      setMessage('Konfirmasi password tidak sama.', 'error');
       return;
     }
 
-    const btn=$('saveNewPasswordBtn');
-    if(btn) btn.disabled=true;
-    setMessage('Menyimpan password baru...','info');
+    const btn = $('authSubmit');
+    if(btn) btn.disabled = true;
+    setMessage('Menyimpan password baru...', 'info');
 
     try{
-      const {error}=await c.auth.updateUser({password});
-
+      const {error} = await c.auth.updateUser({password});
       if(error) throw error;
 
-      // Password berhasil diubah. Keluar dari recovery session
-      // agar pengguna kembali melalui halaman login normal.
+      // Recovery session is no longer needed after changing the password.
+      await c.auth.signOut({scope:'local'}).catch(()=>{});
+      client = null;
+
+      // Remove recovery tokens from the address bar.
       try{
-        await c.auth.signOut({scope:'local'});
-      }catch(e){
-        console.warn('Recovery sign-out warning:',e);
+        window.history.replaceState({}, document.title, PASSWORD_RESET_REDIRECT);
+      }catch(_){
+        window.location.hash = '';
       }
 
-      if($('newPassword')) $('newPassword').value='';
-      if($('confirmPassword')) $('confirmPassword').value='';
-
-      // Bersihkan token recovery dari address bar.
-      try{
-        window.history.replaceState({},document.title,window.location.pathname);
-      }catch(e){}
-
-      showLoginPanel();
-      clearAuthFields();
-      setMessage('Password berhasil diubah. Silakan login menggunakan password baru.','success');
-    }catch(err){
-      console.error('Password update failed:',err);
-      setMessage(humanError(err),'error');
+      showAuth('Password berhasil diubah. Silakan masuk menggunakan password baru.');
+    }catch(error){
+      setMessage(humanError(error), 'error');
     }finally{
-      if(btn) btn.disabled=false;
+      if($('authSubmit')) $('authSubmit').disabled = false;
     }
   }
 
   async function logout(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
-    const btn=$('logoutBtn');
-    if(btn) btn.disabled=true;
+
+    const btn = $('logoutBtn');
+    if(btn) btn.disabled = true;
+
     try{
-      const c=getClient();
+      const c = getClient();
       if(!c){ showAuth(); return; }
-      const {error}=await c.auth.signOut({scope:'local'});
+
+      const {error} = await c.auth.signOut({scope:'local'});
       if(error) throw error;
 
-      clearAuthFields();
+      client = null;
       showAuth('Anda sudah keluar dari ShortStories.');
     }catch(err){
-      console.error('ShortStories logout error:',err);
-      setMessage('Logout gagal: '+humanError(err),'error');
+      console.error('ShortStories logout error:', err);
+      setMessage('Logout gagal: ' + humanError(err), 'error');
     }finally{
-      if(btn) btn.disabled=false;
+      if(btn) btn.disabled = false;
     }
   }
+
+  function isRecoveryUrl(){
+    const hash = window.location.hash || '';
+    const search = window.location.search || '';
+    return /type=recovery/i.test(hash) || /type=recovery/i.test(search);
+  }
+
+  async function init(){
+    const c = getClient();
+    if(!c){ showAuth(); return; }
+
+    c.auth.onAuthStateChange((event, session) => {
+      if(event === 'PASSWORD_RECOVERY' || isRecoveryUrl()){
+        showRecovery();
+        return;
+      }
+      if(session?.user) showApp(session.user);
+      else showAuth();
+    });
+
+    if(isRecoveryUrl()){
+      showRecovery();
+      return;
+    }
+
+    const {data} = await c.auth.getSession();
+    if(data?.session?.user) await showApp(data.session.user);
+    else showAuth();
+  }
+
   function bind(){
-    $('authForm').addEventListener('submit',submit);
-    $('authSwitch')?.addEventListener('click',()=>setMode('login'));
-    $('forgotPassword').onclick=showResetRequestPanel;
-    $('sendResetBtn')?.addEventListener('click',forgot);
-    $('backToLogin')?.addEventListener('click',showLoginPanel);
-    $('saveNewPasswordBtn')?.addEventListener('click',saveNewPassword);
+    $('authForm')?.addEventListener('submit', submit);
 
-    $('togglePassword').onclick=()=>{const p=$('authPassword');p.type=p.type==='password'?'text':'password';};
-    $('toggleNewPassword')?.addEventListener('click',()=>{
-      const p=$('newPassword'); if(p) p.type=p.type==='password'?'text':'password';
-    });
-    $('toggleConfirmPassword')?.addEventListener('click',()=>{
-      const p=$('confirmPassword'); if(p) p.type=p.type==='password'?'text':'password';
+    $('forgotPassword')?.addEventListener('click', forgot);
+
+    $('togglePassword')?.addEventListener('click', () => {
+      const p = $('authPassword');
+      if(p) p.type = p.type === 'password' ? 'text' : 'password';
     });
 
-    const logoutBtn=$('logoutBtn');
+    const logoutBtn = $('logoutBtn');
     if(logoutBtn){
-      logoutBtn.type='button';
-      logoutBtn.addEventListener('click',logout);
+      logoutBtn.type = 'button';
+      logoutBtn.addEventListener('click', logout);
     }
   }
-  window.showShortStoriesView=function(view){
-    if(typeof window.ssShowView==='function') window.ssShowView(view);
-    else if(typeof window.showView==='function') window.showView(view);
+
+  window.showShortStoriesView = function(view){
+    if(typeof window.ssShowView === 'function') window.ssShowView(view);
+    else if(typeof window.showView === 'function') window.showView(view);
   };
-  window.addEventListener('DOMContentLoaded',()=>{bind();init();});
+
+  window.addEventListener('DOMContentLoaded', () => {
+    bind();
+    init();
+  });
 })();

@@ -1,25 +1,26 @@
-SHORTSTORIES PROMPT MAKER V4.7
+ShortStories V4.8 — Forgot Password + Permanent Supabase Config
 
-Perubahan UI:
-- Tampilan modern terinspirasi bahasa visual aplikasi video pendek: hitam/putih dengan aksen cyan + pink.
-- Sidebar dan kartu lebih premium.
-- Tombol Generate/Copy lebih menonjol.
-- Input lebih rounded dan memiliki focus ring.
-- Active menu lebih jelas.
-- Mobile mendapatkan bottom navigation.
-- Dark mode mengikuti identitas cyan/pink.
-- Semua fungsi Prompt Builder, template, favorit, riwayat, referensi foto, copy, dan download tetap dipertahankan.
+Ganti 3 file berikut di repository GitHub Pages:
+1. auth.js
+2. admin.js
+3. index.html
 
-Update GitHub:
-Ganti index.html, style.css, script.js lalu Commit changes.
-Setelah online tekan Ctrl+Shift+R.
+Project URL sudah ditanam di frontend:
+https://ppxckqbpuetulzmvusvg.supabase.co
 
+Publishable key sudah ditanam di frontend. Ini aman untuk frontend selama yang digunakan
+adalah Publishable/anon key. JANGAN pernah menaruh service_role/secret key di file ini.
 
-V4.8: Prompt Final output diubah dari gelap menjadi putih agar konsisten dengan textarea Isi Poster.
+Redirect reset password:
+https://shortstories-02.github.io/shortstories-prompt-maker/
 
-
-FORGOT PASSWORD V2:
-- Login has a Forgot Password flow using Supabase resetPasswordForEmail.
-- Recovery links return to the same page and open a new-password form.
-- Password updates use Supabase auth.updateUser.
-- Configure Supabase Authentication > URL Configuration > Redirect URLs with the deployed site URL.
+Perbaikan:
+- Project URL/Publishable Key tidak lagi diminta di setiap device.
+- Panel "Pengaturan Supabase" tidak lagi muncul.
+- Tombol Lupa password mengirim email recovery dengan redirect yang benar.
+- Link recovery menampilkan form "Buat Password Baru".
+- Password baru + konfirmasi password.
+- Setelah password berhasil diubah, pengguna dikembalikan ke login.
+- Session akun expired dicek sebelum app ditampilkan, termasuk setelah refresh.
+- Logout mengosongkan email/password.
+- Admin Panel tetap menggunakan Edge Function create-customer.
