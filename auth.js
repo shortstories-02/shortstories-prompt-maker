@@ -344,7 +344,7 @@
       if(error) throw error;
 
       setMessage(
-        'Jika email tersebut terdaftar, link reset password telah dikirim. Periksa inbox dan folder spam Anda.',
+        'Link reset password telah dikirim. Periksa inbox dan folder spam Anda.',
         'success'
       );
     }catch(error){
