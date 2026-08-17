@@ -12,6 +12,7 @@
   let mode = 'login';
   let client = null;
   let recoveryShown = false;
+  let recoveryFlow = false;
 
   function getConfig(){
     return { url: SUPABASE_URL, key: SUPABASE_PUBLISHABLE_KEY };
@@ -81,6 +82,7 @@
       restoreLoginForm();
     }
     recoveryShown = false;
+    recoveryFlow = false;
     setMode('login');
     clearAuthFields();
     if($('authEmail')) $('authEmail').autocomplete = 'email';
@@ -96,6 +98,7 @@
 
     mode = 'recovery';
     recoveryShown = true;
+    recoveryFlow = true;
 
     $('authTitle').textContent = 'Buat Password Baru';
     $('authSubtitle').textContent = 'Masukkan password baru untuk akun ShortStories Anda.';
@@ -386,20 +389,39 @@
   function isRecoveryUrl(){
     const hash = window.location.hash || '';
     const search = window.location.search || '';
-    return /type=recovery/i.test(hash) || /type=recovery/i.test(search);
+
+    // Supabase may return password-reset sessions as either:
+    //   #...&type=recovery
+    // or a PKCE callback such as ?code=...
+    // Treat an auth callback as recovery while this page is handling
+    // the password-reset flow, so SIGNED_IN cannot open the app first.
+    if(/type=recovery/i.test(hash) || /type=recovery/i.test(search)) return true;
+    if(/(^|[?#&])code=[^&#]+/i.test(search)) return true;
+    return false;
   }
 
   async function init(){
     const c = getClient();
     if(!c){ showAuth(); return; }
 
+    let resolveFirstAuthEvent;
+    const firstAuthEvent = new Promise(resolve => {
+      resolveFirstAuthEvent = resolve;
+    });
+
     c.auth.onAuthStateChange((event, session) => {
-      if(event === 'PASSWORD_RECOVERY' || isRecoveryUrl()){
+      // Once recovery mode is active, ALL auth events (including
+      // SIGNED_IN) must stay on the password-reset form.
+      if(recoveryFlow || recoveryShown || event === 'PASSWORD_RECOVERY' || isRecoveryUrl()){
         showRecovery();
+        resolveFirstAuthEvent();
         return;
       }
+
       if(session?.user) showApp(session.user);
       else showAuth();
+
+      resolveFirstAuthEvent();
     });
 
     if(isRecoveryUrl()){
@@ -407,7 +429,20 @@
       return;
     }
 
+    // Wait for Supabase's initial auth event before deciding whether to
+    // restore the app session. This prevents a recovery session from
+    // briefly opening the app before PASSWORD_RECOVERY is delivered.
+    await Promise.race([
+      firstAuthEvent,
+      new Promise(resolve => setTimeout(resolve, 500))
+    ]);
+
+    if(recoveryFlow || recoveryShown) return;
+
     const {data} = await c.auth.getSession();
+
+    if(recoveryFlow || recoveryShown) return;
+
     if(data?.session?.user) await showApp(data.session.user);
     else showAuth();
   }
