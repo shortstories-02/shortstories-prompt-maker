@@ -288,6 +288,18 @@
     }
   }
 
+  async function checkPasswordReset(email){
+    const c = getClient();
+    if(!c) throw new Error('Supabase belum siap.');
+
+    const {data, error} = await c.functions.invoke('check-password-reset', {
+      body: { email }
+    });
+
+    if(error) throw error;
+    return data || {};
+  }
+
   async function forgot(){
     const c = getClient();
     if(!c) return;
@@ -301,19 +313,42 @@
 
     const btn = $('forgotPassword');
     if(btn) btn.disabled = true;
-    setMessage('Mengirim email reset password...', 'info');
+    setMessage('Memeriksa status akun...', 'info');
 
     try{
+      const check = await checkPasswordReset(email);
+
+      if(check.allowed === false){
+        if(check.status === 'expired'){
+          setMessage(
+            'Masa aktif akun Anda telah berakhir. Silakan hubungi administrator ShortStories.',
+            'error'
+          );
+        }else if(check.status === 'inactive'){
+          setMessage(
+            'Akun Anda sedang dinonaktifkan. Silakan hubungi administrator ShortStories.',
+            'error'
+          );
+        }else{
+          setMessage(
+            check.message || 'Akun tidak dapat melakukan reset password saat ini.',
+            'error'
+          );
+        }
+        return;
+      }
+
       const {error} = await c.auth.resetPasswordForEmail(email, {
         redirectTo: PASSWORD_RESET_REDIRECT
       });
       if(error) throw error;
 
       setMessage(
-        'Link reset password telah dikirim. Periksa inbox dan folder spam Anda.',
+        'Jika email tersebut terdaftar, link reset password telah dikirim. Periksa inbox dan folder spam Anda.',
         'success'
       );
     }catch(error){
+      console.error('Password reset check error:', error);
       setMessage(humanError(error), 'error');
     }finally{
       if(btn) btn.disabled = false;
