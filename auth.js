@@ -14,6 +14,7 @@
   let recoveryShown = false;
   let recoveryFlow = false;
   let loginInProgress = false;
+  let pendingAuthMessage = '';
 
   function getConfig(){
     return { url: SUPABASE_URL, key: SUPABASE_PUBLISHABLE_KEY };
@@ -142,25 +143,29 @@
       return;
     }
 
-    // Fail closed: never leave a previous user's app visible while the
-    // profile/license check is running.
-    if(auth) auth.hidden = false;
-    if(app) app.hidden = true;
-
     // IMPORTANT: check license before revealing the app.
     // This also protects refresh/session-restoration after expiry.
     const access = await getProfileAccess(c, user);
     if(!access.allowed){
+      if(access.reason === 'expired'){
+        pendingAuthMessage =
+          'Masa aktif akun Anda telah berakhir. Silakan hubungi administrator ShortStories.';
+      } else if(access.reason === 'inactive'){
+        pendingAuthMessage =
+          'Akun Anda sedang dinonaktifkan. Silakan hubungi administrator ShortStories.';
+      } else {
+        pendingAuthMessage =
+          'Akun tidak dapat digunakan saat ini. Silakan hubungi administrator.';
+      }
+
+      // Remove the Supabase session first. The SIGNED_OUT event is
+      // intentionally suppressed below so it cannot erase the message.
       await c.auth.signOut({scope:'local'}).catch(()=>{});
       client = null;
 
-      if(access.reason === 'expired'){
-        showAuth('Masa aktif akun Anda telah berakhir. Silakan hubungi administrator ShortStories.');
-      } else if(access.reason === 'inactive'){
-        showAuth('Akun Anda sedang dinonaktifkan. Silakan hubungi administrator ShortStories.');
-      } else {
-        showAuth('Akun tidak dapat digunakan saat ini. Silakan hubungi administrator.');
-      }
+      const message = pendingAuthMessage;
+      pendingAuthMessage = '';
+      showAuth(message);
       return;
     }
 
@@ -274,17 +279,16 @@
     const password = $('authPassword').value;
 
     $('authSubmit').disabled = true;
-    loginInProgress = true;
     setMessage('Memeriksa akun...', 'info');
+
+    loginInProgress = true;
 
     try{
       const {data, error} = await c.auth.signInWithPassword({email, password});
       if(error) throw error;
 
-      // Validate the license BEFORE allowing the application to be shown.
-      // The auth-state listener is temporarily ignored during this explicit
-      // login attempt so two simultaneous showApp() calls cannot race.
       if(data?.user){
+        // Do the license check here, before the app can be revealed.
         await showApp(data.user);
       }
     }catch(err){
@@ -419,7 +423,6 @@
       if(error) throw error;
 
       client = null;
-      loginInProgress = false;
       showAuth('Anda sudah keluar dari ShortStories.');
     }catch(err){
       console.error('ShortStories logout error:', err);
@@ -461,16 +464,22 @@
         return;
       }
 
-      // During an explicit login(), submit() performs the single, awaited
-      // license check. Ignore the duplicate SIGNED_IN callback here to avoid
-      // racing showApp() and accidentally restoring an expired session.
-      if(loginInProgress){
-        resolveFirstAuthEvent();
-        return;
+      if(session?.user){
+        // During an explicit login, submit() owns the access check.
+        // Do not start a second concurrent showApp() here.
+        if(!loginInProgress) showApp(session.user);
+      }else{
+        // When showApp() rejects an expired/inactive account it signs out
+        // intentionally. Do not let this SIGNED_OUT event erase the
+        // rejection message.
+        if(pendingAuthMessage){
+          const message = pendingAuthMessage;
+          pendingAuthMessage = '';
+          showAuth(message);
+        }else if(!loginInProgress){
+          showAuth();
+        }
       }
-
-      if(session?.user) showApp(session.user);
-      else showAuth();
 
       resolveFirstAuthEvent();
     });
