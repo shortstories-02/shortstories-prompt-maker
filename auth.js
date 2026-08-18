@@ -22,6 +22,10 @@
   function finishBoot(){
     const boot = $('authBoot');
     if(boot) boot.hidden = true;
+
+    // Release the initial loading gate only after the auth/session decision
+    // has been made. This prevents the login form from flashing on refresh.
+    document.body?.classList.remove('auth-loading');
   }
 
   function getConfig(){

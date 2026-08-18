@@ -7,7 +7,24 @@
 <title>ShortStories Prompt Maker — Creative Studio</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="auth-loading">
+<style id="authBootStyle">
+  /* Prevent the login form from flashing before Supabase restores the session. */
+  body.auth-loading #authScreen { visibility: hidden !important; }
+  body.auth-loading::before {
+    content: "Memuat ShortStories…";
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b1020;
+    color: #fff;
+    font: 600 15px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: .2px;
+  }
+</style>
 <div id="authScreen" class="auth-screen">
   <div class="auth-bg-orb orb-cyan"></div>
   <div class="auth-bg-orb orb-pink"></div>
@@ -275,7 +292,7 @@
 <div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js?v=4.8"></script>
-<script src="auth.js?v=2.0"></script>
+<script src="auth.js?v=2.1"></script>
 <script src="admin.js?v=2.0"></script>
 </body>
 </html>
