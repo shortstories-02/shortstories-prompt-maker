@@ -139,7 +139,7 @@
       if(action==='password'){
         const newPassword = data?.password || extra.password;
         if(newPassword){
-          alert('Password pelanggan berhasil diubah.\\n\\nPassword baru: ' + newPassword);
+          alert('Password pelanggan berhasil diubah.\n\nPassword baru: ' + newPassword);
         }else{
           alert('Password pelanggan berhasil diubah.');
         }
