@@ -133,9 +133,17 @@
         if(p.length<6){alert('Password minimal 6 karakter.');return;}
         extra.password=p;
       }
-      const data=await invoke(action,{id,...extra});
+      const invokeAction = action === 'password' ? 'reset_password' : action;
+      const data=await invoke(invokeAction,{id,...extra});
       msg('✓ Perubahan berhasil.');
-      if(action==='password') alert('Password pelanggan berhasil diubah.');
+      if(action==='password'){
+        const newPassword = data?.password || extra.password;
+        if(newPassword){
+          alert('Password pelanggan berhasil diubah.\\n\\nPassword baru: ' + newPassword);
+        }else{
+          alert('Password pelanggan berhasil diubah.');
+        }
+      }
       if(action==='delete') alert('Akun pelanggan berhasil dihapus.');
       loadCustomers();
       return data;
