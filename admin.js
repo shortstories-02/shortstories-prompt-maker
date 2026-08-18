@@ -25,6 +25,7 @@
     const name=$('customerName').value.trim();
     const email=$('customerEmail').value.trim();
     const password=$('customerPassword').value;
+    const duration=$('customerDuration').value;
 
     if(!name||!email||password.length<6){
       msg('Nama, email, dan password minimal 6 karakter wajib diisi.',true);
@@ -38,7 +39,7 @@
       const {data:{session}}=await c.auth.getSession();
       if(!session) throw new Error('Sesi admin tidak ditemukan. Silakan login kembali.');
 
-      const {data,error}=await c.functions.invoke('create-customer',{body:{nama:name,email,password}});
+      const {data,error}=await c.functions.invoke('create-customer',{body:{nama:name,email,password,duration}});
       if(error) throw error;
 
       const account=data?.customer;
@@ -50,10 +51,12 @@
         `<div class="account-row"><span>Email</span><b>${esc(email)}</b></div>`+
         `<div class="account-row"><span>Password</span><b>${esc(password)}</b></div>`+
         `<div class="account-row"><span>Role</span><b>customer</b></div>`+
+        `<div class="account-row"><span>Masa aktif</span><b>${esc(account.durationLabel || (duration === 'forever' ? 'Selamanya' : duration + ' hari'))}</b></div>`+
+        `<div class="account-row"><span>Berakhir</span><b>${account.expires_at ? esc(new Date(account.expires_at).toLocaleString('id-ID')) : 'Tidak ada'}</b></div>`+
         `<button class="copy-account" id="copyCreatedAccount">📋 COPY DATA AKUN</button>`;
 
       $('copyCreatedAccount').onclick=async()=>{
-        const text=`AKUN SHORTSTORIES\nNama: ${name}\nEmail: ${email}\nPassword: ${password}\nWebsite: ShortStories Prompt Maker`;
+        const text=`AKUN SHORTSTORIES\nNama: ${name}\nEmail: ${email}\nPassword: ${password}\nMasa aktif: ${account.durationLabel || (duration === 'forever' ? 'Selamanya' : duration + ' hari')}\nBerakhir: ${account.expires_at ? new Date(account.expires_at).toLocaleString('id-ID') : 'Tidak ada'}\nWebsite: ShortStories Prompt Maker`;
         try{await navigator.clipboard.writeText(text);msg('Data akun berhasil disalin.');}
         catch(_){msg('Salin manual data akun di panel.',false);}
       };

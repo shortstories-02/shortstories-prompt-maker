@@ -16,6 +16,13 @@
   let loginInProgress = false;
   let pendingAuthMessage = '';
   let suppressNextSignedOut = false;
+  let initialAuthEventSeen = false;
+  let initialAuthEventSession = null;
+
+  function finishBoot(){
+    const boot = $('authBoot');
+    if(boot) boot.hidden = true;
+  }
 
   function getConfig(){
     return { url: SUPABASE_URL, key: SUPABASE_PUBLISHABLE_KEY };
@@ -78,6 +85,7 @@
   }
 
   function showAuth(message=''){
+    finishBoot();
     const auth = $('authScreen'), app = $('appShell');
     if(auth) auth.hidden = false;
     if(app) app.hidden = true;
@@ -186,6 +194,7 @@
       return;
     }
 
+    finishBoot();
     if(auth) auth.hidden = true;
     if(app) app.hidden = false;
 
@@ -497,10 +506,18 @@
       }
 
       if(session?.user){
-        // Explicit login is handled exclusively by submit(). This prevents
-        // SIGNED_IN from racing with the profile/license check.
+        // Explicit login is handled exclusively by submit(). During the
+        // initial page load, init() performs the single session-restore check
+        // after this event so the app cannot flash the login screen.
+        if(!initialAuthEventSeen){
+          initialAuthEventSession = session;
+          initialAuthEventSeen = true;
+          resolveFirstAuthEvent();
+          return;
+        }
         if(!loginInProgress) showApp(session.user);
       }else{
+        if(!initialAuthEventSeen) initialAuthEventSeen = true;
         // A rejected expired/inactive session intentionally signs out.
         // Do not touch the UI while that signOut is being processed.
         if(suppressNextSignedOut){
@@ -535,11 +552,11 @@
 
     if(recoveryFlow || recoveryShown) return;
 
-    const {data} = await c.auth.getSession();
+    const session = initialAuthEventSession || (await c.auth.getSession()).data?.session;
 
     if(recoveryFlow || recoveryShown) return;
 
-    if(data?.session?.user) await showApp(data.session.user);
+    if(session?.user) await showApp(session.user);
     else showAuth();
   }
 
