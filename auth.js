@@ -13,6 +13,7 @@
   let client = null;
   let recoveryShown = false;
   let recoveryFlow = false;
+  let loginInProgress = false;
 
   function getConfig(){
     return { url: SUPABASE_URL, key: SUPABASE_PUBLISHABLE_KEY };
@@ -141,6 +142,11 @@
       return;
     }
 
+    // Fail closed: never leave a previous user's app visible while the
+    // profile/license check is running.
+    if(auth) auth.hidden = false;
+    if(app) app.hidden = true;
+
     // IMPORTANT: check license before revealing the app.
     // This also protects refresh/session-restoration after expiry.
     const access = await getProfileAccess(c, user);
@@ -268,22 +274,23 @@
     const password = $('authPassword').value;
 
     $('authSubmit').disabled = true;
+    loginInProgress = true;
     setMessage('Memeriksa akun...', 'info');
 
     try{
       const {data, error} = await c.auth.signInWithPassword({email, password});
       if(error) throw error;
 
+      // Validate the license BEFORE allowing the application to be shown.
+      // The auth-state listener is temporarily ignored during this explicit
+      // login attempt so two simultaneous showApp() calls cannot race.
       if(data?.user){
         await showApp(data.user);
-        if(!recoveryShown && !$('authScreen').hidden){
-          // showApp will display the exact expiry/inactive message when needed.
-          return;
-        }
       }
     }catch(err){
       setMessage(humanError(err), 'error');
     }finally{
+      loginInProgress = false;
       if($('authSubmit')) $('authSubmit').disabled = false;
     }
   }
@@ -412,6 +419,7 @@
       if(error) throw error;
 
       client = null;
+      loginInProgress = false;
       showAuth('Anda sudah keluar dari ShortStories.');
     }catch(err){
       console.error('ShortStories logout error:', err);
@@ -449,6 +457,14 @@
       // SIGNED_IN) must stay on the password-reset form.
       if(recoveryFlow || recoveryShown || event === 'PASSWORD_RECOVERY' || isRecoveryUrl()){
         showRecovery();
+        resolveFirstAuthEvent();
+        return;
+      }
+
+      // During an explicit login(), submit() performs the single, awaited
+      // license check. Ignore the duplicate SIGNED_IN callback here to avoid
+      // racing showApp() and accidentally restoring an expired session.
+      if(loginInProgress){
         resolveFirstAuthEvent();
         return;
       }
