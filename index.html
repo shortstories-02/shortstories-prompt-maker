@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="authBoot" class="auth-boot" role="status" aria-live="polite"><div class="auth-boot-card"><div class="auth-logo">S</div><b>Memuat ShortStories...</b><span>Memeriksa sesi akun Anda</span></div></div>
-<div id="authScreen" class="auth-screen" hidden>
+<div id="authScreen" class="auth-screen">
   <div class="auth-bg-orb orb-cyan"></div>
   <div class="auth-bg-orb orb-pink"></div>
   <div class="auth-shell">
@@ -75,7 +74,7 @@
     </header>
 
     <section id="adminView" class="view">
-      <div class="page-head"><div><span class="eyebrow">ADMINISTRATOR</span><h1>Admin <span>Panel</span></h1><p>Buat akun pelanggan tanpa membuka pendaftaran publik.</p></div><span class="pill">🔒 ADMIN</span></div>
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRATOR</span><h1>Admin <span>Panel</span></h1><p>Kelola akun pelanggan dan masa aktif ShortStories.</p></div><span class="pill">🔒 ADMIN</span></div>
       <div class="admin-grid">
         <section class="card">
           <div class="card-title"><div><span>01</span><h2>Buat Akun Pelanggan</h2></div><span class="pill">Aman</span></div>
@@ -84,8 +83,8 @@
             <label>Nama pelanggan</label><input id="customerName" placeholder="Contoh: Budi Santoso" required>
             <label>Email pelanggan</label><input id="customerEmail" type="email" placeholder="pelanggan@email.com" required>
             <label>Password awal</label><input id="customerPassword" type="text" minlength="6" placeholder="Minimal 6 karakter" required>
-            <label>Masa aktif akun</label>
-            <select id="customerDuration" required>
+            <label>Masa aktif</label>
+            <select id="customerDuration">
               <option value="7">7 Hari</option>
               <option value="30">30 Hari</option>
               <option value="90">90 Hari</option>
@@ -102,8 +101,13 @@
           <div class="admin-warning">⚠️ Password awal hanya ditampilkan di panel ini. Simpan dan kirimkan kepada pembeli melalui cara yang aman.</div>
         </section>
       </div>
-    </section>
 
+      <section class="card customer-management">
+        <div class="card-title"><div><span>03</span><h2>Manajemen Pelanggan</h2></div><button class="outline-btn" id="refreshCustomers" type="button">↻ Muat Ulang</button></div>
+        <p class="admin-help">Perubahan masa aktif, status, password, dan penghapusan dilakukan melalui Edge Function yang memverifikasi akun admin.</p>
+        <div id="customerList" class="customer-list"><div class="empty">Memuat pelanggan...</div></div>
+      </section>
+    </section>
     <section id="builderView" class="view active-view">
       <div class="page-head">
         <div>
@@ -271,7 +275,7 @@
 <div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js?v=4.8"></script>
-<script src="auth.js?v=2.1"></script>
-<script src="admin.js?v=2.1"></script>
+<script src="auth.js?v=2.0"></script>
+<script src="admin.js?v=2.0"></script>
 </body>
 </html>

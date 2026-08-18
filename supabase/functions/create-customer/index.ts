@@ -53,9 +53,24 @@ Deno.serve(async (req) => {
     const nama = String(body?.nama || "").trim();
     const email = String(body?.email || "").trim().toLowerCase();
     const password = String(body?.password || "");
+    const duration = String(body?.duration || "forever");
 
     if (!nama || !email || password.length < 6) {
       throw new Error("Nama, email, dan password minimal 6 karakter wajib diisi.");
+    }
+
+    const daysMap: Record<string, number> = {
+      "7": 7,
+      "30": 30,
+      "90": 90,
+      "365": 365,
+    };
+
+    let expiresAt: string | null = null;
+    if (daysMap[duration]) {
+      const date = new Date();
+      date.setDate(date.getDate() + daysMap[duration]);
+      expiresAt = date.toISOString();
     }
 
     const { data: created, error: createError } =
@@ -74,6 +89,8 @@ Deno.serve(async (req) => {
         id: created.user.id,
         email,
         role: "customer",
+        status: "active",
+        expires_at: expiresAt,
       });
 
     if (profileInsertError) {
@@ -83,7 +100,14 @@ Deno.serve(async (req) => {
 
     return new Response(JSON.stringify({
       ok: true,
-      customer: { id: created.user.id, email, role: "customer" }
+      customer: {
+        id: created.user.id,
+        email,
+        role: "customer",
+        status: "active",
+        expires_at: expiresAt,
+        duration
+      }
     }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

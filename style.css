@@ -454,34 +454,17 @@ body.dark .prompt-card pre{
 @media(prefers-reduced-motion:reduce){.auth-shell,.auth-logo,.auth-logo-glow,.auth-bg-orb,.auth-sparkles span,.auth-live i{animation:none!important}}
 
 .admin-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:20px}.admin-help{font-size:12px;color:var(--muted);line-height:1.6;margin:-8px 0 16px}.admin-message{margin-top:12px;padding:11px 12px;border-radius:11px;font-size:12px;font-weight:800;display:none}.admin-message.show{display:block;background:#f2f7ff;border:1px solid #dce7ff;color:#4b5d82}.admin-message.error{background:#fff1f1;border-color:#ffd5d5;color:#b43b3b}.created-account{border:1px dashed var(--line);border-radius:15px;padding:18px;background:#fafbff;line-height:1.9;font-size:13px}.created-account.empty{color:var(--muted);text-align:center;padding:30px 18px}.created-account .account-row{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);padding:7px 0}.created-account .account-row:last-child{border-bottom:0}.created-account b{color:var(--ink)}.copy-account{margin-top:14px;width:100%;border:0;border-radius:11px;padding:11px;background:var(--soft);color:#4b4cc9;font-weight:900}.admin-warning{margin-top:14px;padding:12px;border-radius:12px;background:#fff8e8;border:1px solid #f4e2ad;color:#765d22;font-size:11px;line-height:1.5}.admin-nav{margin-bottom:4px}.admin-only-note{font-size:11px;color:var(--muted);justify-content:center}.dark .created-account{background:#202333}.dark .admin-warning{background:#2d2a20;border-color:#5b4b24;color:#eadbaf}@media(max-width:900px){.admin-grid{grid-template-columns:1fr}}
-/* Auth bootstrap: prevents the login form from flashing while Supabase
-   restores a persisted session after a page refresh. */
-.auth-boot{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--bg, #0b1020);
-}
-.auth-boot[hidden]{display:none!important}
-.auth-boot-card{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  padding:28px 32px;
-  border-radius:20px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  color:inherit;
-  text-align:center;
-  backdrop-filter:blur(14px);
-}
-.auth-boot-card .auth-logo{
-  width:52px;height:52px;border-radius:16px;
-  display:grid;place-items:center;
-  font-size:24px;font-weight:800;
-}
-.auth-boot-card span{opacity:.7;font-size:13px}
+/* ===== Customer Management ===== */
+.customer-management{margin-top:20px}
+.customer-list{display:grid;gap:12px}
+.customer-item{border:1px solid var(--line);border-radius:15px;padding:15px;background:var(--surface)}
+.customer-main{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.customer-main b{display:block;font-size:13px}.customer-main small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.customer-status{padding:5px 8px;border-radius:999px;background:#edf9f2;color:#16804a;font-size:9px;font-weight:900}.customer-status.inactive{background:#fff0f0;color:#c43b3b}
+.customer-meta{display:flex;flex-wrap:wrap;gap:18px;color:var(--muted);font-size:10px;margin:12px 0}
+.customer-meta b{color:var(--ink)}
+.customer-actions{display:flex;flex-wrap:wrap;gap:7px}
+.customer-actions button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:9px;padding:7px 9px;font-size:9px;font-weight:900}
+.customer-actions button:hover{border-color:var(--primary);color:var(--primary)}
+.customer-actions button.danger{color:#c43b3b}
+@media(max-width:780px){.customer-main{align-items:flex-start}.customer-meta{display:grid;gap:5px}.customer-actions{display:grid;grid-template-columns:1fr 1fr}.customer-actions button{font-size:9px}}
