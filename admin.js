@@ -81,6 +81,30 @@
     return Number.isNaN(d.getTime()) ? null : d.getTime();
   }
 
+  function updateCustomerDashboard(){
+    const now=Date.now();
+    let active=0, expired=0, inactive=0, forever=0;
+    allCustomers.forEach(c=>{
+      if((c.status||'') !== 'active'){
+        inactive++;
+        return;
+      }
+      if(!c.expires_at){
+        forever++;
+        return;
+      }
+      const d=new Date(c.expires_at);
+      if(!Number.isNaN(d.getTime()) && d.getTime() <= now) expired++;
+      else active++;
+    });
+    const set=(id,value)=>{const el=$(id); if(el) el.textContent=String(value);};
+    set('statTotal',allCustomers.length);
+    set('statActive',active);
+    set('statExpired',expired);
+    set('statInactive',inactive);
+    set('statForever',forever);
+  }
+
   function filterCustomers(){
     const input = $('customerSearch');
     const query = (input?.value || '').trim().toLowerCase();
@@ -146,6 +170,7 @@
     try{
       const data=await invoke('list');
       allCustomers = data.customers || [];
+      updateCustomerDashboard();
       filterCustomers();
     }catch(e){
       if(box) box.innerHTML=`<div class="empty">Gagal memuat: ${esc(e?.message||'Terjadi kesalahan.')}</div>`;
