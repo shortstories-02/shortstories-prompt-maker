@@ -126,6 +126,15 @@
           <label for="customerSearch" style="display:block;margin-bottom:6px;font-weight:800;font-size:13px;">🔎 Cari pelanggan berdasarkan email</label>
           <input id="customerSearch" type="search" placeholder="Ketik email pelanggan..." autocomplete="off"
             style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);outline:none;">
+          <label for="customerStatusFilter" style="display:block;margin:12px 0 6px;font-weight:800;font-size:13px;">Filter status pelanggan</label>
+          <select id="customerStatusFilter"
+            style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);outline:none;">
+            <option value="all">Semua</option>
+            <option value="active">Aktif</option>
+            <option value="inactive">Nonaktif</option>
+            <option value="expired">Expired</option>
+            <option value="forever">Selamanya</option>
+          </select>
         </div>
         <div id="customerList" class="customer-list"><div class="empty">Memuat pelanggan...</div></div>
       </section>

@@ -48,11 +48,27 @@
 
   let allCustomers = [];
 
+  function getCustomerFilter(c){
+    const filter = $('customerStatusFilter')?.value || 'all';
+    const status = c.status || '';
+    const isForever = !c.expires_at;
+    const isExpired = !!c.expires_at && !Number.isNaN(new Date(c.expires_at).getTime()) &&
+      new Date(c.expires_at) <= new Date();
+    const isActive = status === 'active' && !isExpired;
+
+    if(filter === 'active') return isActive;
+    if(filter === 'inactive') return status !== 'active';
+    if(filter === 'expired') return isExpired;
+    if(filter === 'forever') return isForever && status === 'active';
+    return true;
+  }
+
   function filterCustomers(){
     const input = $('customerSearch');
     const query = (input?.value || '').trim().toLowerCase();
-    const filtered = !query ? allCustomers : allCustomers.filter(c =>
-      (c.email || '').toLowerCase().includes(query)
+    const filtered = allCustomers.filter(c =>
+      (!query || (c.email || '').toLowerCase().includes(query)) &&
+      getCustomerFilter(c)
     );
     renderCustomers(filtered, query);
   }
@@ -168,6 +184,7 @@
     $('customerForm')?.addEventListener('submit',createCustomer);
     $('refreshCustomers')?.addEventListener('click',loadCustomers);
     $('customerSearch')?.addEventListener('input',filterCustomers);
+    $('customerStatusFilter')?.addEventListener('change',filterCustomers);
     $('customerList')?.addEventListener('click',e=>{
       const b=e.target.closest('button[data-action]');
       if(!b)return;
