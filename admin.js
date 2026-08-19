@@ -122,7 +122,7 @@
           <button data-action="forever" data-id="${c.id}">Selamanya</button>
           <button data-action="toggle" data-id="${c.id}" data-status="${inactive?'active':'inactive'}">${inactive?'Aktifkan':'Nonaktifkan'}</button>
           <button data-action="password" data-id="${c.id}">Reset Password</button>
-          <button class="danger" data-action="delete" data-id="${c.id}">Hapus</button>
+          <button class="danger" data-action="delete" data-id="${c.id}" data-email="${esc(c.email)}">Hapus</button>
         </div>
       </article>`;
     }).join('');
@@ -180,7 +180,18 @@
 
   async function customerAction(action,id,extra={}){
     try{
-      if(action==='delete' && !confirm('Hapus akun pelanggan ini? Tindakan ini tidak dapat dibatalkan.')) return;
+      if(action==='delete'){
+        const email = extra.email || 'pelanggan ini';
+        const ok = confirm(
+          'Hapus pelanggan?\n\n' +
+          'Anda yakin ingin menghapus akun ' + email + '?\n\n' +
+          'Tindakan ini tidak dapat dibatalkan.'
+        );
+        if(!ok){
+          msg('Penghapusan dibatalkan.');
+          return;
+        }
+      }
       if(action==='password'){
         const p=prompt('Masukkan password baru (minimal 6 karakter):');
         if(p===null)return;
@@ -217,6 +228,7 @@
       if(a==='extend') customerAction('extend',id,{days:b.dataset.days});
       else if(a==='forever') customerAction('set_forever',id);
       else if(a==='toggle') customerAction('set_status',id,{status:b.dataset.status});
+      else if(a==='delete') customerAction('delete',id,{email:b.dataset.email});
       else customerAction(a,id);
     });
     $('adminView')?.addEventListener('click',e=>{
