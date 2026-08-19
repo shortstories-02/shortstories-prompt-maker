@@ -9,6 +9,18 @@
     el.textContent=text; el.className='admin-message show'+(error?' error':'');
   }
 
+  let customerNoticeTimer=null;
+  function customerNotice(text,error=false){
+    const el=$('customerActionMessage');
+    if(!el) return;
+    el.textContent=text;
+    el.className='customer-action-message show'+(error?' error':'');
+    clearTimeout(customerNoticeTimer);
+    customerNoticeTimer=setTimeout(()=>{
+      el.className='customer-action-message';
+    },4500);
+  }
+
   async function getClient(){
     if(!window.supabase?.createClient) throw new Error('Library Supabase belum termuat.');
     return window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
@@ -188,7 +200,7 @@
           'Tindakan ini tidak dapat dibatalkan.'
         );
         if(!ok){
-          msg('Penghapusan dibatalkan.');
+          customerNotice('Penghapusan dibatalkan.');
           return;
         }
       }
@@ -209,10 +221,14 @@
           alert('Password pelanggan berhasil diubah.');
         }
       }
-      if(action==='delete') alert('Akun pelanggan berhasil dihapus.');
+      if(action==='delete') customerNotice('Pelanggan berhasil dihapus.');
       loadCustomers();
       return data;
-    }catch(e){msg('Gagal: '+(e?.message||'Terjadi kesalahan.'),true);}
+    }catch(e){
+      const errorText='Gagal: '+(e?.message||'Terjadi kesalahan.');
+      msg(errorText,true);
+      if(action==='delete') customerNotice(errorText,true);
+    }
   }
 
   window.addEventListener('DOMContentLoaded',()=>{

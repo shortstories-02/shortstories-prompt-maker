@@ -468,3 +468,20 @@ body.dark .prompt-card pre{
 .customer-actions button:hover{border-color:var(--primary);color:var(--primary)}
 .customer-actions button.danger{color:#c43b3b}
 @media(max-width:780px){.customer-main{align-items:flex-start}.customer-meta{display:grid;gap:5px}.customer-actions{display:grid;grid-template-columns:1fr 1fr}.customer-actions button{font-size:9px}}
+
+
+.customer-action-message{
+  display:none;
+  margin:10px 0 14px;
+  padding:11px 14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  font-weight:700;
+  font-size:13px;
+}
+.customer-action-message.show{display:block;}
+.customer-action-message.error{
+  border-color:#ef4444;
+  color:#b91c1c;
+}
