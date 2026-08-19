@@ -262,6 +262,27 @@
     $('customerSearch')?.addEventListener('input',filterCustomers);
     $('customerStatusFilter')?.addEventListener('change',filterCustomers);
     $('customerSort')?.addEventListener('change',filterCustomers);
+
+    function applyDashboardFilter(filter){
+      const select = $('customerStatusFilter');
+      if(select) select.value = filter;
+      filterCustomers();
+      $('customerList')?.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    $('customerDashboard')?.addEventListener('click',e=>{
+      const card=e.target.closest('[data-customer-filter]');
+      if(!card)return;
+      applyDashboardFilter(card.dataset.customerFilter || 'all');
+    });
+    $('customerDashboard')?.addEventListener('keydown',e=>{
+      if(e.key!=='Enter' && e.key!==' ')return;
+      const card=e.target.closest('[data-customer-filter]');
+      if(!card)return;
+      e.preventDefault();
+      applyDashboardFilter(card.dataset.customerFilter || 'all');
+    });
+
     $('customerList')?.addEventListener('click',e=>{
       const b=e.target.closest('button[data-action]');
       if(!b)return;

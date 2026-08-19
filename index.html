@@ -122,19 +122,19 @@
       <section class="card customer-management">
         <div class="card-title"><div><span>03</span><h2>Manajemen Pelanggan</h2></div><button class="outline-btn" id="refreshCustomers" type="button">↻ Muat Ulang</button></div>
         <p class="admin-help">Perubahan masa aktif, status, password, dan penghapusan dilakukan melalui Edge Function yang memverifikasi akun admin.</p>        <div id="customerDashboard" class="customer-dashboard" style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0 18px;">
-          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);">
+          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);" data-customer-filter="all" role="button" tabindex="0" aria-label="Filter pelanggan: all" style="cursor:pointer;user-select:none;">
             <small style="display:block;opacity:.7;">Total Pelanggan</small><strong id="statTotal" style="display:block;font-size:24px;margin-top:4px;">0</strong>
           </div>
-          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);">
+          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);" data-customer-filter="active" role="button" tabindex="0" aria-label="Filter pelanggan: active" style="cursor:pointer;user-select:none;">
             <small style="display:block;opacity:.7;">Aktif</small><strong id="statActive" style="display:block;font-size:24px;margin-top:4px;">0</strong>
           </div>
-          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);">
+          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);" data-customer-filter="expired" role="button" tabindex="0" aria-label="Filter pelanggan: expired" style="cursor:pointer;user-select:none;">
             <small style="display:block;opacity:.7;">Expired</small><strong id="statExpired" style="display:block;font-size:24px;margin-top:4px;">0</strong>
           </div>
-          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);">
+          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);" data-customer-filter="inactive" role="button" tabindex="0" aria-label="Filter pelanggan: inactive" style="cursor:pointer;user-select:none;">
             <small style="display:block;opacity:.7;">Nonaktif</small><strong id="statInactive" style="display:block;font-size:24px;margin-top:4px;">0</strong>
           </div>
-          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);">
+          <div class="customer-stat-card" style="padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);" data-customer-filter="forever" role="button" tabindex="0" aria-label="Filter pelanggan: forever" style="cursor:pointer;user-select:none;">
             <small style="display:block;opacity:.7;">Selamanya</small><strong id="statForever" style="display:block;font-size:24px;margin-top:4px;">0</strong>
           </div>
         </div>

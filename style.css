@@ -485,3 +485,8 @@ body.dark .prompt-card pre{
   border-color:#ef4444;
   color:#b91c1c;
 }
+
+/* 14B: Dashboard statistics are interactive filters */
+.customer-stat-card[data-customer-filter]{transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
+.customer-stat-card[data-customer-filter]:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.06);}
+.customer-stat-card[data-customer-filter]:focus-visible{outline:2px solid currentColor;outline-offset:2px;}
