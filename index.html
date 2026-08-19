@@ -122,6 +122,11 @@
       <section class="card customer-management">
         <div class="card-title"><div><span>03</span><h2>Manajemen Pelanggan</h2></div><button class="outline-btn" id="refreshCustomers" type="button">↻ Muat Ulang</button></div>
         <p class="admin-help">Perubahan masa aktif, status, password, dan penghapusan dilakukan melalui Edge Function yang memverifikasi akun admin.</p>
+        <div class="customer-search-wrap" style="margin:14px 0 16px;">
+          <label for="customerSearch" style="display:block;margin-bottom:6px;font-weight:800;font-size:13px;">🔎 Cari pelanggan berdasarkan email</label>
+          <input id="customerSearch" type="search" placeholder="Ketik email pelanggan..." autocomplete="off"
+            style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);outline:none;">
+        </div>
         <div id="customerList" class="customer-list"><div class="empty">Memuat pelanggan...</div></div>
       </section>
     </section>

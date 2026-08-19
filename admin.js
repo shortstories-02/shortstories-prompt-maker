@@ -46,11 +46,24 @@
     return `${days} hari lagi`;
   }
 
-  function renderCustomers(customers){
+  let allCustomers = [];
+
+  function filterCustomers(){
+    const input = $('customerSearch');
+    const query = (input?.value || '').trim().toLowerCase();
+    const filtered = !query ? allCustomers : allCustomers.filter(c =>
+      (c.email || '').toLowerCase().includes(query)
+    );
+    renderCustomers(filtered, query);
+  }
+
+  function renderCustomers(customers, query=''){
     const box=$('customerList');
     if(!box)return;
     if(!customers.length){
-      box.innerHTML='<div class="empty">Belum ada pelanggan.</div>';
+      box.innerHTML = query
+        ? '<div class="empty">Pelanggan tidak ditemukan.</div>'
+        : '<div class="empty">Belum ada pelanggan.</div>';
       return;
     }
     box.innerHTML=customers.map(c=>{
@@ -80,7 +93,8 @@
     if(box) box.innerHTML='<div class="empty">Memuat pelanggan...</div>';
     try{
       const data=await invoke('list');
-      renderCustomers(data.customers||[]);
+      allCustomers = data.customers || [];
+      filterCustomers();
     }catch(e){
       if(box) box.innerHTML=`<div class="empty">Gagal memuat: ${esc(e?.message||'Terjadi kesalahan.')}</div>`;
     }
@@ -153,6 +167,7 @@
   window.addEventListener('DOMContentLoaded',()=>{
     $('customerForm')?.addEventListener('submit',createCustomer);
     $('refreshCustomers')?.addEventListener('click',loadCustomers);
+    $('customerSearch')?.addEventListener('input',filterCustomers);
     $('customerList')?.addEventListener('click',e=>{
       const b=e.target.closest('button[data-action]');
       if(!b)return;
