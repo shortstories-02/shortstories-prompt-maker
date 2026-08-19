@@ -135,6 +135,13 @@
             <option value="expired">Expired</option>
             <option value="forever">Selamanya</option>
           </select>
+          <label for="customerSort" style="display:block;margin:12px 0 6px;font-weight:800;font-size:13px;">Urutkan masa aktif</label>
+          <select id="customerSort"
+            style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);outline:none;">
+            <option value="default">Default</option>
+            <option value="shortest">Masa aktif terpendek → terpanjang</option>
+            <option value="longest">Masa aktif terpanjang → terpendek</option>
+          </select>
         </div>
         <div id="customerList" class="customer-list"><div class="empty">Memuat pelanggan...</div></div>
       </section>

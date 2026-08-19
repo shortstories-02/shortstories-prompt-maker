@@ -63,6 +63,12 @@
     return true;
   }
 
+  function getCustomerSortValue(c){
+    if(!c.expires_at) return null;
+    const d = new Date(c.expires_at);
+    return Number.isNaN(d.getTime()) ? null : d.getTime();
+  }
+
   function filterCustomers(){
     const input = $('customerSearch');
     const query = (input?.value || '').trim().toLowerCase();
@@ -70,16 +76,34 @@
       (!query || (c.email || '').toLowerCase().includes(query)) &&
       getCustomerFilter(c)
     );
-    renderCustomers(filtered, query);
+
+    const sort = $('customerSort')?.value || 'default';
+    filtered.sort((a,b)=>{
+      const av = getCustomerSortValue(a);
+      const bv = getCustomerSortValue(b);
+
+      // Selamanya selalu diletakkan paling belakang saat sorting masa aktif.
+      if(sort === 'shortest' || sort === 'longest'){
+        if(av === null && bv === null) return 0;
+        if(av === null) return 1;
+        if(bv === null) return -1;
+        return sort === 'shortest' ? av - bv : bv - av;
+      }
+      return 0;
+    });
+
+    renderCustomers(filtered, query, filtered.length !== allCustomers.length);
   }
 
-  function renderCustomers(customers, query=''){
+  function renderCustomers(customers, query='', isFiltered=false){
     const box=$('customerList');
     if(!box)return;
     if(!customers.length){
       box.innerHTML = query
         ? '<div class="empty">Pelanggan tidak ditemukan.</div>'
-        : '<div class="empty">Belum ada pelanggan.</div>';
+        : (isFiltered
+          ? '<div class="empty">Tidak ada pelanggan yang sesuai dengan filter.</div>'
+          : '<div class="empty">Belum ada pelanggan.</div>');
       return;
     }
     box.innerHTML=customers.map(c=>{
@@ -185,6 +209,7 @@
     $('refreshCustomers')?.addEventListener('click',loadCustomers);
     $('customerSearch')?.addEventListener('input',filterCustomers);
     $('customerStatusFilter')?.addEventListener('change',filterCustomers);
+    $('customerSort')?.addEventListener('change',filterCustomers);
     $('customerList')?.addEventListener('click',e=>{
       const b=e.target.closest('button[data-action]');
       if(!b)return;
