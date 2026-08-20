@@ -19,6 +19,100 @@
   let initialAuthEventSeen = false;
   let initialAuthEventSession = null;
 
+  // Automatic logout after a period without user activity.
+  // Default: 30 minutes. Activity is shared between tabs through localStorage.
+  const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000;
+  const LAST_ACTIVITY_KEY = 'shortstories:last-activity-at';
+  let inactivityTimer = null;
+  let activityWriteTimer = null;
+
+  function markActivity(){
+    if(!client) return;
+    const now = Date.now();
+    try{
+      localStorage.setItem(LAST_ACTIVITY_KEY, String(now));
+    }catch(_){ }
+    scheduleInactivityCheck();
+  }
+
+  function getLastActivity(){
+    try{
+      const value = Number(localStorage.getItem(LAST_ACTIVITY_KEY) || 0);
+      return Number.isFinite(value) && value > 0 ? value : Date.now();
+    }catch(_){
+      return Date.now();
+    }
+  }
+
+  function clearInactivityTimer(){
+    if(inactivityTimer){
+      clearTimeout(inactivityTimer);
+      inactivityTimer = null;
+    }
+  }
+
+  function scheduleInactivityCheck(){
+    clearInactivityTimer();
+    if(!client || $('appShell')?.hidden) return;
+
+    const remaining = INACTIVITY_TIMEOUT_MS - (Date.now() - getLastActivity());
+    if(remaining <= 0){
+      autoLogoutInactive();
+      return;
+    }
+
+    inactivityTimer = window.setTimeout(scheduleInactivityCheck, Math.min(remaining, 30000));
+  }
+
+  async function autoLogoutInactive(){
+    clearInactivityTimer();
+    if(!client || $('appShell')?.hidden) return;
+
+    // A recent action in another tab keeps the shared session alive.
+    if(Date.now() - getLastActivity() < INACTIVITY_TIMEOUT_MS){
+      scheduleInactivityCheck();
+      return;
+    }
+
+    suppressNextSignedOut = true;
+    const c = client;
+    try{
+      await c.auth.signOut({scope:'local'});
+    }catch(error){
+      console.warn('Automatic inactivity logout:', error);
+    }finally{
+      client = null;
+      try{ localStorage.removeItem(LAST_ACTIVITY_KEY); }catch(_){ }
+      suppressNextSignedOut = false;
+      showAuth('Anda telah otomatis keluar karena website tidak digunakan selama 30 menit.');
+    }
+  }
+
+  function initInactivityTracking(){
+    const events = ['click','keydown','pointerdown','touchstart','scroll'];
+    events.forEach(eventName => {
+      window.addEventListener(eventName, () => {
+        if(!client || $('appShell')?.hidden) return;
+        // Avoid excessive localStorage writes while scrolling or holding a key.
+        if(activityWriteTimer) return;
+        activityWriteTimer = window.setTimeout(() => {
+          activityWriteTimer = null;
+          markActivity();
+        }, 250);
+      }, {passive:true});
+    });
+
+    window.addEventListener('storage', event => {
+      if(event.key === LAST_ACTIVITY_KEY) scheduleInactivityCheck();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if(document.visibilityState === 'visible' && client && !$('appShell')?.hidden){
+        scheduleInactivityCheck();
+      }
+    });
+  }
+
   function finishBoot(){
     const boot = $('authBoot');
     if(boot) boot.hidden = true;
@@ -201,6 +295,11 @@
     finishBoot();
     if(auth) auth.hidden = true;
     if(app) app.hidden = false;
+
+    if(!getLastActivity() || Date.now() - getLastActivity() >= INACTIVITY_TIMEOUT_MS){
+      try{ localStorage.setItem(LAST_ACTIVITY_KEY, String(Date.now())); }catch(_){ }
+    }
+    scheduleInactivityCheck();
 
     const email = user?.email || 'Pengguna';
     $('accountEmail').textContent = email;
@@ -468,6 +567,8 @@
       if(error) throw error;
 
       client = null;
+      clearInactivityTimer();
+      try{ localStorage.removeItem(LAST_ACTIVITY_KEY); }catch(_){ }
       showAuth('Anda sudah keluar dari ShortStories.');
     }catch(err){
       console.error('ShortStories logout error:', err);
@@ -565,6 +666,7 @@
   }
 
   function bind(){
+    initInactivityTracking();
     $('authForm')?.addEventListener('submit', submit);
 
     $('forgotPassword')?.addEventListener('click', forgot);

@@ -177,6 +177,12 @@
     }
   }
 
+  function isValidEmail(email){
+    // Practical client-side validation; the Edge Function repeats this check
+    // so requests cannot bypass the form validation.
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email) && email.length <= 254;
+  }
+
   async function createCustomer(e){
     e.preventDefault();
     const btn=$('createCustomerBtn');
@@ -184,7 +190,15 @@
     const email=$('customerEmail').value.trim();
     const password=$('customerPassword').value;
     const duration=$('customerDuration').value;
-    if(!name||!email||password.length<6){msg('Nama, email, dan password minimal 6 karakter wajib diisi.',true);return;}
+    if(!name||!email||password.length<6){
+      msg('Nama, email, dan password minimal 6 karakter wajib diisi.',true);
+      return;
+    }
+    if(!isValidEmail(email)){
+      msg('Email pelanggan tidak valid. Masukkan alamat email yang benar, misalnya nama@domain.com.',true);
+      $('customerEmail')?.focus();
+      return;
+    }
     btn.disabled=true; msg('Membuat akun pelanggan...');
     try{
       const c=await getClient();

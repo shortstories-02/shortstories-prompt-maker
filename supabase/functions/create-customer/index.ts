@@ -55,8 +55,13 @@ Deno.serve(async (req) => {
     const password = String(body?.password || "");
     const duration = String(body?.duration || "forever");
 
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) && email.length <= 254;
+
     if (!nama || !email || password.length < 6) {
       throw new Error("Nama, email, dan password minimal 6 karakter wajib diisi.");
+    }
+    if (!emailIsValid) {
+      throw new Error("Email pelanggan tidak valid. Masukkan alamat email yang benar, misalnya nama@domain.com.");
     }
 
     const daysMap: Record<string, number> = {

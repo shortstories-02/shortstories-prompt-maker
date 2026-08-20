@@ -10,3 +10,12 @@ On mobile:
 - Clicking outside the sidebar closes it automatically.
 - Escape closes the sidebar.
 - Desktop layout is unchanged.
+
+
+v1.0.3 — Session inactivity & customer email validation
+- Mobile/web session now automatically signs out after 30 minutes without activity.
+- Activity is shared between browser tabs via localStorage.
+- Manual logout clears the inactivity timer/state.
+- Customer email is validated in the admin form and again in the create-customer Edge Function.
+- Invalid email formats are rejected before an account is created.
+- Existing desktop/mobile UI remains unchanged.

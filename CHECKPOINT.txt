@@ -1,5 +1,5 @@
 ShortStories — Stable Release v1.0
-Tahap 16 — Backup & Checkpoint Stabil
+Tahap 17 — Session Inactivity & Customer Email Validation
 
 STATUS
 Versi ini dijadikan checkpoint stabil setelah seluruh audit Tahap 15:
