@@ -1,13 +1,19 @@
-ShortStories — Mobile Sidebar UI Patch v1.0.1
+ShortStories — Mobile Sidebar UI v1.0.2
 
 BASIS
 Derived from Stable Release v1.0 checkpoint.
 
+PURPOSE
+Perbaikan tampilan sidebar pada perangkat HP berdasarkan referensi screenshot pengguna.
+
 CHANGES
-1. Pada HP, menu sidebar (Admin Panel jika tersedia, 50+ Tema, Prompt Builder, Template Poster, Favorit, Riwayat) dipindahkan dari fixed bottom navigation ke area sidebar tepat di bawah kartu akun.
-2. Menu disusun dalam grid 2 kolom agar rapi dan mudah disentuh.
-3. Sidebar mobile tetap dapat di-scroll jika tinggi layar kecil.
-4. Ketika sidebar terbuka, klik di luar area sidebar otomatis menutup sidebar.
-5. Tombol menu tidak terkena event penutup luar; tombol tetap berfungsi untuk membuka/menutup sidebar.
-6. Tombol Escape juga menutup sidebar sebagai tambahan kenyamanan.
-7. Tampilan desktop tidak diubah oleh patch ini.
+1. Pada layar HP, navigasi sidebar tidak lagi fixed di bagian bawah layar.
+2. Navigasi diposisikan secara normal (static) tepat setelah kartu akun di dalam sidebar.
+3. Menu disusun dalam grid 2 kolom agar seluruh menu terlihat rapi di area bawah akun.
+4. Menu yang tersedia di sidebar mencakup Admin Panel (jika akun admin), 50+ Tema, Prompt Builder, Template Poster, Favorit, dan Riwayat.
+5. Sidebar mobile dapat di-scroll jika tinggi layar tidak cukup untuk seluruh isi.
+6. Saat sidebar terbuka, klik/tap di luar area sidebar otomatis menutup sidebar.
+7. Tombol menu tidak ikut memicu penutupan saat membuka/menutup sidebar.
+8. Tombol Escape juga menutup sidebar.
+9. Tampilan desktop dipertahankan.
+10. Patch dibuat sebagai turunan dari stable v1.0; checkpoint stable asli tidak ditimpa.

@@ -1,5 +1,5 @@
 {
-  "release": "ShortStories Mobile Sidebar UI Patch v1.0.1",
+  "release": "ShortStories Mobile Sidebar UI v1.0.2",
   "basis": "ShortStories Stable Release v1.0",
   "created_utc": "2026-08-20",
   "files": [
@@ -9,9 +9,14 @@
       "sha256": "482dc7baff6f4d53e550a32e1020c58dc4a0c2eac07bf0d1effcb56e3f01d900"
     },
     {
+      "path": "CHECKSUMS.json",
+      "size_bytes": 1729,
+      "sha256": "b312470ad7d329fae7517b61e8133c4a198b5a126e3811e231e79f58553d8df8"
+    },
+    {
       "path": "PATCH_NOTES.txt",
-      "size_bytes": 735,
-      "sha256": "33113bd547db776f4a28d6d905df78f9d0e88aab100d8d813737562bf5ce6edd"
+      "size_bytes": 990,
+      "sha256": "1674236f0cfa7e790bf9946c1dc010fb52b95d705a4aba47b85ee8b50be3658e"
     },
     {
       "path": "README.txt",
