@@ -816,3 +816,43 @@ body.dark .sidebar nav .nav-item.active{background:#fff!important;color:#08080b!
   .card-title h2{font-size:16px!important}
   .generate{font-size:11px!important}
 }
+
+/* v1.0.6 — TikTok theme readability fixes */
+body.dark .auth-card input,
+.dark .auth-card input,
+body.dark .auth-input-wrap input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #25f4ee !important;
+}
+body.dark .auth-card input::placeholder,
+.dark .auth-card input::placeholder {
+  color: #9a9aa5 !important;
+  -webkit-text-fill-color: #9a9aa5 !important;
+}
+body.dark .auth-card input:-webkit-autofill,
+body.dark .auth-card input:-webkit-autofill:hover,
+body.dark .auth-card input:-webkit-autofill:focus,
+.dark .auth-card input:-webkit-autofill,
+.dark .auth-card input:-webkit-autofill:hover,
+.dark .auth-card input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #25f4ee !important;
+}
+
+/* Ensure the three design guard options remain readable on the dark TikTok UI. */
+body.dark .simple-guard label,
+.dark .simple-guard label {
+  color: #ffffff !important;
+  background: #151519 !important;
+  border-color: #36363e !important;
+}
+body.dark .simple-guard label:hover,
+.dark .simple-guard label:hover {
+  border-color: #25f4ee !important;
+  background: #1e1e24 !important;
+}
+body.dark .simple-guard label input,
+.dark .simple-guard label input {
+  accent-color: #25f4ee !important;
+}
