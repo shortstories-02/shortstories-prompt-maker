@@ -1,26 +1,4 @@
-ShortStories — Stable Release v1.0
-Tahap 17 — Session Inactivity & Customer Email Validation
-
-STATUS
-Versi ini dijadikan checkpoint stabil setelah seluruh audit Tahap 15:
-15A Dashboard — berhasil
-15B Pencarian/Filter/Sorting — berhasil
-15C Manajemen Customer — berhasil
-15D Keamanan Admin Panel — berhasil
-15E Autentikasi & Session — berhasil
-
-ATURAN
-- Jangan mengubah file pada checkpoint ini.
-- Simpan ZIP ini sebagai backup sebelum mengembangkan fitur baru.
-- Jika versi pengembangan berikutnya bermasalah, gunakan checkpoint ini sebagai titik kembali.
-- File aplikasi di dalam checkpoint tidak diubah; file CHECKSUMS.json hanya berisi pemeriksaan integritas.
-
-Isi project:
-admin.js
-auth.js
-index.html
-script.js
-style.css
-README.txt
-supabase/functions/admin-customers/index.ts
-supabase/functions/create-customer/index.ts
+ShortStories Prompt Maker
+Checkpoint: v1.0.4
+Base: v1.0.3
+Purpose: Visual polish / UI refinement while preserving existing functionality.

@@ -1,21 +1,14 @@
-ShortStories Mobile Sidebar UI v1.0.2 — Revision
+ShortStories v1.0.4 — Visual Polish
 
-Mobile sidebar navigation has been revised to a single vertical column.
+Based on stable v1.0.3.
 
-On mobile:
-- Account card remains above the navigation.
-- All navigation items are stacked from top to bottom in one column.
-- Navigation is no longer a two-column grid.
-- Sidebar remains vertically scrollable.
-- Clicking outside the sidebar closes it automatically.
-- Escape closes the sidebar.
-- Desktop layout is unchanged.
+UI improvements:
+- Refined sidebar, brand, account card, logout button, navigation states and shadows.
+- Improved desktop cards, inputs, buttons, theme cards, templates and spacing.
+- Improved mobile header and responsive card spacing.
+- Mobile sidebar remains one vertical column under the account section.
+- Mobile sidebar keeps outside-click close, Escape close, scrolling and responsive width.
+- Added subtle backdrop and modern glass/soft-shadow treatment.
+- Dark mode receives matching visual polish.
 
-
-v1.0.3 — Session inactivity & customer email validation
-- Mobile/web session now automatically signs out after 30 minutes without activity.
-- Activity is shared between browser tabs via localStorage.
-- Manual logout clears the inactivity timer/state.
-- Customer email is validated in the admin form and again in the create-customer Edge Function.
-- Invalid email formats are rejected before an account is created.
-- Existing desktop/mobile UI remains unchanged.
+Existing v1.0.3 functionality is preserved.
