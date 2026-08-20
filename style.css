@@ -27,7 +27,7 @@ label{display:block;font-size:12px;font-weight:900;margin:14px 0 7px}label em{co
 .auth-reset-panel .auth-link{margin-top:12px}
 .auth-primary:disabled{opacity:.65;cursor:not-allowed;transform:none!important}
 @media(max-width:1100px){.builder-grid{grid-template-columns:1fr}.template-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:780px){.sidebar{transform:translateX(-100%);transition:.25s;z-index:20}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%;padding:20px 14px 45px}.mobile-head{display:flex;align-items:center;gap:12px;margin-bottom:22px}.mobile-head button{border:0;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px}.page-head{gap:10px}.page-head h1{font-size:27px}.grid2{grid-template-columns:1fr}.theme-grid{grid-template-columns:repeat(2,1fr)}.template-grid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.prompt-card pre{height:340px}}
+@media(max-width:780px){.sidebar{transform:translateX(-100%);transition:.25s;z-index:50;overflow-y:auto;overscroll-behavior:contain}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%;padding:20px 14px 45px}.mobile-head{display:flex;align-items:center;gap:12px;margin-bottom:22px}.mobile-head button{border:0;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px}.page-head{gap:10px}.page-head h1{font-size:27px}.grid2{grid-template-columns:1fr}.theme-grid{grid-template-columns:repeat(2,1fr)}.template-grid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.prompt-card pre{height:340px}}
 
 /* ===== ShortStories V3 additions ===== */
 .more-themes{display:block;width:100%;margin-top:8px;border:1px dashed #aeb4f5;background:#f7f7ff;color:#5557cf;border-radius:11px;padding:9px;font-size:10px;font-weight:900}
@@ -302,41 +302,56 @@ select:focus,input:focus,textarea:focus{
   background:linear-gradient(90deg,var(--ss-cyan) 0 48%,var(--ss-pink) 48% 100%);
 }
 
-/* Mobile: compact bottom navigation like a short-video app */
+/* Mobile: navigation lives neatly below the account card inside the sidebar. */
 @media (max-width: 800px){
   .sidebar{
     position:fixed!important;
     z-index:50!important;
+    width:min(300px,82vw)!important;
+    min-height:100vh;
+    padding:18px 14px 24px!important;
+    overflow-y:auto;
   }
-  .main{padding-bottom:78px!important}
+  .main{padding-bottom:45px!important}
   .sidebar nav{
-    position:fixed;
-    left:10px;
-    right:10px;
-    bottom:10px;
-    z-index:100;
+    position:static;
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:6px;
-    padding:7px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-top:2px;
+    padding:8px;
     border:1px solid rgba(0,0,0,.08);
     border-radius:18px;
     background:rgba(255,255,255,.94);
-    box-shadow:0 16px 35px rgba(0,0,0,.18);
+    box-shadow:0 12px 28px rgba(0,0,0,.10);
     backdrop-filter:blur(18px);
   }
   .sidebar nav .nav-item{
-    justify-content:center;
-    padding:10px 4px!important;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    min-width:0;
+    min-height:52px;
+    padding:9px 8px!important;
     font-size:11px!important;
-    min-height:48px;
+    line-height:1.15;
+    text-align:left;
+    white-space:normal;
   }
-  .sidebar .brand,.sidebar .sidebar-note,.sidebar .dark-btn{display:none!important}
+  .sidebar .brand{padding:8px 6px 18px}
+  .sidebar .account-box{margin:0 0 10px}
+  .sidebar .sidebar-note,.sidebar .dark-btn{display:none!important}
   .mobile-head{
     position:sticky;
     top:0;
     z-index:40;
   }
+}
+
+@media (max-width:360px){
+  .sidebar{width:min(290px,86vw)!important}
+  .sidebar nav{gap:6px;padding:6px}
+  .sidebar nav .nav-item{min-height:48px;font-size:10px!important;padding:8px 6px!important}
 }
 
 /* Dark mode keeps the same black/cyan/pink identity */
@@ -562,4 +577,9 @@ body.dark .prompt-card pre{
     border-radius:13px !important;
   }
   .customer-stat-card strong{font-size:24px !important}
+}
+
+/* Mobile sidebar nav follows the current theme. */
+@media (max-width:800px){
+  body.dark .sidebar nav{background:rgba(18,18,24,.96);border-color:#292931;box-shadow:0 12px 28px rgba(0,0,0,.30)}
 }

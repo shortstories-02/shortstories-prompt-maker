@@ -213,7 +213,16 @@ function bindEvents(){
   $("clearHistory")?.addEventListener("click",()=>{history=[];localStorage.removeItem("ss_v3_hist");renderSavedV3();toast("Riwayat dihapus")});
   $("generateBtn").onclick=generateV3;$("copyBtn").onclick=copyV3;$("favoriteBtn").onclick=favV3;$("downloadBtn").onclick=downloadV3;$("resetBtn").onclick=()=>location.reload();
   $("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("ss_v3_dark",document.body.classList.contains("dark")?"1":"0");};
-  $("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
+  $("menuBtn").onclick=(e)=>{e.stopPropagation();$("sidebar").classList.toggle("open");};
+  document.addEventListener("click",(e)=>{
+    const sidebar=$("sidebar"), menuBtn=$("menuBtn");
+    if(!sidebar?.classList.contains("open")) return;
+    if(sidebar.contains(e.target) || menuBtn?.contains(e.target)) return;
+    sidebar.classList.remove("open");
+  });
+  document.addEventListener("keydown",(e)=>{
+    if(e.key==="Escape") $("sidebar")?.classList.remove("open");
+  });
   ["title","content","classLevel","style"].forEach(id=>$(id)?.addEventListener("input",updatePreviewV3));
   ["classLevel","style"].forEach(id=>$(id)?.addEventListener("change",updatePreviewV3));
   $("themeSearchV3")?.addEventListener("input",renderThemeLibrary);

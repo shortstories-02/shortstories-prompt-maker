@@ -1,0 +1,57 @@
+{
+  "release": "ShortStories Mobile Sidebar UI Patch v1.0.1",
+  "basis": "ShortStories Stable Release v1.0",
+  "created_utc": "2026-08-20",
+  "files": [
+    {
+      "path": "CHECKPOINT.txt",
+      "size_bytes": 818,
+      "sha256": "482dc7baff6f4d53e550a32e1020c58dc4a0c2eac07bf0d1effcb56e3f01d900"
+    },
+    {
+      "path": "PATCH_NOTES.txt",
+      "size_bytes": 735,
+      "sha256": "33113bd547db776f4a28d6d905df78f9d0e88aab100d8d813737562bf5ce6edd"
+    },
+    {
+      "path": "README.txt",
+      "size_bytes": 1045,
+      "sha256": "271d719c5b7e26be0c16f761ef2ad556bdd3668861c21944206d8ead53b0c8d5"
+    },
+    {
+      "path": "admin.js",
+      "size_bytes": 12430,
+      "sha256": "f1eb686a8d41baa07f6a1589cf02624a520e1f849349104fe2899e59272fdea9"
+    },
+    {
+      "path": "auth.js",
+      "size_bytes": 18797,
+      "sha256": "dd4127ad17fe35f463b1daf04aab2aeaa8ee811575676fc7f2d7b242e8bf8b81"
+    },
+    {
+      "path": "index.html",
+      "size_bytes": 20298,
+      "sha256": "fee43701c00ee701b6573c28a81e3271451e658208b486e4effa7d5a53763e0a"
+    },
+    {
+      "path": "script.js",
+      "size_bytes": 24474,
+      "sha256": "a3583d2b6bc60365917b4a75d97414e84bc4fa7aa40dfd5b0dc26c9f9d63b5e0"
+    },
+    {
+      "path": "style.css",
+      "size_bytes": 38856,
+      "sha256": "fdb7bf25d00885174f78a02dd5790d54c0f47883532a2d65759cb0547c8b8f84"
+    },
+    {
+      "path": "supabase/functions/admin-customers/index.ts",
+      "size_bytes": 9145,
+      "sha256": "d5f1d56139d63d93a998ce341a5f4f0822813ee03680c239cea245ac40abc9db"
+    },
+    {
+      "path": "supabase/functions/create-customer/index.ts",
+      "size_bytes": 3755,
+      "sha256": "1157a3d4ab237d070a13cb995b0f47a3e942a5f100ed0f362520d5c38b591e7f"
+    }
+  ]
+}

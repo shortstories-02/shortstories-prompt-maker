@@ -1,0 +1,13 @@
+ShortStories — Mobile Sidebar UI Patch v1.0.1
+
+BASIS
+Derived from Stable Release v1.0 checkpoint.
+
+CHANGES
+1. Pada HP, menu sidebar (Admin Panel jika tersedia, 50+ Tema, Prompt Builder, Template Poster, Favorit, Riwayat) dipindahkan dari fixed bottom navigation ke area sidebar tepat di bawah kartu akun.
+2. Menu disusun dalam grid 2 kolom agar rapi dan mudah disentuh.
+3. Sidebar mobile tetap dapat di-scroll jika tinggi layar kecil.
+4. Ketika sidebar terbuka, klik di luar area sidebar otomatis menutup sidebar.
+5. Tombol menu tidak terkena event penutup luar; tombol tetap berfungsi untuk membuka/menutup sidebar.
+6. Tombol Escape juga menutup sidebar sebagai tambahan kenyamanan.
+7. Tampilan desktop tidak diubah oleh patch ini.
