@@ -971,3 +971,250 @@ input::placeholder,textarea::placeholder{color:#8a8d91!important}
 .dark,.dark .main{background:var(--fb-bg)!important;color:var(--fb-text)!important}.dark .sidebar,.dark .card,.dark .template-item,.dark .saved-item,.dark .auth-card{background:var(--fb-surface)!important;border-color:var(--fb-line)!important}.dark .brand strong,.dark h1,.dark .card-title h2,.dark label,.dark .template-item h3{color:var(--fb-text)!important}.dark .brand small,.dark .page-head p,.dark .template-item p,.dark .sidebar-note p{color:var(--fb-muted)!important}.dark input,.dark select,.dark textarea,.dark .auth-card input{background:#18191a!important;color:var(--fb-text)!important;border-color:var(--fb-line)!important}.dark .prompt-card pre{background:#18191a!important;color:#e4e6eb!important}.dark .auth-screen{background:var(--fb-bg)!important}.dark .auth-card h1{color:var(--fb-text)!important}.dark .auth-card>p,.dark .auth-foot{color:var(--fb-muted)!important}
 
 @media(max-width:780px){.sidebar{width:min(310px,88vw)!important}.main{margin-left:0!important;padding:14px 10px 40px!important}.page-head{padding:2px 2px 0}.card{padding:16px!important}.auth-shell{padding:15px!important}.auth-card{border-radius:10px!important}}
+
+/* =========================================================
+   V1.0.9 — GLOBAL TEXT READABILITY / CONTRAST PASS
+   Ensure every user-facing label, helper, status and control
+   remains readable in both Facebook light and dark themes.
+   ========================================================= */
+
+/* Base readable text tokens */
+html, body { color: #050505 !important; }
+body, body * { text-shadow: none; }
+
+/* General content text */
+.main, .main p, .main span, .main small, .main strong, .main b,
+.main h1, .main h2, .main h3, .main h4, .main h5, .main h6,
+.card, .card p, .card span, .card small, .card strong, .card b,
+.template-item, .template-item p, .template-item span,
+.saved-item, .saved-item p, .saved-item span,
+.customer-dashboard, .customer-dashboard p, .customer-dashboard span,
+.customer-list, .customer-list p, .customer-list span,
+.admin-grid, .admin-grid p, .admin-grid span,
+.admin-help, .admin-message, .admin-warning,
+.empty, .tip, .reference-help, .reference-meta,
+.preview-content, .preview-label, .preview-style, .preview-theme,
+.quality, .quality p, .quality b {
+  color: #050505 !important;
+}
+
+/* Secondary text: still comfortably readable on white */
+.main p, .main small, .card p, .card small,
+.template-item p, .saved-item p, .reference-help,
+.reference-meta, .quality p, .page-head p,
+.sidebar-note p, .admin-help, .auth-foot {
+  color: #4b4f56 !important;
+}
+
+/* Labels and form captions */
+label, label span, label em, .form-card label,
+.customer-search-wrap label, .admin-grid label {
+  color: #1c1e21 !important;
+}
+label em { color: #65676b !important; }
+
+/* Inputs: explicit text, placeholder and option colors */
+input, select, textarea,
+input[type="text"], input[type="email"], input[type="password"],
+input[type="number"], input[type="url"], select, textarea {
+  color: #1c1e21 !important;
+  -webkit-text-fill-color: #1c1e21 !important;
+  background: #ffffff !important;
+  caret-color: #1877f2 !important;
+}
+input::placeholder, textarea::placeholder {
+  color: #65676b !important;
+  -webkit-text-fill-color: #65676b !important;
+  opacity: 1 !important;
+}
+select option {
+  color: #1c1e21 !important;
+  background: #ffffff !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #1c1e21 !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  caret-color: #1877f2 !important;
+}
+
+/* Buttons / action text */
+button, .generate, .copy, .save, .use-template,
+.outline-btn, .dark-btn, .logout-btn,
+.upload-reference, .remove-reference, .more-themes {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+.outline-btn, .dark-btn, .save, .use-template, .more-themes,
+.upload-reference {
+  color: #1c1e21 !important;
+}
+.generate, .copy, .auth-primary { color: #ffffff !important; }
+.logout-btn { color: #4b4f56 !important; }
+
+/* Navigation / account */
+.nav-item { color: #1c1e21 !important; }
+.nav-item:hover, .nav-item.active { color: #1877f2 !important; }
+.account-info strong { color: #1c1e21 !important; }
+.account-info small { color: #65676b !important; }
+.brand strong { color: #050505 !important; }
+.brand small { color: #65676b !important; }
+.sidebar-note b { color: #1c1e21 !important; }
+
+/* Pills, badges, categories and status text */
+.pill, .category, .reference-badge, .auth-badge {
+  color: #1559a6 !important;
+}
+.auth-live { color: #16883b !important; }
+
+/* Preview text must remain readable */
+.preview-content *, .poster-preview * {
+  color: inherit;
+}
+.preview-label, .preview-style, .preview-theme { color: #1c1e21 !important; }
+
+/* Admin/customer management text */
+.customer-stat-card *, .customer-action-message *,
+.admin-grid *, .admin-help *, .admin-message *, .admin-warning * {
+  color: #1c1e21 !important;
+}
+.customer-stat-card small, .customer-stat-card .muted,
+.customer-action-message small, .admin-help { color: #4b4f56 !important; }
+.admin-warning { color: #9a3412 !important; }
+
+/* Toast / transient messages */
+.toast, .toast * { color: #ffffff !important; }
+
+/* Authentication page */
+.auth-screen { color: #1c1e21 !important; }
+.auth-card { color: #1c1e21 !important; }
+.auth-card h1, .auth-card h2, .auth-card h3 { color: #050505 !important; }
+.auth-card > p, .auth-foot, .auth-switch, .auth-reset-panel p {
+  color: #4b4f56 !important;
+}
+.auth-brand-name { color: #1877f2 !important; }
+.auth-brand-sub { color: #4b4f56 !important; }
+.auth-link, .auth-switch button { color: #166fe5 !important; }
+.auth-primary { color: #ffffff !important; }
+.auth-input-wrap { background: #ffffff !important; }
+.auth-screen .auth-card input,
+.auth-screen .auth-card input[type="email"],
+.auth-screen .auth-card input[type="password"],
+.auth-screen .auth-card input[type="text"] {
+  color: #1c1e21 !important;
+  -webkit-text-fill-color: #1c1e21 !important;
+  background: #ffffff !important;
+  caret-color: #1877f2 !important;
+}
+.auth-screen .auth-card input::placeholder {
+  color: #65676b !important;
+  -webkit-text-fill-color: #65676b !important;
+}
+.auth-screen .auth-card input:-webkit-autofill,
+.auth-screen .auth-card input:-webkit-autofill:hover,
+.auth-screen .auth-card input:-webkit-autofill:focus,
+.auth-screen .auth-card input:-webkit-autofill:active {
+  -webkit-text-fill-color: #1c1e21 !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+}
+.auth-perks span { color: #4b4f56 !important; }
+
+/* Design guard options */
+.simple-guard label, .simple-guard label span,
+.v3-advanced .checks label, .v3-advanced .checks label span {
+  color: #1c1e21 !important;
+}
+.simple-guard label input, .v3-advanced .checks input { accent-color: #1877f2 !important; }
+
+/* DARK FACEBOOK THEME — explicit overrides so no dark text disappears */
+.dark, .dark html, .dark body { color: #e4e6eb !important; }
+.dark .main, .dark .main p, .dark .main span, .dark .main small,
+.dark .main strong, .dark .main b, .dark .main h1, .dark .main h2,
+.dark .main h3, .dark .main h4, .dark .main h5, .dark .main h6,
+.dark .card, .dark .card p, .dark .card span, .dark .card small,
+.dark .card strong, .dark .card b, .dark .template-item,
+.dark .template-item p, .dark .template-item span,
+.dark .saved-item, .dark .saved-item p, .dark .saved-item span,
+.dark .customer-dashboard, .dark .customer-dashboard p,
+.dark .customer-dashboard span, .dark .admin-grid,
+.dark .admin-grid p, .dark .admin-grid span, .dark .admin-help,
+.dark .admin-message, .dark .admin-warning, .dark .empty,
+.dark .tip, .dark .reference-help, .dark .reference-meta,
+.dark .preview-content, .dark .preview-label, .dark .preview-style,
+.dark .preview-theme, .dark .quality, .dark .quality p,
+.dark .quality b {
+  color: #e4e6eb !important;
+}
+.dark .main p, .dark .main small, .dark .card p, .dark .card small,
+.dark .template-item p, .dark .saved-item p, .dark .reference-help,
+.dark .reference-meta, .dark .quality p, .dark .page-head p,
+.dark .sidebar-note p, .dark .admin-help, .dark label em {
+  color: #b0b3b8 !important;
+}
+.dark label, .dark label span, .dark .form-card label,
+.dark .customer-search-wrap label, .dark .admin-grid label {
+  color: #e4e6eb !important;
+}
+.dark input, .dark select, .dark textarea,
+.dark input[type="text"], .dark input[type="email"],
+.dark input[type="password"], .dark input[type="number"], .dark input[type="url"] {
+  color: #e4e6eb !important;
+  -webkit-text-fill-color: #e4e6eb !important;
+  background: #18191a !important;
+  border-color: #3e4042 !important;
+  caret-color: #4599ff !important;
+}
+.dark input::placeholder, .dark textarea::placeholder {
+  color: #b0b3b8 !important;
+  -webkit-text-fill-color: #b0b3b8 !important;
+}
+.dark select option { color: #e4e6eb !important; background: #242526 !important; }
+.dark input:-webkit-autofill, .dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus, .dark textarea:-webkit-autofill {
+  -webkit-text-fill-color: #e4e6eb !important;
+  box-shadow: 0 0 0 1000px #18191a inset !important;
+}
+.dark .nav-item, .dark .account-info strong, .dark .brand strong,
+.dark .sidebar-note b, .dark .dark-btn, .dark .outline-btn,
+.dark .save, .dark .use-template, .dark .more-themes,
+.dark .upload-reference, .dark .logout-btn {
+  color: #e4e6eb !important;
+}
+.dark .nav-item:hover, .dark .nav-item.active { color: #4599ff !important; }
+.dark .account-info small, .dark .brand small { color: #b0b3b8 !important; }
+.dark .pill, .dark .category, .dark .reference-badge,
+.dark .auth-badge { color: #8ab4f8 !important; }
+.dark .admin-warning { color: #ffb3a7 !important; }
+.dark .auth-screen, .dark .auth-card { color: #e4e6eb !important; }
+.dark .auth-card h1, .dark .auth-card h2, .dark .auth-card h3 { color: #e4e6eb !important; }
+.dark .auth-card > p, .dark .auth-foot, .dark .auth-switch,
+.dark .auth-reset-panel p, .dark .auth-brand-sub { color: #b0b3b8 !important; }
+.dark .auth-input-wrap { background: #18191a !important; }
+.dark .auth-screen .auth-card input,
+.dark .auth-screen .auth-card input[type="email"],
+.dark .auth-screen .auth-card input[type="password"],
+.dark .auth-screen .auth-card input[type="text"] {
+  color: #e4e6eb !important;
+  -webkit-text-fill-color: #e4e6eb !important;
+  background: #18191a !important;
+}
+.dark .auth-screen .auth-card input::placeholder {
+  color: #b0b3b8 !important;
+  -webkit-text-fill-color: #b0b3b8 !important;
+}
+.dark .auth-screen .auth-card input:-webkit-autofill,
+.dark .auth-screen .auth-card input:-webkit-autofill:hover,
+.dark .auth-screen .auth-card input:-webkit-autofill:focus,
+.dark .auth-screen .auth-card input:-webkit-autofill:active {
+  -webkit-text-fill-color: #e4e6eb !important;
+  box-shadow: 0 0 0 1000px #18191a inset !important;
+}
+.dark .simple-guard label, .dark .simple-guard label span,
+.dark .v3-advanced .checks label, .dark .v3-advanced .checks label span {
+  color: #e4e6eb !important;
+}
+
+/* Preserve white text on colored action surfaces */
+.generate *, .copy *, .auth-primary *, .toast * { color: #ffffff !important; }
