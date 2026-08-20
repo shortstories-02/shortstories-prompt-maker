@@ -1619,3 +1619,82 @@ body:not(.dark) .card [style*="background:#0b0b0f"] {
   background:#f7f8fa !important;
   color:#1c1e21 !important;
 }
+
+/* =========================================================
+   v1.0.13 — FACEBOOK CUSTOMER CARD HOVER/FOCUS FIX
+   Customer statistic cards must stay readable in Facebook light
+   mode when hovered, focused, pressed, or keyboard-selected.
+   ========================================================= */
+body:not(.dark) .customer-stat-card,
+body:not(.dark) .customer-stat-card[data-customer-filter] {
+  background:#ffffff !important;
+  color:#1c1e21 !important;
+  border-color:#dadde1 !important;
+  box-shadow:0 1px 2px rgba(0,0,0,.08) !important;
+}
+
+body:not(.dark) .customer-stat-card:hover,
+body:not(.dark) .customer-stat-card:focus,
+body:not(.dark) .customer-stat-card:focus-visible,
+body:not(.dark) .customer-stat-card:active,
+body:not(.dark) .customer-stat-card[data-customer-filter]:hover,
+body:not(.dark) .customer-stat-card[data-customer-filter]:focus,
+body:not(.dark) .customer-stat-card[data-customer-filter]:focus-visible,
+body:not(.dark) .customer-stat-card[data-customer-filter]:active {
+  background:#f2f3f5 !important;
+  color:#1c1e21 !important;
+  border-color:#cfd2d6 !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.10) !important;
+  transform:translateY(-1px) !important;
+  outline:none !important;
+}
+
+body:not(.dark) .customer-stat-card small,
+body:not(.dark) .customer-stat-card span,
+body:not(.dark) .customer-stat-card strong,
+body:not(.dark) .customer-stat-card b,
+body:not(.dark) .customer-stat-card:hover small,
+body:not(.dark) .customer-stat-card:hover span,
+body:not(.dark) .customer-stat-card:hover strong,
+body:not(.dark) .customer-stat-card:hover b,
+body:not(.dark) .customer-stat-card:focus-visible small,
+body:not(.dark) .customer-stat-card:focus-visible span,
+body:not(.dark) .customer-stat-card:focus-visible strong,
+body:not(.dark) .customer-stat-card:focus-visible b {
+  color:#1c1e21 !important;
+}
+
+body:not(.dark) .customer-stat-card[data-customer-filter="active"] strong { color:#16804a !important; }
+body:not(.dark) .customer-stat-card[data-customer-filter="expired"] strong { color:#a15c00 !important; }
+body:not(.dark) .customer-stat-card[data-customer-filter="inactive"] strong { color:#c43b3b !important; }
+body:not(.dark) .customer-stat-card[data-customer-filter="forever"] strong { color:#1877f2 !important; }
+body:not(.dark) .customer-stat-card[data-customer-filter="all"] strong { color:#1877f2 !important; }
+
+/* Preserve Facebook dark behavior independently. */
+body.dark .customer-stat-card,
+body.dark .customer-stat-card[data-customer-filter] {
+  background:#242526 !important;
+  color:#e4e6eb !important;
+  border-color:#3e4042 !important;
+}
+body.dark .customer-stat-card:hover,
+body.dark .customer-stat-card:focus,
+body.dark .customer-stat-card:focus-visible,
+body.dark .customer-stat-card:active {
+  background:#3a3b3c !important;
+  color:#e4e6eb !important;
+  border-color:#5a5c5f !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.25) !important;
+  outline:none !important;
+}
+body.dark .customer-stat-card small,
+body.dark .customer-stat-card span,
+body.dark .customer-stat-card strong,
+body.dark .customer-stat-card b {
+  color:#e4e6eb !important;
+}
+body.dark .customer-stat-card[data-customer-filter="active"] strong { color:#75d69a !important; }
+body.dark .customer-stat-card[data-customer-filter="expired"] strong { color:#f0b35b !important; }
+body.dark .customer-stat-card[data-customer-filter="inactive"] strong { color:#ff8a8a !important; }
+body.dark .customer-stat-card[data-customer-filter="forever"] strong,
+body.dark .customer-stat-card[data-customer-filter="all"] strong { color:#4599ff !important; }
