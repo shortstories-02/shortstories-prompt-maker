@@ -1422,3 +1422,100 @@ button{font-family:Arial,Helvetica,sans-serif!important}
   .nav-item{min-height:44px!important}
   .account-box{margin-bottom:10px!important}
 }
+
+/* v1.0.11 - Final Facebook light-theme cleanup: remove leftover dark/TikTok panels */
+:root{
+  --fb-blue:#1877f2;
+  --fb-blue-hover:#166fe5;
+  --fb-bg:#f0f2f5;
+  --fb-surface:#ffffff;
+  --fb-text:#1c1e21;
+  --fb-muted:#65676b;
+  --fb-line:#dadde1;
+  --fb-soft:#e7f3ff;
+}
+
+/* Never use the old black/cyan/pink visual treatment in the main UI */
+html,body{background:var(--fb-bg)!important;color:var(--fb-text)!important}
+body::before,body::after{background:none!important;box-shadow:none!important}
+
+.main,.view,.view.active-view{background:transparent!important;color:var(--fb-text)!important}
+.card,.template-item,.saved-item,.theme-card,.preview-card,.form-card,.prompt-card,.reference-box,.quality,.customer-management,.customer-stat-card{
+  background:var(--fb-surface)!important;
+  color:var(--fb-text)!important;
+  border-color:var(--fb-line)!important;
+}
+
+/* The panel shown in the screenshot */
+.created-account,
+.created-account.empty,
+#createdAccount{
+  background:#f7f8fa!important;
+  color:var(--fb-muted)!important;
+  border:1px dashed var(--fb-line)!important;
+  box-shadow:none!important;
+}
+.created-account.empty{color:#65676b!important}
+.created-account b,.created-account .account-row b{color:var(--fb-text)!important}
+
+.empty{background:#f7f8fa!important;color:#65676b!important;border-color:var(--fb-line)!important}
+
+.card-title h2,.card-title,.page-head h1,.page-head h2,label,.template-item h3,.theme-card h3,.preview-label,.preview-style,.preview-content,.admin-help,.reference-help{color:var(--fb-text)!important;text-shadow:none!important}
+.page-head p,.template-item p,.sidebar-note p,.brand small,.admin-help,.reference-meta,.quality p{color:var(--fb-muted)!important}
+.card-title::after{background:var(--fb-blue)!important}
+.card-title > div > span,.eyebrow{color:var(--fb-blue)!important;background:#e7f3ff!important}
+
+input,select,textarea,.auth-card input{
+  background:#fff!important;color:var(--fb-text)!important;border-color:#ccd0d5!important;
+}
+input::placeholder,textarea::placeholder{color:#8a8d91!important;opacity:1!important}
+input:focus,select:focus,textarea:focus{border-color:var(--fb-blue)!important;box-shadow:0 0 0 2px #e7f3ff!important}
+
+button,.outline-btn,.dark-btn,.use-template,.copy,.save,.copy-account,.logout-btn{font-family:inherit}
+.auth-primary,.primary-btn,.copy,.use-template{background:var(--fb-blue)!important;color:#fff!important;box-shadow:none!important}
+.auth-primary:hover,.primary-btn:hover,.copy:hover,.use-template:hover{background:var(--fb-blue-hover)!important}
+
+.sidebar{background:#fff!important;border-right:1px solid var(--fb-line)!important;box-shadow:2px 0 10px rgba(0,0,0,.06)!important}
+.sidebar nav{background:#fff!important;border-color:var(--fb-line)!important;box-shadow:none!important}
+.nav-item{color:var(--fb-text)!important;background:transparent!important}
+.nav-item:hover{background:#f2f3f5!important;color:var(--fb-text)!important}
+.nav-item.active{background:#e7f3ff!important;color:var(--fb-blue)!important;box-shadow:none!important}
+.account-box{background:#fff!important;border-color:var(--fb-line)!important}
+.account-avatar,.logo{background:var(--fb-blue)!important;color:#fff!important;box-shadow:none!important;border:0!important}
+.logout-btn{background:#e4e6eb!important;color:var(--fb-text)!important}
+.sidebar-note{background:#f7f8fa!important;border-color:var(--fb-line)!important;box-shadow:none!important}
+.sidebar-note b{color:var(--fb-text)!important}
+
+.mobile-head{background:#fff!important;color:var(--fb-text)!important;border-color:var(--fb-line)!important;box-shadow:0 1px 2px rgba(0,0,0,.08)!important}
+.mobile-head button{background:#e4e6eb!important;color:var(--fb-text)!important;box-shadow:none!important}
+
+/* Remove leftover cyan/pink decorative strokes */
+.auth-brand .logo,.auth-logo{background:var(--fb-blue)!important;color:#fff!important;box-shadow:none!important}
+.auth-badge{background:var(--fb-blue)!important;color:#fff!important}
+.auth-card{background:#fff!important;color:var(--fb-text)!important;border-color:var(--fb-line)!important;box-shadow:0 2px 8px rgba(0,0,0,.08)!important}
+.auth-card h1{color:var(--fb-text)!important}
+.auth-card>p,.auth-switch,.auth-foot{color:var(--fb-muted)!important}
+.auth-link,.auth-switch button{color:var(--fb-blue)!important}
+.password-wrap button{background:#e4e6eb!important;color:var(--fb-text)!important}
+
+/* Warnings remain readable without black blocks */
+.admin-warning{background:#fff4cc!important;color:#7a5b00!important;border-color:#f0d98a!important}
+.admin-message.show{background:#e7f3ff!important;color:#1c4f8a!important;border-color:#cfe4ff!important}
+
+/* Dark mode is Facebook dark, not black/cyan/pink */
+body.dark,body.dark .main{background:#18191a!important;color:#e4e6eb!important}
+body.dark .card,body.dark .template-item,body.dark .saved-item,body.dark .theme-card,body.dark .preview-card,body.dark .form-card,body.dark .prompt-card,body.dark .reference-box,body.dark .quality,body.dark .customer-management,body.dark .customer-stat-card{background:#242526!important;color:#e4e6eb!important;border-color:#3e4042!important}
+body.dark .created-account,body.dark .created-account.empty,body.dark #createdAccount,body.dark .empty{background:#3a3b3c!important;color:#b0b3b8!important;border-color:#4e4f50!important}
+body.dark .created-account b,body.dark .card-title h2,body.dark .card-title,body.dark .page-head h1,body.dark .page-head h2,body.dark label,body.dark .template-item h3,body.dark .preview-label{color:#e4e6eb!important}
+body.dark .page-head p,body.dark .template-item p,body.dark .sidebar-note p{color:#b0b3b8!important}
+body.dark input,body.dark select,body.dark textarea,body.dark .auth-card input{background:#3a3b3c!important;color:#e4e6eb!important;border-color:#4e4f50!important}
+body.dark .sidebar,body.dark .sidebar nav,body.dark .mobile-head{background:#242526!important;border-color:#3e4042!important}
+body.dark .nav-item{color:#e4e6eb!important}
+body.dark .nav-item:hover{background:#3a3b3c!important}
+body.dark .nav-item.active{background:#263951!important;color:#2d88ff!important}
+body.dark .account-box,body.dark .sidebar-note{background:#242526!important;border-color:#3e4042!important}
+body.dark .logout-btn,body.dark .mobile-head button{background:#3a3b3c!important;color:#e4e6eb!important}
+body.dark .auth-card{background:#242526!important;color:#e4e6eb!important;border-color:#3e4042!important}
+body.dark .auth-card h1{color:#e4e6eb!important}
+body.dark .auth-card>p,body.dark .auth-switch,body.dark .auth-foot{color:#b0b3b8!important}
+body.dark .auth-link,body.dark .auth-switch button{color:#2d88ff!important}
