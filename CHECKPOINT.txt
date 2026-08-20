@@ -1,4 +1,3 @@
-ShortStories Prompt Maker
-Checkpoint: v1.0.4
-Base: v1.0.3
-Purpose: Visual polish / UI refinement while preserving existing functionality.
+ShortStories Stable UI checkpoint v1.0.5
+Full TikTok-inspired visual theme patch.
+Based on v1.0.4-pretty-ui.

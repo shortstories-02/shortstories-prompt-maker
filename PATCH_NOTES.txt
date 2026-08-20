@@ -1,14 +1,8 @@
-ShortStories v1.0.4 — Visual Polish
+ShortStories v1.0.5 — Full TikTok-Inspired Theme
 
-Based on stable v1.0.3.
-
-UI improvements:
-- Refined sidebar, brand, account card, logout button, navigation states and shadows.
-- Improved desktop cards, inputs, buttons, theme cards, templates and spacing.
-- Improved mobile header and responsive card spacing.
-- Mobile sidebar remains one vertical column under the account section.
-- Mobile sidebar keeps outside-click close, Escape close, scrolling and responsive width.
-- Added subtle backdrop and modern glass/soft-shadow treatment.
-- Dark mode receives matching visual polish.
-
-Existing v1.0.3 functionality is preserved.
+- Reworked the complete visual identity around black, white, TikTok-style cyan and pink accents.
+- Dark-first application shell with high-contrast cards, inputs, navigation and buttons.
+- Sidebar, account card, mobile navigation, forms, theme cards, prompt output, templates and saved items updated.
+- Authentication/login screen updated to the same visual identity.
+- Mobile sidebar remains one vertical column below the account section.
+- Existing application logic was not intentionally changed by this UI patch.
