@@ -856,3 +856,118 @@ body.dark .simple-guard label input,
 .dark .simple-guard label input {
   accent-color: #25f4ee !important;
 }
+
+/* v1.0.7 — Force readability on TikTok dark authentication/design controls.
+   These selectors intentionally do not depend on body.dark because the auth screen
+   uses its own dark theme even when the global dark class is absent. */
+.auth-screen .auth-card input,
+.auth-screen .auth-card input[type="email"],
+.auth-screen .auth-card input[type="password"],
+.auth-screen .auth-card input[type="text"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: #202027 !important;
+  caret-color: #25f4ee !important;
+  border-color: #36363e !important;
+}
+.auth-screen .auth-card input::placeholder {
+  color: #8d8d98 !important;
+  -webkit-text-fill-color: #8d8d98 !important;
+}
+.auth-screen .auth-card input:-webkit-autofill,
+.auth-screen .auth-card input:-webkit-autofill:hover,
+.auth-screen .auth-card input:-webkit-autofill:focus,
+.auth-screen .auth-card input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #202027 inset !important;
+  box-shadow: 0 0 0 1000px #202027 inset !important;
+  caret-color: #25f4ee !important;
+}
+
+/* Design guard checkboxes: text must remain white on the dark TikTok surface. */
+.simple-guard,
+.simple-guard label,
+.simple-guard label span {
+  color: #ffffff !important;
+}
+.simple-guard label {
+  background: #151519 !important;
+  border-color: #36363e !important;
+}
+.simple-guard label:hover {
+  color: #ffffff !important;
+  background: #1e1e24 !important;
+  border-color: #25f4ee !important;
+}
+.simple-guard label input[type="checkbox"] {
+  width: auto !important;
+  color-scheme: dark;
+  accent-color: #25f4ee !important;
+}
+
+/* =========================================================
+   SHORTSTORIES V1.0.8 — FACEBOOK-INSPIRED UI
+   Full visual refresh: Facebook-like blue/gray/white language.
+   ========================================================= */
+:root{
+  --fb-blue:#1877f2;
+  --fb-blue-dark:#166fe5;
+  --fb-bg:#f0f2f5;
+  --fb-surface:#ffffff;
+  --fb-text:#050505;
+  --fb-muted:#65676b;
+  --fb-line:#dddfe2;
+  --fb-hover:#f2f3f5;
+  --fb-soft:#e7f3ff;
+  --fb-shadow:0 1px 2px rgba(0,0,0,.10);
+  --fb-radius:12px;
+}
+html,body{background:var(--fb-bg)!important;color:var(--fb-text)!important}
+body{font-family:Arial,Helvetica,sans-serif!important}
+.sidebar{width:280px!important;background:var(--fb-surface)!important;border-right:1px solid var(--fb-line)!important;box-shadow:1px 0 3px rgba(0,0,0,.06)!important;padding:16px 12px!important;backdrop-filter:none!important}
+.brand{padding:4px 8px 14px!important;border-bottom:1px solid var(--fb-line);margin-bottom:10px}
+.logo{width:40px!important;height:40px!important;border-radius:50%!important;background:var(--fb-blue)!important;border:0!important;box-shadow:none!important;font-size:21px!important}
+.brand strong{font-size:18px!important;color:var(--fb-text)!important}.brand small{color:var(--fb-muted)!important}
+.account-box{background:var(--fb-surface)!important;border:1px solid var(--fb-line)!important;border-radius:var(--fb-radius)!important;padding:10px!important;box-shadow:var(--fb-shadow)!important;margin-bottom:10px}
+.account-avatar{background:var(--fb-blue)!important;color:#fff!important;border-radius:50%!important}
+.account-info strong{color:var(--fb-text)!important}.account-info small{color:var(--fb-muted)!important}
+.logout-btn{background:var(--fb-hover)!important;color:var(--fb-muted)!important;border:0!important;border-radius:50%!important}
+nav{gap:3px!important}.nav-item{color:var(--fb-text)!important;border-radius:8px!important;padding:12px 12px!important;font-size:14px!important}
+.nav-item:hover{background:var(--fb-hover)!important;color:var(--fb-blue)!important}.nav-item.active{background:var(--fb-soft)!important;color:var(--fb-blue)!important}
+.sidebar-note{background:#f7f8fa!important;border:1px solid var(--fb-line)!important;border-radius:10px!important}.sidebar-note b{color:var(--fb-text)!important}.sidebar-note p{color:var(--fb-muted)!important}
+.dark-btn{background:var(--fb-hover)!important;border:0!important;color:var(--fb-text)!important;border-radius:8px!important}
+.main{margin-left:280px!important;background:var(--fb-bg)!important;padding:22px 28px 50px!important}
+.mobile-head{background:var(--fb-surface);border:1px solid var(--fb-line);border-radius:10px;padding:8px 10px!important;box-shadow:var(--fb-shadow)}
+.mobile-head button{background:var(--fb-hover)!important;border:0!important;color:var(--fb-text)!important}
+.page-head{background:transparent!important}.eyebrow{color:var(--fb-blue)!important}h1{color:var(--fb-text)!important;font-weight:700!important}h1 span{color:var(--fb-blue)!important}.page-head p{color:var(--fb-muted)!important}
+.outline-btn{background:var(--fb-surface)!important;border:1px solid var(--fb-line)!important;color:var(--fb-text)!important;box-shadow:var(--fb-shadow)!important;border-radius:8px!important}
+.card,.template-item,.saved-item{background:var(--fb-surface)!important;border:1px solid var(--fb-line)!important;border-radius:10px!important;box-shadow:var(--fb-shadow)!important}
+.card{padding:20px!important}.card-title{border-bottom:1px solid var(--fb-line);padding-bottom:14px}.card-title h2{color:var(--fb-text)!important}.card-title span:first-child{color:var(--fb-blue)!important}
+label{color:var(--fb-text)!important}label em{color:var(--fb-muted)!important}
+input,select,textarea{background:var(--fb-surface)!important;color:var(--fb-text)!important;border:1px solid #ccd0d5!important;border-radius:7px!important}
+input:focus,select:focus,textarea:focus{border-color:var(--fb-blue)!important;box-shadow:0 0 0 2px rgba(24,119,242,.15)!important}
+input::placeholder,textarea::placeholder{color:#8a8d91!important}
+.generate,.auth-primary{background:var(--fb-blue)!important;color:#fff!important;border:0!important;box-shadow:none!important;border-radius:6px!important}.generate:hover,.auth-primary:hover{background:var(--fb-blue-dark)!important}
+.copy{background:var(--fb-blue)!important}.save,.use-template{background:var(--fb-hover)!important;color:var(--fb-text)!important}
+.theme-card{background:var(--fb-surface)!important;border:1px solid var(--fb-line)!important;border-radius:9px!important}.theme-card.active{background:var(--fb-soft)!important;border-color:var(--fb-blue)!important;box-shadow:inset 0 0 0 1px var(--fb-blue)!important}
+.prompt-card pre{background:#f7f8fa!important;border:1px solid var(--fb-line)!important;color:#1c1e21!important}
+.preview-card .poster-preview{border-radius:10px!important}
+.quality{background:#f0f8ff!important;border-color:#cfe5ff!important}.quality b{color:var(--fb-text)!important}.quality p{color:var(--fb-muted)!important}
+.category{color:var(--fb-blue)!important;background:var(--fb-soft)!important}.template-item h3,.template-item p{color:var(--fb-text)!important}.template-item p{color:var(--fb-muted)!important}
+.toast{background:#050505!important;border-radius:8px!important}
+.more-themes{background:var(--fb-surface)!important;color:var(--fb-blue)!important;border-color:#b7c9e8!important}
+.v3-advanced .checks label,.simple-guard label{background:var(--fb-surface)!important;border-color:var(--fb-line)!important;color:var(--fb-text)!important}
+.reference-box{background:#f7f8fa!important;border-color:var(--fb-line)!important}.reference-badge{background:var(--fb-soft)!important;color:var(--fb-blue)!important}.upload-reference,.reference-preview{background:var(--fb-surface)!important;color:var(--fb-blue)!important;border-color:#b7c9e8!important}
+
+/* Login: Facebook-like blue/white card */
+.auth-screen{background:var(--fb-bg)!important;color:var(--fb-text)!important}
+.auth-bg-orb{display:none!important}.auth-shell{max-width:980px!important}.auth-hero{text-align:center!important}.auth-logo{background:var(--fb-blue)!important;box-shadow:none!important;border-radius:50%!important}.auth-brand-name{color:var(--fb-blue)!important;font-family:Arial,Helvetica,sans-serif!important}.auth-brand-sub{color:var(--fb-muted)!important}
+.auth-card{background:var(--fb-surface)!important;border:1px solid var(--fb-line)!important;box-shadow:0 2px 12px rgba(0,0,0,.12)!important;border-radius:10px!important;color:var(--fb-text)!important}
+.auth-card h1{color:var(--fb-text)!important}.auth-card>p,.auth-foot,.auth-switch,.auth-reset-panel p{color:var(--fb-muted)!important}
+.auth-input-wrap{background:var(--fb-surface)!important;border:1px solid #ccd0d5!important;border-radius:6px!important}.auth-card input,.auth-screen .auth-card input,.auth-screen .auth-card input[type=email],.auth-screen .auth-card input[type=password],.auth-screen .auth-card input[type=text]{background:var(--fb-surface)!important;color:var(--fb-text)!important;border:0!important}
+.auth-card input::placeholder{color:#8a8d91!important}.auth-primary{font-weight:700!important}.auth-link{color:var(--fb-blue)!important}.auth-badge{background:var(--fb-soft)!important;color:var(--fb-blue)!important}.auth-live{color:#31a24c!important}.auth-perks span{color:var(--fb-muted)!important}
+
+.dark{--fb-bg:#18191a;--fb-surface:#242526;--fb-text:#e4e6eb;--fb-muted:#b0b3b8;--fb-line:#3e4042;--fb-hover:#3a3b3c;--fb-soft:#263951}
+.dark,.dark .main{background:var(--fb-bg)!important;color:var(--fb-text)!important}.dark .sidebar,.dark .card,.dark .template-item,.dark .saved-item,.dark .auth-card{background:var(--fb-surface)!important;border-color:var(--fb-line)!important}.dark .brand strong,.dark h1,.dark .card-title h2,.dark label,.dark .template-item h3{color:var(--fb-text)!important}.dark .brand small,.dark .page-head p,.dark .template-item p,.dark .sidebar-note p{color:var(--fb-muted)!important}.dark input,.dark select,.dark textarea,.dark .auth-card input{background:#18191a!important;color:var(--fb-text)!important;border-color:var(--fb-line)!important}.dark .prompt-card pre{background:#18191a!important;color:#e4e6eb!important}.dark .auth-screen{background:var(--fb-bg)!important}.dark .auth-card h1{color:var(--fb-text)!important}.dark .auth-card>p,.dark .auth-foot{color:var(--fb-muted)!important}
+
+@media(max-width:780px){.sidebar{width:min(310px,88vw)!important}.main{margin-left:0!important;padding:14px 10px 40px!important}.page-head{padding:2px 2px 0}.card{padding:16px!important}.auth-shell{padding:15px!important}.auth-card{border-radius:10px!important}}

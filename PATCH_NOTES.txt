@@ -1,8 +1,11 @@
-ShortStories v1.0.5 — Full TikTok-Inspired Theme
+ShortStories v1.0.8 — Facebook-inspired UI
 
-- Reworked the complete visual identity around black, white, TikTok-style cyan and pink accents.
-- Dark-first application shell with high-contrast cards, inputs, navigation and buttons.
-- Sidebar, account card, mobile navigation, forms, theme cards, prompt output, templates and saved items updated.
-- Authentication/login screen updated to the same visual identity.
-- Mobile sidebar remains one vertical column below the account section.
-- Existing application logic was not intentionally changed by this UI patch.
+- Reworked the complete visual theme toward Facebook's visual language: blue #1877F2, white surfaces, light gray background, subtle borders/shadows, Arial typography, and compact rounded controls.
+- Updated desktop sidebar, account area, navigation, cards, forms, buttons, template/favorite/history views, prompt builder, reference-image controls, and mobile header.
+- Updated login screen to match the Facebook-inspired theme while keeping the existing authentication logic.
+- Preserved the mobile sidebar as a single vertical column under the account section.
+- Preserved click-outside-to-close sidebar behavior.
+- Preserved existing auto-logout and customer email validation logic.
+- Preserved the previous readability fixes for login fields and design-setting labels.
+- Added dark-mode overrides using the same Facebook-inspired visual language.
+- No application functionality was intentionally removed or changed.
