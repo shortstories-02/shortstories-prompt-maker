@@ -329,6 +329,12 @@
     }else if(typeof window.refreshShortStoriesSaved === 'function'){
       await window.refreshShortStoriesSaved();
     }
+
+    // After every successful login/session restore, always land on the
+    // Prompt Builder instead of reopening the last visited section.
+    if(typeof window.showShortStoriesView === 'function'){
+      window.showShortStoriesView('builder');
+    }
   }
 
   function humanError(error){
