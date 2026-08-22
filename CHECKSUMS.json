@@ -1,62 +1,9 @@
 {
-  "release": "ShortStories Mobile Sidebar UI v1.0.2",
-  "basis": "ShortStories Stable Release v1.0",
-  "created_utc": "2026-08-20",
-  "files": [
-    {
-      "path": "CHECKPOINT.txt",
-      "size_bytes": 818,
-      "sha256": "482dc7baff6f4d53e550a32e1020c58dc4a0c2eac07bf0d1effcb56e3f01d900"
-    },
-    {
-      "path": "CHECKSUMS.json",
-      "size_bytes": 1729,
-      "sha256": "b312470ad7d329fae7517b61e8133c4a198b5a126e3811e231e79f58553d8df8"
-    },
-    {
-      "path": "PATCH_NOTES.txt",
-      "size_bytes": 990,
-      "sha256": "1674236f0cfa7e790bf9946c1dc010fb52b95d705a4aba47b85ee8b50be3658e"
-    },
-    {
-      "path": "README.txt",
-      "size_bytes": 1045,
-      "sha256": "271d719c5b7e26be0c16f761ef2ad556bdd3668861c21944206d8ead53b0c8d5"
-    },
-    {
-      "path": "admin.js",
-      "size_bytes": 12430,
-      "sha256": "f1eb686a8d41baa07f6a1589cf02624a520e1f849349104fe2899e59272fdea9"
-    },
-    {
-      "path": "auth.js",
-      "size_bytes": 18797,
-      "sha256": "dd4127ad17fe35f463b1daf04aab2aeaa8ee811575676fc7f2d7b242e8bf8b81"
-    },
-    {
-      "path": "index.html",
-      "size_bytes": 20298,
-      "sha256": "fee43701c00ee701b6573c28a81e3271451e658208b486e4effa7d5a53763e0a"
-    },
-    {
-      "path": "script.js",
-      "size_bytes": 24474,
-      "sha256": "a3583d2b6bc60365917b4a75d97414e84bc4fa7aa40dfd5b0dc26c9f9d63b5e0"
-    },
-    {
-      "path": "style.css",
-      "size_bytes": 38856,
-      "sha256": "fdb7bf25d00885174f78a02dd5790d54c0f47883532a2d65759cb0547c8b8f84"
-    },
-    {
-      "path": "supabase/functions/admin-customers/index.ts",
-      "size_bytes": 9145,
-      "sha256": "d5f1d56139d63d93a998ce341a5f4f0822813ee03680c239cea245ac40abc9db"
-    },
-    {
-      "path": "supabase/functions/create-customer/index.ts",
-      "size_bytes": 3755,
-      "sha256": "1157a3d4ab237d070a13cb995b0f47a3e942a5f100ed0f362520d5c38b591e7f"
-    }
-  ]
+  "CHECKPOINT.txt": "0d8fcfd00318d648387b10651bbbe16f94c0fc9a895b6f35c1a38aa741ffc665",
+  "README.txt": "271d719c5b7e26be0c16f761ef2ad556bdd3668861c21944206d8ead53b0c8d5",
+  "admin.js": "6e373925a057f795c6c7a901182609e5f772dffc4c61f81e9ffdf1197ad73e93",
+  "auth.js": "8627332eda0ecfcc41a0a66fc230b0abc9504c4e1d35a5260e02a05be822f677",
+  "index.html": "6376dbb2fc893a3c031052e60d581bc10dea8b649584b853b8de393596eb5d19",
+  "script.js": "a3583d2b6bc60365917b4a75d97414e84bc4fa7aa40dfd5b0dc26c9f9d63b5e0",
+  "style.css": "3cd5d04cd6e8aa0d7598e9cc004e9801ecfb530de1f3bbb934430059988ed33f"
 }

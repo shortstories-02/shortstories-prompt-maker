@@ -2013,3 +2013,96 @@ body:not(.dark) .customer-item:focus-within .customer-meta span {
     -webkit-backdrop-filter:none!important;
   }
 }
+
+/* =========================================================
+   v1.0.19 — FACEBOOK DARK MODE TEXT / HEADING CONTRAST FIX
+   Keep page titles, section labels and sidebar navigation distinct
+   in dark mode. No blanket white text on light surfaces.
+   ========================================================= */
+body.dark .page-head,
+body.dark .page-head > div,
+body.dark .card-title,
+body.dark .sidebar nav,
+body.dark .sidebar .brand,
+body.dark .sidebar .account-box {
+  color: #e4e6eb !important;
+}
+
+/* Top labels such as ADMIN PANEL / LIBRARY / SAVED / RECENT */
+body.dark .page-head .eyebrow,
+body.dark .page-head .eyebrow:first-child {
+  color: #4599ff !important;
+  background: #263951 !important;
+  text-shadow: none !important;
+}
+
+/* Page headings: readable light text, not pure white */
+body.dark .page-head h1,
+body.dark .page-head h2,
+body.dark .page-head h3,
+body.dark .page-head h1 span,
+body.dark .page-head h2 span {
+  color: #e4e6eb !important;
+  text-shadow: none !important;
+}
+
+/* Blue accent inside a heading remains blue */
+body.dark .page-head h1 span,
+body.dark .page-head h2 span {
+  color: #4599ff !important;
+}
+
+/* Supporting text below headings */
+body.dark .page-head p,
+body.dark .page-head small,
+body.dark .page-head .muted {
+  color: #b0b3b8 !important;
+}
+
+/* Sidebar menu: readable but visually differentiated */
+body.dark .sidebar .nav-item,
+body.dark .sidebar nav .nav-item {
+  color: #e4e6eb !important;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+body.dark .sidebar .nav-item:hover,
+body.dark .sidebar nav .nav-item:hover {
+  color: #e4e6eb !important;
+  background: #3a3b3c !important;
+}
+body.dark .sidebar .nav-item.active,
+body.dark .sidebar nav .nav-item.active {
+  color: #4599ff !important;
+  background: #263951 !important;
+}
+
+/* Card/section titles remain readable without turning every label white */
+body.dark .card-title h2,
+body.dark .card-title h3,
+body.dark .view > .page-head + .card-title {
+  color: #e4e6eb !important;
+}
+body.dark .card-title > div > span,
+body.dark .card-title .eyebrow {
+  color: #4599ff !important;
+  background: #263951 !important;
+}
+
+/* Explicit dark surfaces behind the headings */
+body.dark .page-head + .card,
+body.dark .page-head + .template-grid,
+body.dark .page-head + .saved-list,
+body.dark .page-head + .customer-management {
+  color: #e4e6eb !important;
+}
+
+/* Mobile uses the exact same dark Facebook palette as desktop */
+@media (max-width:780px) {
+  body.dark .page-head h1,
+  body.dark .page-head h2 { color: #e4e6eb !important; }
+  body.dark .page-head h1 span,
+  body.dark .page-head h2 span { color: #4599ff !important; }
+  body.dark .page-head .eyebrow { color: #4599ff !important; background: #263951 !important; }
+  body.dark .page-head p { color: #b0b3b8 !important; }
+}

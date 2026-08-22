@@ -1,8 +1,9 @@
-ShortStories v1.0.17 - Mobile Sidebar Shadow Removal
+ShortStories v1.0.19
 
-- Removed the mobile sidebar box-shadow completely.
-- Removed the mobile sidebar ::after backdrop/overlay completely.
-- No gray/black shadow or overlay remains behind the sidebar when open.
-- Sidebar remains a solid Facebook-themed panel.
-- Desktop layout is unchanged.
-- Added CSS cache-busting version 1.0.17.
+- Fixed Facebook Dark Mode heading/navigation contrast.
+- Page labels (ADMIN PANEL, LIBRARY, SAVED, RECENT, etc.) now use Facebook blue on a dark-blue soft badge.
+- Page headings use readable Facebook dark text (#e4e6eb), with blue accent spans.
+- Supporting text uses #b0b3b8.
+- Sidebar navigation remains readable with distinct hover and active states.
+- Desktop and mobile use the same dark-theme color behavior.
+- Updated stylesheet cache-busting query to v1.0.19.
