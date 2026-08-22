@@ -1,8 +1,14 @@
-ShortStories v1.0.22 — View State Fix
+ShortStories v1.0.20
 
-Behavior:
-1. First successful login opens Prompt Builder.
-2. Browser refresh preserves the currently open section/form.
-3. Logout remembers the section that was open.
-4. On the next explicit login, that previous section is visible for 500ms, then Prompt Builder opens.
-5. View state is stored in localStorage and does not overwrite the refresh state with Builder.
+- Fixed Facebook Dark customer ACTIVE/INACTIVE status badge contrast.
+- ACTIVE status now uses Facebook blue text on a dark-blue badge in dark mode.
+- INACTIVE status now uses readable red text on a dark-red badge in dark mode.
+- Fixed initial refresh/loading text “Memuat ShortStories…” so it is readable and consistent with the Facebook theme.
+- Loading screen now follows the saved Facebook light/dark preference before the app finishes restoring the session.
+- Added a visible Facebook-blue loading indicator.
+- Updated stylesheet cache-busting query to v1.0.20.
+
+
+[2026-08-22] Login default view fix
+- Setelah login/session berhasil dipulihkan, aplikasi selalu membuka Prompt Builder (builderView).
+- Perilaku ini juga diterapkan saat refresh halaman selama sesi masih aktif.
