@@ -206,6 +206,14 @@ function showView(v){
   const map={builder:"builderView",themes:"themesView",templates:"templatesView",favorites:"favoritesView",history:"historyView",admin:"adminView"};
   const el=$(map[v]||v+"View");
   if(el) el.classList.add("active-view");
+
+  // Persist the active section so a browser refresh keeps the exact same
+  // screen. This is deliberately separate from login behavior.
+  if(map[v]){
+    try{ localStorage.setItem("shortstories:last-view", v); }catch(_){}
+    window.__ssCurrentView = v;
+  }
+
   document.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view===v));
   if(v==="themes" && typeof renderThemeLibrary==="function") renderThemeLibrary();
   if(v==="templates" && typeof renderTemplateLibraryV3==="function") renderTemplateLibraryV3();
@@ -597,6 +605,14 @@ function bindSavedActionsV3(){
 
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2200)}
 window.ssShowView = showView;
+window.getShortStoriesView = function(){
+  if(window.__ssCurrentView) return window.__ssCurrentView;
+  try{ return localStorage.getItem("shortstories:last-view") || "builder"; }catch(_){ return "builder"; }
+};
+window.restoreShortStoriesView = function(){
+  const v = window.getShortStoriesView();
+  if(v && typeof showView === "function") showView(v);
+};
 window.startShortStoriesApp = initV3;
 window.refreshShortStoriesSaved = function(){ savedReady=loadSavedV3(); return savedReady; };
 window.resetShortStoriesProject = resetGeneratedProjectV3;

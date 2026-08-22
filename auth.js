@@ -26,6 +26,9 @@
   // Default: 30 minutes. Activity is shared between tabs through localStorage.
   const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000;
   const LAST_ACTIVITY_KEY = 'shortstories:last-activity-at';
+  const LAST_VIEW_KEY = 'shortstories:last-view';
+  const LOGIN_RETURN_VIEW_KEY = 'shortstories:login-return-view';
+  const LOGIN_RETURN_DELAY_MS = 500;
   let inactivityTimer = null;
   let activityWriteTimer = null;
 
@@ -277,7 +280,7 @@
     }, 1500);
   }
 
-  async function showApp(user){
+  async function showApp(user, options={}){
     const auth = $('authScreen'), app = $('appShell');
     const c = client || getClient();
     if(!c || !user){
@@ -330,10 +333,27 @@
       await window.refreshShortStoriesSaved();
     }
 
-    // After every successful login/session restore, always land on the
-    // Prompt Builder instead of reopening the last visited section.
-    if(typeof window.showShortStoriesView === 'function'){
-      window.showShortStoriesView('builder');
+    // Explicit login: briefly restore the section that was open when the
+    // user logged out, then move to Prompt Builder after 0.5 second.
+    // Session restore/refresh: do NOT change the current view; the app
+    // restores the last view persisted by showView().
+    if(options.explicitLogin && typeof window.showShortStoriesView === 'function'){
+      let returnView = 'builder';
+      try{
+        const saved = localStorage.getItem(LOGIN_RETURN_VIEW_KEY);
+        if(saved) returnView = saved;
+        localStorage.removeItem(LOGIN_RETURN_VIEW_KEY);
+      }catch(_){}
+
+      window.showShortStoriesView(returnView);
+      window.clearTimeout(window.__ssLoginBuilderTimer);
+      window.__ssLoginBuilderTimer = window.setTimeout(() => {
+        if(typeof window.showShortStoriesView === 'function'){
+          window.showShortStoriesView('builder');
+        }
+      }, LOGIN_RETURN_DELAY_MS);
+    }else if(typeof window.restoreShortStoriesView === 'function'){
+      window.restoreShortStoriesView();
     }
   }
 
@@ -457,7 +477,7 @@
 
       // Only now is the application allowed to become visible.
       clearProjectOnNextAppOpen = true;
-      await showApp(data.user);
+      await showApp(data.user, {explicitLogin:true});
     }catch(err){
       // If an expired/inactive account was rejected, rejectAuthenticatedSession
       // already displayed the correct message. Do not overwrite it.
@@ -592,6 +612,15 @@
 
       const {error} = await c.auth.signOut({scope:'local'});
       if(error) throw error;
+
+      // Remember the section that was open at logout. On the next explicit
+      // login it is shown for 0.5s before Prompt Builder becomes the default.
+      try{
+        const currentView = typeof window.getShortStoriesView === 'function'
+          ? window.getShortStoriesView()
+          : localStorage.getItem(LAST_VIEW_KEY);
+        if(currentView) localStorage.setItem(LOGIN_RETURN_VIEW_KEY, currentView);
+      }catch(_){}
 
       client = null;
       clearProjectOnNextAppOpen = true;
