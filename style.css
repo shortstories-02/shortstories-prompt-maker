@@ -1698,3 +1698,200 @@ body.dark .customer-stat-card[data-customer-filter="expired"] strong { color:#f0
 body.dark .customer-stat-card[data-customer-filter="inactive"] strong { color:#ff8a8a !important; }
 body.dark .customer-stat-card[data-customer-filter="forever"] strong,
 body.dark .customer-stat-card[data-customer-filter="all"] strong { color:#4599ff !important; }
+
+/* =========================================================
+   v1.0.14 — FACEBOOK CUSTOMER LIST + MOBILE COLOR PARITY
+   Final override layer: light/dark colors are explicit so no
+   legacy theme variables can make customer controls unreadable.
+   ========================================================= */
+
+/* Facebook Light — customer rows */
+body:not(.dark) .customer-list,
+body:not(.dark) #customerList,
+body:not(.dark) .customer-item {
+  background:#f0f2f5 !important;
+  color:#1c1e21 !important;
+}
+body:not(.dark) .customer-item {
+  border:1px solid #dadde1 !important;
+  border-radius:12px !important;
+  padding:16px !important;
+  box-shadow:0 1px 2px rgba(0,0,0,.08) !important;
+}
+body:not(.dark) .customer-item:hover,
+body:not(.dark) .customer-item:focus-within {
+  background:#fff !important;
+  border-color:#cfd2d6 !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.10) !important;
+}
+body:not(.dark) .customer-main b,
+body:not(.dark) .customer-meta b,
+body:not(.dark) .customer-item b {
+  color:#1c1e21 !important;
+}
+body:not(.dark) .customer-main small,
+body:not(.dark) .customer-meta,
+body:not(.dark) .customer-meta span {
+  color:#65676b !important;
+}
+body:not(.dark) .customer-status {
+  background:#e7f3ff !important;
+  color:#1877f2 !important;
+  border:0 !important;
+}
+body:not(.dark) .customer-status.inactive {
+  background:#ffebe9 !important;
+  color:#c62828 !important;
+}
+
+/* Customer action buttons: always readable in Facebook Light. */
+body:not(.dark) .customer-actions button,
+body:not(.dark) .customer-actions button:visited {
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  background:#e4e6eb !important;
+  color:#1c1e21 !important;
+  border:1px solid #ccd0d5 !important;
+  border-radius:8px !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+  box-shadow:none !important;
+}
+body:not(.dark) .customer-actions button:hover,
+body:not(.dark) .customer-actions button:focus,
+body:not(.dark) .customer-actions button:focus-visible,
+body:not(.dark) .customer-actions button:active {
+  background:#d8dadf !important;
+  color:#1c1e21 !important;
+  border-color:#b8bbbf !important;
+  opacity:1 !important;
+  box-shadow:none !important;
+  transform:none !important;
+  outline:none !important;
+}
+body:not(.dark) .customer-actions button.danger,
+body:not(.dark) .customer-actions button.danger:hover,
+body:not(.dark) .customer-actions button.danger:focus,
+body:not(.dark) .customer-actions button.danger:active {
+  background:#ffebe9 !important;
+  color:#c62828 !important;
+  border-color:#f5c2bd !important;
+}
+
+/* Customer search/filter controls use the same PC/mobile palette. */
+body:not(.dark) .customer-search-wrap label,
+body:not(.dark) .customer-search-wrap input,
+body:not(.dark) .customer-search-wrap select {
+  color:#1c1e21 !important;
+}
+body:not(.dark) .customer-search-wrap input,
+body:not(.dark) .customer-search-wrap select {
+  background:#fff !important;
+  border-color:#ccd0d5 !important;
+}
+body:not(.dark) .customer-search-wrap input:hover,
+body:not(.dark) .customer-search-wrap select:hover {
+  background:#fff !important;
+  border-color:#b8bbbf !important;
+}
+
+/* Facebook Light — mobile must not inherit legacy black surfaces. */
+@media(max-width:900px){
+  body:not(.dark) .sidebar,
+  body:not(.dark) .sidebar nav,
+  body:not(.dark) .sidebar .nav-item,
+  body:not(.dark) .mobile-head {
+    background:#fff !important;
+    color:#1c1e21 !important;
+    border-color:#dadde1 !important;
+    box-shadow:none !important;
+  }
+  body:not(.dark) .sidebar .nav-item:hover {
+    background:#f2f3f5 !important;
+    color:#1c1e21 !important;
+  }
+  body:not(.dark) .sidebar .nav-item.active {
+    background:#e7f3ff !important;
+    color:#1877f2 !important;
+  }
+  body:not(.dark) .customer-management,
+  body:not(.dark) .customer-dashboard,
+  body:not(.dark) .customer-list {
+    background:transparent !important;
+    color:#1c1e21 !important;
+  }
+  body:not(.dark) .customer-stat-card,
+  body:not(.dark) .customer-item {
+    background:#fff !important;
+    color:#1c1e21 !important;
+    border-color:#dadde1 !important;
+  }
+  body:not(.dark) .customer-stat-card:hover,
+  body:not(.dark) .customer-item:hover {
+    background:#f2f3f5 !important;
+  }
+  body:not(.dark) .customer-actions button {
+    background:#e4e6eb !important;
+    color:#1c1e21 !important;
+  }
+  body:not(.dark) .customer-actions button.danger {
+    background:#ffebe9 !important;
+    color:#c62828 !important;
+  }
+}
+
+/* Facebook Dark — explicit counterpart for the same components. */
+body.dark .customer-list,
+body.dark #customerList {
+  background:#18191a !important;
+  color:#e4e6eb !important;
+}
+body.dark .customer-item {
+  background:#242526 !important;
+  color:#e4e6eb !important;
+  border-color:#3e4042 !important;
+  box-shadow:none !important;
+}
+body.dark .customer-item:hover,
+body.dark .customer-item:focus-within {
+  background:#3a3b3c !important;
+  border-color:#5a5c5f !important;
+}
+body.dark .customer-main b,
+body.dark .customer-meta b,
+body.dark .customer-item b {
+  color:#e4e6eb !important;
+}
+body.dark .customer-main small,
+body.dark .customer-meta,
+body.dark .customer-meta span {
+  color:#b0b3b8 !important;
+}
+body.dark .customer-actions button {
+  background:#3a3b3c !important;
+  color:#e4e6eb !important;
+  border-color:#4e4f50 !important;
+  opacity:1 !important;
+}
+body.dark .customer-actions button:hover,
+body.dark .customer-actions button:focus,
+body.dark .customer-actions button:active {
+  background:#4e4f50 !important;
+  color:#fff !important;
+  border-color:#5a5c5f !important;
+}
+body.dark .customer-actions button.danger,
+body.dark .customer-actions button.danger:hover {
+  background:#3b2525 !important;
+  color:#ff8a8a !important;
+  border-color:#684040 !important;
+}
+@media(max-width:900px){
+  body.dark .sidebar,
+  body.dark .sidebar nav,
+  body.dark .mobile-head {
+    background:#242526 !important;
+    color:#e4e6eb !important;
+    border-color:#3e4042 !important;
+  }
+}

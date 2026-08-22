@@ -1,10 +1,10 @@
-ShortStories v1.0.10 — Full Facebook Theme
+ShortStories v1.0.14
 
-- Replaced the visible TikTok-inspired visual system with a consistent Facebook-inspired blue/white/gray design system.
-- Removed TikTok decorative auth elements from index.html.
-- Applied Facebook-style colors, cards, forms, buttons, navigation, sidebar, login, preview, admin and mobile UI.
-- Dark mode, where enabled, now uses Facebook dark styling.
-- Preserved existing application logic and features.
-
-
-v1.0.12: Final Facebook surface cleanup. Removed visible legacy black panels from light mode, including empty account states, prompt area, preview, customer/admin empty states, and toast. Light mode now uses only Facebook white/gray/blue surfaces; dark mode remains Facebook dark.
+Changes:
+- Fixed customer management action buttons that were appearing nearly white/unreadable.
+- Explicit Facebook Light colors for customer rows, status badges, action buttons, search and filters.
+- Explicit Facebook Dark counterparts.
+- Mobile customer-management colors now match desktop Facebook Light/Dark colors.
+- Removed remaining legacy-theme color inheritance from customer controls through a final CSS override layer.
+- Added style.css?v=1.0.14 cache-busting to prevent browsers from using an older stylesheet.
+- Existing functionality preserved.
