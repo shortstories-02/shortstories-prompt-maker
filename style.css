@@ -1895,3 +1895,50 @@ body.dark .customer-actions button.danger:hover {
     border-color:#3e4042 !important;
   }
 }
+
+/* v1.0.15 — Facebook hover behavior: hover/focus must visibly change color, never wash text out. */
+body:not(.dark) .customer-actions button {
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease !important;
+  cursor: pointer !important;
+}
+body:not(.dark) .customer-actions button:hover,
+body:not(.dark) .customer-actions button:focus-visible {
+  background:#1877f2 !important;
+  color:#ffffff !important;
+  border-color:#1877f2 !important;
+  box-shadow:0 1px 3px rgba(24,119,242,.22) !important;
+}
+body:not(.dark) .customer-actions button:active {
+  background:#166fe5 !important;
+  color:#ffffff !important;
+  border-color:#166fe5 !important;
+  box-shadow:none !important;
+}
+body:not(.dark) .customer-actions button.danger:hover,
+body:not(.dark) .customer-actions button.danger:focus-visible {
+  background:#e41e3f !important;
+  color:#ffffff !important;
+  border-color:#e41e3f !important;
+  box-shadow:0 1px 3px rgba(228,30,63,.22) !important;
+}
+body:not(.dark) .customer-actions button.danger:active {
+  background:#c91835 !important;
+  color:#ffffff !important;
+  border-color:#c91835 !important;
+}
+
+/* Keep the same hover behavior on mobile; do not let mobile overrides cancel it. */
+@media(max-width:900px){
+  body:not(.dark) .customer-actions button:hover,
+  body:not(.dark) .customer-actions button:focus-visible {
+    background:#1877f2 !important;
+    color:#fff !important;
+    border-color:#1877f2 !important;
+  }
+  body:not(.dark) .customer-actions button.danger:hover,
+  body:not(.dark) .customer-actions button.danger:focus-visible {
+    background:#e41e3f !important;
+    color:#fff !important;
+    border-color:#e41e3f !important;
+  }
+}

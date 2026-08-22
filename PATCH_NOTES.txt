@@ -1,10 +1,9 @@
-ShortStories v1.0.14
+ShortStories v1.0.15 — Facebook Hover Behavior Fix
 
-Changes:
-- Fixed customer management action buttons that were appearing nearly white/unreadable.
-- Explicit Facebook Light colors for customer rows, status badges, action buttons, search and filters.
-- Explicit Facebook Dark counterparts.
-- Mobile customer-management colors now match desktop Facebook Light/Dark colors.
-- Removed remaining legacy-theme color inheritance from customer controls through a final CSS override layer.
-- Added style.css?v=1.0.14 cache-busting to prevent browsers from using an older stylesheet.
-- Existing functionality preserved.
+- Customer action buttons now visibly change color on hover/focus.
+- Light theme: normal buttons are Facebook gray; hover/focus becomes Facebook blue with white text.
+- Delete button uses Facebook-style red on hover/focus with white text.
+- Active state uses a slightly darker Facebook blue/red.
+- Mobile uses the same hover/focus palette as desktop.
+- Added CSS cache-busting: style.css?v=1.0.15.
+- Existing application logic is preserved.
