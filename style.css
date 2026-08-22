@@ -1707,22 +1707,25 @@ body.dark .customer-stat-card[data-customer-filter="all"] strong { color:#4599ff
 
 /* Facebook Light — customer rows */
 body:not(.dark) .customer-list,
-body:not(.dark) #customerList,
-body:not(.dark) .customer-item {
+body:not(.dark) #customerList {
   background:#f0f2f5 !important;
   color:#1c1e21 !important;
 }
 body:not(.dark) .customer-item {
+  background:#fff !important;
+  color:#1c1e21 !important;
   border:1px solid #dadde1 !important;
   border-radius:12px !important;
   padding:16px !important;
   box-shadow:0 1px 2px rgba(0,0,0,.08) !important;
+  transition:background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease !important;
 }
 body:not(.dark) .customer-item:hover,
 body:not(.dark) .customer-item:focus-within {
-  background:#fff !important;
-  border-color:#cfd2d6 !important;
-  box-shadow:0 2px 8px rgba(0,0,0,.10) !important;
+  background:#f2f3f5 !important;
+  color:#1c1e21 !important;
+  border-color:#1877f2 !important;
+  box-shadow:0 2px 8px rgba(24,119,242,.16) !important;
 }
 body:not(.dark) .customer-main b,
 body:not(.dark) .customer-meta b,
@@ -1827,8 +1830,12 @@ body:not(.dark) .customer-search-wrap select:hover {
     border-color:#dadde1 !important;
   }
   body:not(.dark) .customer-stat-card:hover,
-  body:not(.dark) .customer-item:hover {
+  body:not(.dark) .customer-item:hover,
+  body:not(.dark) .customer-item:focus-within {
     background:#f2f3f5 !important;
+    color:#1c1e21 !important;
+    border-color:#1877f2 !important;
+    box-shadow:0 2px 8px rgba(24,119,242,.16) !important;
   }
   body:not(.dark) .customer-actions button {
     background:#e4e6eb !important;
@@ -1940,5 +1947,48 @@ body:not(.dark) .customer-actions button.danger:active {
     background:#e41e3f !important;
     color:#fff !important;
     border-color:#e41e3f !important;
+  }
+}
+
+
+/* v1.0.16 — Correct Facebook hover direction for customer cards.
+   Normal = white; pointer/focus = Facebook light gray + blue outline.
+   Buttons keep their own blue hover behavior. */
+body:not(.dark) .customer-item {
+  background:#fff !important;
+  color:#1c1e21 !important;
+  border-color:#dadde1 !important;
+}
+body:not(.dark) .customer-item:hover,
+body:not(.dark) .customer-item:focus-within {
+  background:#f2f3f5 !important;
+  color:#1c1e21 !important;
+  border-color:#1877f2 !important;
+  box-shadow:0 2px 8px rgba(24,119,242,.16) !important;
+}
+body:not(.dark) .customer-item:hover b,
+body:not(.dark) .customer-item:focus-within b {
+  color:#1c1e21 !important;
+}
+body:not(.dark) .customer-item:hover small,
+body:not(.dark) .customer-item:focus-within small,
+body:not(.dark) .customer-item:hover .customer-meta,
+body:not(.dark) .customer-item:focus-within .customer-meta,
+body:not(.dark) .customer-item:hover .customer-meta span,
+body:not(.dark) .customer-item:focus-within .customer-meta span {
+  color:#65676b !important;
+}
+@media(max-width:900px){
+  body:not(.dark) .customer-item {
+    background:#fff !important;
+    color:#1c1e21 !important;
+    border-color:#dadde1 !important;
+  }
+  body:not(.dark) .customer-item:hover,
+  body:not(.dark) .customer-item:focus-within {
+    background:#f2f3f5 !important;
+    color:#1c1e21 !important;
+    border-color:#1877f2 !important;
+    box-shadow:0 2px 8px rgba(24,119,242,.16) !important;
   }
 }

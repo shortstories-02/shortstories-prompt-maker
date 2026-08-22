@@ -7,3 +7,6 @@ ShortStories v1.0.15 — Facebook Hover Behavior Fix
 - Mobile uses the same hover/focus palette as desktop.
 - Added CSS cache-busting: style.css?v=1.0.15.
 - Existing application logic is preserved.
+
+
+v1.0.16: Fixed Facebook customer-card hover direction: normal cards are white; hover/focus changes to Facebook light gray with blue border. Mobile and desktop parity preserved.
