@@ -2,7 +2,8 @@
 const THEMES=[["Laut & Bawah Laut","🌊","Laut"],["Sunflower Garden","🌻","Taman"],["Hewan Safari","🦁","Hewan"],["Hewan Hutan","🐯","Hewan"],["Hewan Laut","🐳","Hewan"],["Hewan Peternakan","🐮","Hewan"],["Dinosaurus","🦖","Fantasi"],["Luar Angkasa","🚀","Fantasi"],["Galaksi Pastel","🪐","Fantasi"],["Pelangi","🌈","Fantasi"],["Unicorn","🦄","Fantasi"],["Putri & Kerajaan","👑","Fantasi"],["Taman Bunga","🌷","Alam"],["Hutan Tropis","🌴","Alam"],["Pegunungan","🏔️","Alam"],["Air Terjun","💦","Alam"],["Kebun Buah","🍎","Alam"],["Kebun Sayur","🥕","Alam"],["Taman Sekolah","🏫","Sekolah"],["Kelas Ceria","🎒","Sekolah"],["Perpustakaan","📚","Sekolah"],["Laboratorium Sains","🔬","Sekolah"],["Matematika","🔢","Edukasi"],["Bahasa Indonesia","✏️","Edukasi"],["IPAS","🌱","Edukasi"],["Seni Rupa","🎨","Edukasi"],["PJOK","⚽","Edukasi"],["Musik","🎵","Edukasi"],["Membaca","📖","Literasi"],["Menulis","🖊️","Literasi"],["Islami Ceria","☪️","Religi"],["Masjid & Ramadhan","🌙","Religi"],["Hewan Nusantara","🦧","Indonesia"],["Budaya Indonesia","🇮🇩","Indonesia"],["Gorontalo","🏠","Indonesia"],["Pahlawan Indonesia","🇮🇩","Indonesia"],["Kemerdekaan","🎈","Indonesia"],["Lingkungan Hijau","🌿","Lingkungan"],["Kebersihan","🧹","Lingkungan"],["Hemat Energi","💡","Lingkungan"],["Air Bersih","💧","Lingkungan"],["Keselamatan","🦺","Kehidupan"],["Kesehatan","❤️","Kehidupan"],["Emosi Positif","😊","Kehidupan"],["Persahabatan","🤝","Kehidupan"],["Robot & Teknologi","🤖","Teknologi"],["Coding Anak","💻","Teknologi"],["Transportasi","🚌","Kehidupan"],["Kota Mini","🏙️","Kehidupan"],["Kampung Ceria","🏡","Kehidupan"]];
 const TEMPLATES=[
 ["Jadwal Pelajaran","📚","Manajemen Kelas"],["Jadwal Piket Kelas","🧹","Manajemen Kelas"],["Struktur Organisasi Kelas","👥","Manajemen Kelas"],["Kesepakatan Kelas","🤝","Budaya & Karakter"],["Tata Tertib Kelas","📌","Budaya & Karakter"],["5 Kata Ajaib","💬","Budaya & Karakter"],["Budaya 7S","😊","Budaya & Karakter"],["Poster Kebersihan","🧼","Budaya & Karakter"],["Poster Disiplin","⏰","Budaya & Karakter"],["Poster Sopan Santun","🙇","Budaya & Karakter"],["Absensi Bulanan","🗓️","Administrasi"],["Daftar Piket","📋","Administrasi"],["Data Siswa","👧","Administrasi"],["Kalender Kelas","📅","Administrasi"],["Tata Surya","🪐","Edukasi"],["Bagian Tumbuhan","🌱","Edukasi"],["Siklus Air","💧","Edukasi"],["Perubahan Wujud Benda","🧊","Edukasi"],["Sistem Pernapasan","🫁","Edukasi"],["Panca Indera","👀","Edukasi"],["Energi dan Perubahannya","⚡","Edukasi"],["Gaya dan Gerak","🏃","Edukasi"],["Daur Hidup Hewan","🦋","Edukasi"],["Siklus Hidup Tumbuhan","🌻","Edukasi"],["Angka 1–20","🔢","Edukasi"],["Huruf A–Z","🔤","Edukasi"],["Kata Benda","📝","Edukasi"],["Kata Kerja","🏃","Edukasi"],["Motivasi Belajar","⭐","Motivasi"],["Aku Suka Membaca","📖","Motivasi"],["Berani Bertanya","🙋","Motivasi"],["Rajin Menabung","🐷","Motivasi"],["Aku Anak Hebat","🌟","Motivasi"],["Rukun Islam","☪️","Edukasi"],["Rukun Iman","📖","Edukasi"],["Doa Sehari-hari","🤲","Edukasi"],["Pakaian Adat Indonesia","👘","Edukasi"],["Rumah Adat Indonesia","🏠","Edukasi"],["Peta Indonesia","🇮🇩","Edukasi"],["Hewan dan Habitat","🐾","Edukasi"],["Makanan Sehat","🍎","Edukasi"],["5 Indera + Kesehatan","❤️","Edukasi"],["Poster Anti Bullying","🛡️","Budaya & Karakter"],["Kata Motivasi Harian","💡","Motivasi"],["Sudut Baca","📚","Literasi"],["Cover Portofolio Siswa","🐠","Portofolio"],["Selamat Datang di Kelas","🌊","Hiasan Kelas"]];
-let selectedTheme=THEMES[0], lastPrompt="", favorites=JSON.parse(localStorage.getItem("ss_v3_fav")||"[]"), history=JSON.parse(localStorage.getItem("ss_v3_hist")||"[]");
+let selectedTheme=THEMES[0], lastPrompt="", favorites=[], history=[], savedUserId=null, savedReady=Promise.resolve();
+const SAVED_TABLE="saved_prompts";
 const $=id=>document.getElementById(id);
 const esc=s=>(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 
@@ -52,8 +53,11 @@ KELAS: __________`;
   };
   return starters[name] || `${name}\n\n[Masukkan isi poster di sini]\n[Tambahkan data, daftar, langkah, atau informasi yang wajib ditampilkan]`;
 }
-function initV3(){
+async function initV3(){
+  savedReady=loadSavedV3();
+  await savedReady;
   populateTemplateSelectV34();
+  bindSavedActionsV3();
   // Add theme library navigation/view.
   const nav=document.querySelector("nav");
   if(nav && !document.querySelector('[data-view="themes"]')){
@@ -210,7 +214,7 @@ function showView(v){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function bindEvents(){
-  $("clearHistory")?.addEventListener("click",()=>{history=[];localStorage.removeItem("ss_v3_hist");renderSavedV3();toast("Riwayat dihapus")});
+  $("clearHistory")?.addEventListener("click",()=>{void clearHistoryV3()});
   $("generateBtn").onclick=generateV3;$("copyBtn").onclick=copyV3;$("favoriteBtn").onclick=favV3;$("downloadBtn").onclick=downloadV3;$("resetBtn").onclick=()=>location.reload();
   $("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("ss_v3_dark",document.body.classList.contains("dark")?"1":"0");};
   $("menuBtn").onclick=(e)=>{e.stopPropagation();$("sidebar").classList.toggle("open");};
@@ -348,18 +352,179 @@ Poster SD yang ceria, profesional, premium, sangat detail, mudah dibaca dari jar
 function updatePreviewV3(){
   $("previewTheme").textContent=selectedTheme[1];$("previewClass").textContent=$("classLevel").value.toUpperCase();$("previewTitle").textContent=$("title").value.trim()||"JUDUL POSTER";$("previewContent").textContent=$("content").value.trim()||"Isi poster akan tampil di sini.";$("previewStyle").textContent=$("style").value;
 }
-function addHistoryV3(title){history.unshift({id:Date.now(),title,prompt:lastPrompt});history=history.slice(0,20);localStorage.setItem("ss_v3_hist",JSON.stringify(history));renderSavedV3();}
+async function getSavedContextV3(){
+  const getClient=window.getShortStoriesSupabase;
+  if(typeof getClient!=="function") throw new Error("Koneksi akun belum siap.");
+  const client=getClient();
+  if(!client) throw new Error("Koneksi Supabase belum siap.");
+  const {data:{user},error}=await client.auth.getUser();
+  if(error) throw error;
+  if(!user?.id) throw new Error("Sesi pengguna tidak ditemukan.");
+  return {client,user};
+}
+
+async function loadSavedV3(){
+  try{
+    const {client,user}=await getSavedContextV3();
+    savedUserId=user.id;
+    const {data,error}=await client
+      .from(SAVED_TABLE)
+      .select("id,kind,title,prompt,created_at")
+      .eq("user_id",user.id)
+      .order("created_at",{ascending:false});
+    if(error) throw error;
+    const rows=Array.isArray(data)?data:[];
+    history=rows.filter(x=>x.kind==="history").slice(0,20);
+    favorites=rows.filter(x=>x.kind==="favorite").slice(0,30);
+    // Remove legacy global browser storage so an older browser cache cannot
+    // leak another account's saved prompts into the new account-scoped UI.
+    try{ localStorage.removeItem("ss_v3_hist"); localStorage.removeItem("ss_v3_fav"); }catch(_){ }
+    renderSavedV3();
+  }catch(error){
+    savedUserId=null;
+    history=[];
+    favorites=[];
+    renderSavedV3();
+    console.error("Gagal memuat riwayat/favorit:",error);
+    toast("Riwayat & favorit belum dapat dimuat");
+  }
+}
+
+async function addHistoryV3(title){
+  try{
+    await savedReady;
+    const {client,user}=await getSavedContextV3();
+    if(savedUserId!==user.id){
+      await loadSavedV3();
+      if(savedUserId!==user.id) throw new Error("Sesi pengguna berubah.");
+    }
+    const {data,error}=await client
+      .from(SAVED_TABLE)
+      .insert({user_id:user.id,kind:"history",title:title||"Prompt Poster",prompt:lastPrompt})
+      .select("id,kind,title,prompt,created_at")
+      .single();
+    if(error) throw error;
+    history.unshift(data);
+    const overflow=history.slice(20);
+    history=history.slice(0,20);
+    if(overflow.length){
+      const ids=overflow.map(x=>x.id);
+      await client.from(SAVED_TABLE).delete().in("id",ids).eq("user_id",user.id).eq("kind","history");
+      history=history.slice(0,20);
+    }
+    renderSavedV3();
+  }catch(error){
+    console.error("Gagal menyimpan riwayat:",error);
+    toast("Riwayat gagal disimpan");
+  }
+}
+
 async function copyV3(){if(!lastPrompt)generateV3();try{await navigator.clipboard.writeText($("promptOutput").textContent);toast("✓ Prompt disalin")}catch(e){toast("Salin manual dari kotak prompt")}}
-function favV3(){if(!lastPrompt)generateV3();if(!favorites.some(x=>x.prompt===lastPrompt)){favorites.unshift({id:Date.now(),title:$("title").value||"Prompt Poster",prompt:lastPrompt});favorites=favorites.slice(0,30);localStorage.setItem("ss_v3_fav",JSON.stringify(favorites));toast("⭐ Ditambahkan ke favorit")}else toast("Sudah ada di favorit")}
+
+async function favV3(){
+  if(!lastPrompt)generateV3();
+  try{
+    await savedReady;
+    const {client,user}=await getSavedContextV3();
+    if(savedUserId!==user.id){
+      await loadSavedV3();
+      if(savedUserId!==user.id) throw new Error("Sesi pengguna berubah.");
+    }
+    if(favorites.some(x=>x.prompt===lastPrompt)){
+      toast("Sudah ada di favorit");
+      return;
+    }
+    const {data,error}=await client
+      .from(SAVED_TABLE)
+      .insert({user_id:user.id,kind:"favorite",title:$("title").value||"Prompt Poster",prompt:lastPrompt})
+      .select("id,kind,title,prompt,created_at")
+      .single();
+    if(error) throw error;
+    favorites.unshift(data);
+    if(favorites.length>30){
+      const overflow=favorites.slice(30);
+      const ids=overflow.map(x=>x.id);
+      await client.from(SAVED_TABLE).delete().in("id",ids).eq("user_id",user.id).eq("kind","favorite");
+      favorites=favorites.slice(0,30);
+    }
+    renderSavedV3();
+    toast("⭐ Ditambahkan ke favorit");
+  }catch(error){
+    console.error("Gagal menyimpan favorit:",error);
+    toast("Favorit gagal disimpan");
+  }
+}
+
 function downloadV3(){if(!lastPrompt)generateV3();const b=new Blob([lastPrompt],{type:"text/plain;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="ShortStories-Prompt-V3.txt";a.click();URL.revokeObjectURL(a.href);toast("⬇ TXT dibuat")}
+
 function renderSavedV3(){
   const fav=$("favoritesList"), hist=$("historyList");
-  const card=(x,type)=>`<article class="saved-item"><b>${esc(type)} — ${esc(x.title)}</b><p>${esc(x.prompt)}</p><div class="saved-actions"><button onclick="loadV3(${x.id})">Buka</button><button onclick="delV3(${x.id},'${type.includes("Favorit")?"fav":"hist"}')">Hapus</button></div></article>`;
-  if(fav)fav.innerHTML=favorites.length?favorites.map(x=>card(x,"⭐ Favorit")).join(""):`<div class="empty">⭐ Belum ada prompt favorit.</div>`;
-  if(hist)hist.innerHTML=history.length?history.map(x=>card(x,"🕘 Riwayat")).join(""):`<div class="empty">🕘 Belum ada riwayat prompt.</div>`;
+  const card=(x,type)=>`<article class="saved-item" data-saved-id="${esc(x.id)}" data-saved-kind="${type}"><b>${esc(type==="favorite"?"⭐ Favorit":"🕘 Riwayat")} — ${esc(x.title)}</b><p>${esc(x.prompt)}</p><div class="saved-actions"><button type="button" data-saved-action="load">Buka</button><button type="button" data-saved-action="delete">Hapus</button></div></article>`;
+  if(fav)fav.innerHTML=favorites.length?favorites.map(x=>card(x,"favorite")).join(""):`<div class="empty">⭐ Belum ada prompt favorit.</div>`;
+  if(hist)hist.innerHTML=history.length?history.map(x=>card(x,"history")).join(""):`<div class="empty">🕘 Belum ada riwayat prompt.</div>`;
 }
-function loadV3(id){const x=[...favorites,...history].find(a=>a.id===id);if(!x)return;lastPrompt=x.prompt;$("promptOutput").textContent=x.prompt;$("status").textContent="Dimuat";showView("builder");toast("Prompt dimuat")}
-function delV3(id,t){if(t==="fav"){favorites=favorites.filter(x=>x.id!==id);localStorage.setItem("ss_v3_fav",JSON.stringify(favorites))}else{history=history.filter(x=>x.id!==id);localStorage.setItem("ss_v3_hist",JSON.stringify(history))}renderSavedV3()}
+
+async function loadV3(id,kind){
+  const list=kind==="favorite"?favorites:history;
+  const x=list.find(a=>String(a.id)===String(id));
+  if(!x)return;
+  lastPrompt=x.prompt;
+  $("promptOutput").textContent=x.prompt;
+  $("status").textContent="Dimuat";
+  showView("builder");
+  toast("Prompt dimuat");
+}
+
+async function delV3(id,t){
+  try{
+    await savedReady;
+    const {client,user}=await getSavedContextV3();
+    if(savedUserId!==user.id) throw new Error("Sesi pengguna berubah.");
+    const kind=t==="fav"?"favorite":"history";
+    const {error}=await client.from(SAVED_TABLE).delete().eq("id",id).eq("user_id",user.id).eq("kind",kind);
+    if(error) throw error;
+    if(kind==="favorite") favorites=favorites.filter(x=>String(x.id)!==String(id));
+    else history=history.filter(x=>String(x.id)!==String(id));
+    renderSavedV3();
+  }catch(error){
+    console.error("Gagal menghapus simpanan:",error);
+    toast("Data gagal dihapus");
+  }
+}
+
+async function clearHistoryV3(){
+  try{
+    await savedReady;
+    const {client,user}=await getSavedContextV3();
+    if(savedUserId!==user.id) throw new Error("Sesi pengguna berubah.");
+    const {error}=await client.from(SAVED_TABLE).delete().eq("user_id",user.id).eq("kind","history");
+    if(error) throw error;
+    history=[];
+    renderSavedV3();
+    toast("Riwayat dihapus");
+  }catch(error){
+    console.error("Gagal menghapus riwayat:",error);
+    toast("Riwayat gagal dihapus");
+  }
+}
+
+function bindSavedActionsV3(){
+  [$("favoritesList"),$("historyList")].forEach(list=>{
+    if(!list || list.dataset.savedBound==="1")return;
+    list.dataset.savedBound="1";
+    list.addEventListener("click",e=>{
+      const btn=e.target.closest("button[data-saved-action]");
+      const card=btn?.closest("[data-saved-id]");
+      if(!btn || !card)return;
+      const id=card.dataset.savedId;
+      const kind=card.dataset.savedKind;
+      if(btn.dataset.savedAction==="load") void loadV3(id,kind);
+      else void delV3(id,kind==="favorite"?"fav":"hist");
+    });
+  });
+}
+
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2200)}
 window.ssShowView = showView;
 window.startShortStoriesApp = initV3;
+window.refreshShortStoriesSaved = function(){ savedReady=loadSavedV3(); return savedReady; };

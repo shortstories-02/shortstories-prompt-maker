@@ -1,0 +1,27 @@
+SHORTSTORIES — PER-USER RIWAYAT & FAVORIT
+
+1. Buka Supabase Dashboard untuk project ShortStories.
+2. Masuk ke SQL Editor.
+3. Buka file:
+   supabase/migrations/20260822_saved_prompts_per_user.sql
+4. Jalankan seluruh SQL tersebut satu kali.
+5. Deploy/update file website berikut:
+   - script.js
+   - auth.js
+   - index.html
+   - folder supabase/migrations/
+
+Keamanan:
+- Setiap row menyimpan user_id dari auth.uid().
+- Row Level Security (RLS) aktif dan dipaksa.
+- SELECT hanya mengizinkan user melihat row miliknya sendiri.
+- INSERT hanya mengizinkan user membuat row dengan user_id miliknya sendiri.
+- DELETE hanya mengizinkan user menghapus row miliknya sendiri.
+- Frontend tidak menggunakan localStorage lagi untuk riwayat/favorit.
+- Jika user login di perangkat lain, riwayat dan favorit akun tersebut tetap mengikuti akun.
+- User lain tidak dapat membaca data akun tersebut melalui Supabase API meskipun mencoba mengubah user_id di browser, karena RLS menolak akses.
+
+Catatan:
+Data lama yang tersimpan pada localStorage sebelum patch ini tidak dimigrasikan otomatis.
+Hal ini sengaja dilakukan agar data lama yang mungkin berasal dari akun berbeda tidak salah
+masuk ke akun yang sedang login.

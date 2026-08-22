@@ -24,3 +24,10 @@ Perbaikan:
 - Session akun expired dicek sebelum app ditampilkan, termasuk setelah refresh.
 - Logout mengosongkan email/password.
 - Admin Panel tetap menggunakan Edge Function create-customer.
+
+
+Per-user Riwayat & Favorit (v4.9)
+- Riwayat dan favorit sekarang disimpan di tabel Supabase `saved_prompts`, bukan localStorage global.
+- RLS memastikan setiap akun hanya dapat SELECT/INSERT/DELETE data miliknya sendiri.
+- Jalankan `supabase/migrations/20260822_saved_prompts_per_user.sql` satu kali di Supabase SQL Editor sebelum deploy.
+- File `SUPABASE_SAVED_PROMPTS_SETUP.txt` berisi langkah pemasangan dan catatan keamanan.

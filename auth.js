@@ -317,7 +317,9 @@
 
     if(typeof window.startShortStoriesApp === 'function' && !window.__ssAppStarted){
       window.__ssAppStarted = true;
-      window.startShortStoriesApp();
+      await window.startShortStoriesApp();
+    }else if(typeof window.refreshShortStoriesSaved === 'function'){
+      await window.refreshShortStoriesSaved();
     }
   }
 
@@ -349,6 +351,16 @@
     }
     return client;
   }
+
+  // Frontend-only helpers used by the prompt history/favorites module.
+  // Security is enforced by Supabase Row Level Security, not by these helpers.
+  window.getShortStoriesSupabase = getClient;
+  window.getShortStoriesCurrentUser = async function(){
+    const c = getClient();
+    if(!c) return null;
+    const {data:{user}} = await c.auth.getUser();
+    return user || null;
+  };
 
   async function getProfileAccess(c, user){
     try{
@@ -567,6 +579,7 @@
       if(error) throw error;
 
       client = null;
+      window.__ssAppStarted = false;
       clearInactivityTimer();
       try{ localStorage.removeItem(LAST_ACTIVITY_KEY); }catch(_){ }
       showAuth('Anda sudah keluar dari ShortStories.');
