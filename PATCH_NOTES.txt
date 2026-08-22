@@ -1,12 +1,8 @@
-ShortStories v1.0.15 — Facebook Hover Behavior Fix
+ShortStories v1.0.17 - Mobile Sidebar Shadow Removal
 
-- Customer action buttons now visibly change color on hover/focus.
-- Light theme: normal buttons are Facebook gray; hover/focus becomes Facebook blue with white text.
-- Delete button uses Facebook-style red on hover/focus with white text.
-- Active state uses a slightly darker Facebook blue/red.
-- Mobile uses the same hover/focus palette as desktop.
-- Added CSS cache-busting: style.css?v=1.0.15.
-- Existing application logic is preserved.
-
-
-v1.0.16: Fixed Facebook customer-card hover direction: normal cards are white; hover/focus changes to Facebook light gray with blue border. Mobile and desktop parity preserved.
+- Removed the mobile sidebar box-shadow completely.
+- Removed the mobile sidebar ::after backdrop/overlay completely.
+- No gray/black shadow or overlay remains behind the sidebar when open.
+- Sidebar remains a solid Facebook-themed panel.
+- Desktop layout is unchanged.
+- Added CSS cache-busting version 1.0.17.
