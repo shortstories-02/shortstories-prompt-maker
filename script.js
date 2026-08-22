@@ -349,6 +349,77 @@ HASIL AKHIR:
 Poster SD yang ceria, profesional, premium, sangat detail, mudah dibaca dari jarak jauh, konsisten dengan tema, seimbang antara ilustrasi dan informasi, dan siap digunakan sebagai dekorasi kelas.`;
   $("promptOutput").textContent=lastPrompt;$("status").textContent="Berhasil dibuat";updatePreviewV3();addHistoryV3(title);toast("✓ Prompt V3 berhasil dibuat");
 }
+function resetGeneratedProjectV3(){
+  // Clear only the current working project. Saved history/favorites are
+  // intentionally untouched because they belong to the authenticated user.
+  lastPrompt="";
+  selectedTheme=THEMES[0];
+  referenceImageData="";
+  referenceImageName="";
+
+  const defaults={
+    templateSelect:"0",
+    classLevel:"Kelas 1 SD",
+    semester:"Semester 1",
+    title:"JADWAL PELAJARAN",
+    content:"",
+    extra:"",
+    style:"3D Cartoon Premium",
+    layout:"Poster vertikal terstruktur",
+    character:"Anak SD ceria",
+    fontStyle:"Bold, bulat, ramah anak",
+    size:"A4 Portrait — 21 × 29,7 cm",
+    resolution:"300 DPI — siap cetak",
+    color:"Cerah, ceria, dan penuh warna",
+    border:"Tipis dan elegan",
+    v3Orientation:"Portrait",
+    v3Focus:"Seimbang: teks + ilustrasi",
+    v3Detail:"Premium & sangat detail",
+    v3Output:"Siap cetak profesional"
+  };
+
+  Object.entries(defaults).forEach(([id,value])=>{
+    const el=$(id);
+    if(!el) return;
+    el.value=value;
+    el.dispatchEvent(new Event(el.tagName==="SELECT"?"change":"input",{bubbles:true}));
+  });
+
+  ["v3TextLock","v3NoWatermark","v3NoCrop"].forEach(id=>{
+    const el=$(id);
+    if(el) el.checked=true;
+  });
+
+  ["title","content"].forEach(id=>{
+    const el=$(id);
+    if(el){
+      delete el.dataset.v35UserEdited;
+      delete el.dataset.v35Auto;
+    }
+  });
+
+  const refInput=$("referenceImage");
+  if(refInput) refInput.value="";
+  const refPreview=$("referencePreview");
+  if(refPreview) refPreview.hidden=true;
+  const refThumb=$("referenceThumb");
+  if(refThumb) refThumb.removeAttribute("src");
+  const refName=$("referenceName");
+  if(refName) refName.textContent="Referensi desain";
+  const refSize=$("referenceSize");
+  if(refSize) refSize.textContent="";
+
+  const output=$("promptOutput");
+  if(output) output.textContent="Pilih template dan isi data, lalu klik Generate Prompt.";
+  const status=$("status");
+  if(status) status.textContent="Belum ada prompt";
+
+  document.querySelectorAll("[data-v3theme]").forEach(x=>x.classList.remove("active"));
+  const firstTheme=document.querySelector('[data-v3theme="0"]');
+  if(firstTheme) firstTheme.classList.add("active");
+  updatePreviewV3();
+}
+
 function updatePreviewV3(){
   $("previewTheme").textContent=selectedTheme[1];$("previewClass").textContent=$("classLevel").value.toUpperCase();$("previewTitle").textContent=$("title").value.trim()||"JUDUL POSTER";$("previewContent").textContent=$("content").value.trim()||"Isi poster akan tampil di sini.";$("previewStyle").textContent=$("style").value;
 }
@@ -528,3 +599,4 @@ function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t
 window.ssShowView = showView;
 window.startShortStoriesApp = initV3;
 window.refreshShortStoriesSaved = function(){ savedReady=loadSavedV3(); return savedReady; };
+window.resetShortStoriesProject = resetGeneratedProjectV3;

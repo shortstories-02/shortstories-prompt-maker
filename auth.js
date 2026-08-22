@@ -18,6 +18,9 @@
   let suppressNextSignedOut = false;
   let initialAuthEventSeen = false;
   let initialAuthEventSession = null;
+  // Explicit logins start with a fresh working project. Saved history/favorites
+  // remain in Supabase and are reloaded for the authenticated user.
+  let clearProjectOnNextAppOpen = false;
 
   // Automatic logout after a period without user activity.
   // Default: 30 minutes. Activity is shared between tabs through localStorage.
@@ -292,6 +295,11 @@
       return;
     }
 
+    if(clearProjectOnNextAppOpen && typeof window.resetShortStoriesProject === 'function'){
+      window.resetShortStoriesProject();
+      clearProjectOnNextAppOpen = false;
+    }
+
     finishBoot();
     if(auth) auth.hidden = true;
     if(app) app.hidden = false;
@@ -442,6 +450,7 @@
       }
 
       // Only now is the application allowed to become visible.
+      clearProjectOnNextAppOpen = true;
       await showApp(data.user);
     }catch(err){
       // If an expired/inactive account was rejected, rejectAuthenticatedSession
@@ -579,6 +588,10 @@
       if(error) throw error;
 
       client = null;
+      clearProjectOnNextAppOpen = true;
+      if(typeof window.resetShortStoriesProject === 'function'){
+        window.resetShortStoriesProject();
+      }
       window.__ssAppStarted = false;
       clearInactivityTimer();
       try{ localStorage.removeItem(LAST_ACTIVITY_KEY); }catch(_){ }
