@@ -2106,3 +2106,60 @@ body.dark .page-head + .customer-management {
   body.dark .page-head .eyebrow { color: #4599ff !important; background: #263951 !important; }
   body.dark .page-head p { color: #b0b3b8 !important; }
 }
+
+
+/* =========================================================
+   v1.0.20 — FACEBOOK DARK STATUS + REFRESH LOADING READABILITY
+   Keep customer status badges and the initial refresh screen
+   readable in both saved light and dark themes.
+   ========================================================= */
+body.dark .customer-status {
+  background:#263951 !important;
+  color:#4599ff !important;
+  border:1px solid #3a5a80 !important;
+  text-shadow:none !important;
+  opacity:1 !important;
+}
+body.dark .customer-status.inactive {
+  background:#4a2929 !important;
+  color:#ff8a8a !important;
+  border-color:#704040 !important;
+}
+
+/* Initial refresh/loading screen: Facebook light by default,
+   with an explicit dark counterpart when dark mode was saved. */
+body.auth-loading::before {
+  background:#f0f2f5 !important;
+  color:#1c1e21 !important;
+  text-shadow:none !important;
+}
+html.ss-dark-boot body.auth-loading::before {
+  background:#18191a !important;
+  color:#e4e6eb !important;
+}
+html.ss-dark-boot body.auth-loading::after {
+  content:"";
+  position:fixed;
+  left:50%;
+  top:calc(50% + 34px);
+  width:30px;
+  height:4px;
+  transform:translateX(-50%);
+  border-radius:999px;
+  background:#4599ff;
+  box-shadow:0 0 0 3px #263951;
+  z-index:100000;
+}
+body.auth-loading::after {
+  content:"";
+  position:fixed;
+  left:50%;
+  top:calc(50% + 34px);
+  width:30px;
+  height:4px;
+  transform:translateX(-50%);
+  border-radius:999px;
+  background:#1877f2;
+  box-shadow:0 0 0 3px #dbe7f5;
+  z-index:100000;
+}

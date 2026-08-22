@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="ShortStories Prompt Maker — generator prompt desain poster kelas SD.">
 <title>ShortStories Prompt Maker — Creative Studio</title>
-<link rel="stylesheet" href="style.css?v=1.0.19">
+<link rel="stylesheet" href="style.css?v=1.0.20">
 </head>
 <body class="auth-loading">
+<script>
+  // Preserve the saved Facebook theme while the authentication gate is loading.
+  try { if (localStorage.getItem("ss_v3_dark") === "1") document.documentElement.classList.add("ss-dark-boot"); } catch (_) {}
+</script>
 <style id="authBootStyle">
   /* Prevent the login form from flashing before Supabase restores the session. */
   body.auth-loading #authScreen { visibility: hidden !important; }
@@ -19,8 +23,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0b1020;
-    color: #fff;
+    background: #f0f2f5;
+    color: #1c1e21;
     font: 600 15px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     letter-spacing: .2px;
   }

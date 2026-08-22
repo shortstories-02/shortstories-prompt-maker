@@ -1,9 +1,9 @@
-ShortStories v1.0.19
+ShortStories v1.0.20
 
-- Fixed Facebook Dark Mode heading/navigation contrast.
-- Page labels (ADMIN PANEL, LIBRARY, SAVED, RECENT, etc.) now use Facebook blue on a dark-blue soft badge.
-- Page headings use readable Facebook dark text (#e4e6eb), with blue accent spans.
-- Supporting text uses #b0b3b8.
-- Sidebar navigation remains readable with distinct hover and active states.
-- Desktop and mobile use the same dark-theme color behavior.
-- Updated stylesheet cache-busting query to v1.0.19.
+- Fixed Facebook Dark customer ACTIVE/INACTIVE status badge contrast.
+- ACTIVE status now uses Facebook blue text on a dark-blue badge in dark mode.
+- INACTIVE status now uses readable red text on a dark-red badge in dark mode.
+- Fixed initial refresh/loading text “Memuat ShortStories…” so it is readable and consistent with the Facebook theme.
+- Loading screen now follows the saved Facebook light/dark preference before the app finishes restoring the session.
+- Added a visible Facebook-blue loading indicator.
+- Updated stylesheet cache-busting query to v1.0.20.
