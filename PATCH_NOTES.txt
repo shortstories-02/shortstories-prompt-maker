@@ -7,8 +7,3 @@ ShortStories v1.0.20
 - Loading screen now follows the saved Facebook light/dark preference before the app finishes restoring the session.
 - Added a visible Facebook-blue loading indicator.
 - Updated stylesheet cache-busting query to v1.0.20.
-
-
-[2026-08-22] Login default view fix
-- Setelah login/session berhasil dipulihkan, aplikasi selalu membuka Prompt Builder (builderView).
-- Perilaku ini juga diterapkan saat refresh halaman selama sesi masih aktif.

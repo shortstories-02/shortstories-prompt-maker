@@ -329,12 +329,6 @@
     }else if(typeof window.refreshShortStoriesSaved === 'function'){
       await window.refreshShortStoriesSaved();
     }
-
-    // Setiap kali sesi berhasil dipulihkan/login, selalu buka Prompt Builder
-    // sebagai halaman awal. Ini juga berlaku saat user melakukan refresh.
-    if(typeof window.showShortStoriesView === 'function'){
-      window.showShortStoriesView('builder');
-    }
   }
 
   function humanError(error){
